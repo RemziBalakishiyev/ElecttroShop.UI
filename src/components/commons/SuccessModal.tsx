@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./Button";
+import { useTranslation } from "react-i18next";
 
 interface SuccessModalProps {
   open: boolean;
@@ -14,10 +15,13 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
   open,
   title,
   message,
-  buttonText = "Continue",
+  buttonText,
   onButtonClick,
   emoji = "🎉",
 }) => {
+  const { t } = useTranslation();
+  const finalButtonText = buttonText || t('common.continue');
+
   if (!open) return null;
 
   return (
@@ -38,7 +42,7 @@ export const SuccessModal: React.FC<SuccessModalProps> = ({
           className="w-full py-3"
           onClick={onButtonClick}
         >
-          {buttonText}
+          {finalButtonText}
         </Button>
       </div>
     </div>

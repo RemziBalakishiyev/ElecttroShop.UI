@@ -2,11 +2,11 @@ import axios from "axios";
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
 import { API_CONFIG, getApiUrl } from "../config/api.config";
 import { tokenStorage } from "../utils/tokenStorage";
-import type { ApiResponse, ApiError } from "../types/auth.types";
+import type { ApiResponse } from "../types/auth.types";
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
-  baseURL: API_CONFIG.BASE_URL,
+  baseURL: `${API_CONFIG.BASE_URL}${API_CONFIG.API_PREFIX}`,
   headers: {
     "Content-Type": "application/json",
   },

@@ -1,6 +1,7 @@
 import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "../../utils/cn";
+import { useTranslation } from "react-i18next";
 
 interface PaginationProps {
   currentPage: number;
@@ -19,6 +20,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
   onItemsPerPageChange,
 }) => {
+  const { t } = useTranslation();
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -55,7 +57,7 @@ export const Pagination: React.FC<PaginationProps> = ({
     <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200 bg-white">
       {/* Left: Items per page */}
       <div className="flex items-center gap-2">
-        <span className="text-sm text-neutral-600">Showing</span>
+        <span className="text-sm text-neutral-600">{t('common.showing')}</span>
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
@@ -70,9 +72,9 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Center: Info */}
       <div className="text-sm text-neutral-600">
-        Showing <span className="font-medium text-neutral-900">{startItem}</span> to{" "}
-        <span className="font-medium text-neutral-900">{endItem}</span> out of{" "}
-        <span className="font-medium text-neutral-900">{totalItems}</span> records
+        {t('common.showing')} <span className="font-medium text-neutral-900">{startItem}</span> {t('common.to')}{" "}
+        <span className="font-medium text-neutral-900">{endItem}</span> {t('common.out_of')}{" "}
+        <span className="font-medium text-neutral-900">{totalItems}</span> {t('common.records')}
       </div>
 
       {/* Right: Page numbers */}

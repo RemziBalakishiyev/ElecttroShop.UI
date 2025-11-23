@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css"; // ✅ Mütləq olmalıdır
+import './i18n'; // Initialize i18n
 import { AppProviders } from "./core/providers/AppProviders";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(

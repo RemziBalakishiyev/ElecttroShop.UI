@@ -1,8 +1,10 @@
-// User Role Enum
-export enum UserRole {
-  Admin = 1,
-  Agent = 2,
-}
+// User Role
+export const UserRole = {
+  Admin: 1,
+  Agent: 2,
+} as const;
+
+export type UserRole = (typeof UserRole)[keyof typeof UserRole];
 
 // API Response Types
 export interface ApiResponse<T> {

@@ -1,14 +1,23 @@
 import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Button } from "./Button";
 import { Select } from "./Select";
+import { Input } from "./Input";
 import { X } from "lucide-react";
+import { categoriesApi } from "../../core/api/categories.api";
+import { brandsApi } from "../../core/api/brands.api";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "../../core/context/ThemeContext";
+import { cn } from "../../utils/cn";
 
 interface FilterModalProps {
   open: boolean;
   onClose: () => void;
   onApply: (filters: {
-    selectedStores: string[];
-    storeLocation: string | null;
+    categoryId?: string;
+    brandId?: string;
+    minPrice?: number;
+    maxPrice?: number;
   }) => void;
 }
 
@@ -17,123 +26,135 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   onClose,
   onApply,
 }) => {
-  const [selectedStores, setSelectedStores] = useState<string[]>(["hq"]);
-  const [storeLocation, setStoreLocation] = useState<string | null>(null);
+  const { t } = useTranslation();
+  const { theme } = useTheme();
+  const [categoryId, setCategoryId] = useState<string>("");
+  const [brandId, setBrandId] = useState<string>("");
+  const [minPrice, setMinPrice] = useState<string>("");
+  const [maxPrice, setMaxPrice] = useState<string>("");
+
+  // Fetch dynamic options
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => categoriesApi.getCategories({ pageSize: 100 }),
+    enabled: open,
+  });
+
+  const { data: brands } = useQuery({
+    queryKey: ["brands"],
+    queryFn: () => brandsApi.getBrands({ pageSize: 100 }),
+    enabled: open,
+  });
 
   if (!open) return null;
 
-  const handleStoreCheckboxChange = (storeValue: string) => {
-    setSelectedStores((prev) =>
-      prev.includes(storeValue)
-        ? prev.filter((s) => s !== storeValue)
-        : [...prev, storeValue]
-    );
-  };
-
   const handleApply = () => {
-    onApply({ selectedStores, storeLocation });
+    onApply({
+      categoryId: categoryId || undefined,
+      brandId: brandId || undefined,
+      minPrice: minPrice ? Number(minPrice) : undefined,
+      maxPrice: maxPrice ? Number(maxPrice) : undefined,
+    });
     onClose();
   };
 
-  const handleCancel = () => {
-    onClose();
+  const handleReset = () => {
+    setCategoryId("");
+    setBrandId("");
+    setMinPrice("");
+    setMaxPrice("");
   };
 
-  const storeOptions = [
-    { label: "HQ Main Store", value: "hq" },
-    { label: "22 House Store", value: "22h" },
-    { label: "Tafo House Store", value: "tafo" },
-  ];
+  const categoryOptions = categories?.value?.map((c: any) => ({ label: c.name, value: c.id })) || [];
+  const brandOptions = brands?.value?.map((b: any) => ({ label: b.name, value: b.id })) || [];
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-xl shadow-2xl p-6 relative w-full max-w-md">
+      <div className={cn(
+        "rounded-xl shadow-2xl p-6 relative w-full max-w-md",
+        theme === "light" ? "bg-white" : "bg-neutral-800"
+      )}>
         {/* Close Button */}
         <button
-          className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 transition-colors"
+          className={cn(
+            "absolute top-4 right-4 transition-colors",
+            theme === "light"
+              ? "text-neutral-400 hover:text-neutral-600"
+              : "text-neutral-500 hover:text-neutral-300"
+          )}
           onClick={onClose}
         >
           <X size={20} />
         </button>
 
         {/* Title */}
-        <h2 className="text-xl font-bold text-neutral-900 mb-6">Filter</h2>
+        <h2 className={cn(
+          "text-xl font-bold mb-6",
+          theme === "light" ? "text-neutral-900" : "text-white"
+        )}>{t('modals.filter.title')}</h2>
 
         <div className="space-y-6">
-          {/* Store Section */}
+          {/* Category */}
           <div>
-            <h3 className="text-sm font-bold text-neutral-900 mb-3">Store</h3>
-            
-            {/* Select Dropdown */}
-            <div className="mb-4">
-              <Select
-                options={storeOptions}
-                placeholder="Select store"
-              />
-            </div>
-
-            {/* Checkboxes */}
-            <div className="space-y-3">
-              {storeOptions.map((option) => (
-                <label
-                  key={option.value}
-                  className="flex items-center gap-3 cursor-pointer group"
-                >
-                  <input
-                    type="checkbox"
-                    className="w-4 h-4 rounded border-neutral-300 text-primary-500 focus:ring-primary-400 focus:ring-2 cursor-pointer"
-                    checked={selectedStores.includes(option.value)}
-                    onChange={() => handleStoreCheckboxChange(option.value)}
-                  />
-                  <span className="text-sm text-neutral-700 group-hover:text-neutral-900">
-                    {option.label}
-                  </span>
-                </label>
-              ))}
-            </div>
+            <h3 className={cn(
+              "text-sm font-bold mb-3",
+              theme === "light" ? "text-neutral-900" : "text-white"
+            )}>{t('modals.filter.category')}</h3>
+            <Select
+              options={categoryOptions}
+              placeholder={t('modals.filter.category_placeholder')}
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+            />
           </div>
 
-          {/* Select Store Location Section */}
+          {/* Brand */}
           <div>
-            <h3 className="text-sm font-bold text-neutral-900 mb-3">
-              Select store
-            </h3>
-            <div className="flex gap-6">
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="storeLocation"
-                  className="w-4 h-4 border-neutral-300 text-primary-500 focus:ring-primary-400 focus:ring-2 cursor-pointer"
-                  checked={storeLocation === "office"}
-                  onChange={() => setStoreLocation("office")}
-                />
-                <span className="text-sm text-neutral-700 group-hover:text-neutral-900">
-                  Office
-                </span>
-              </label>
-              <label className="flex items-center gap-3 cursor-pointer group">
-                <input
-                  type="radio"
-                  name="storeLocation"
-                  className="w-4 h-4 border-neutral-300 text-primary-500 focus:ring-primary-400 focus:ring-2 cursor-pointer"
-                  checked={storeLocation === "wfh"}
-                  onChange={() => setStoreLocation("wfh")}
-                />
-                <span className="text-sm text-neutral-700 group-hover:text-neutral-900">
-                  Work from Home
-                </span>
-              </label>
+            <h3 className={cn(
+              "text-sm font-bold mb-3",
+              theme === "light" ? "text-neutral-900" : "text-white"
+            )}>{t('modals.filter.brand')}</h3>
+            <Select
+              options={brandOptions}
+              placeholder={t('modals.filter.brand_placeholder')}
+              value={brandId}
+              onChange={(e) => setBrandId(e.target.value)}
+            />
+          </div>
+
+          {/* Price Range */}
+          <div>
+            <h3 className={cn(
+              "text-sm font-bold mb-3",
+              theme === "light" ? "text-neutral-900" : "text-white"
+            )}>{t('modals.filter.price_range')}</h3>
+            <div className="flex gap-4">
+              <Input
+                type="number"
+                placeholder={t('modals.filter.min')}
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
+              />
+              <Input
+                type="number"
+                placeholder={t('modals.filter.max')}
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-neutral-200">
-          <Button variant="outline" onClick={handleCancel} className="px-6">
-            Cancel
+        <div className={cn(
+          "flex justify-end gap-3 mt-8 pt-6 border-t",
+          theme === "light" ? "border-neutral-200" : "border-neutral-700"
+        )}>
+          <Button variant="outline" onClick={handleReset} className="px-6">
+            {t('modals.filter.reset')}
           </Button>
           <Button variant="primary" onClick={handleApply} className="px-6">
-            Apply
+            {t('modals.filter.apply')}
           </Button>
         </div>
       </div>
