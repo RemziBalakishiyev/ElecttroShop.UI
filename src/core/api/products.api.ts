@@ -21,6 +21,9 @@ export interface Product {
     isActive: boolean;
     imageId: string | null;
     imageUrl: string | null;
+    isBanner?: boolean;
+    isFeatured?: boolean;
+    displayOrder?: number | null;
     createdAt: string;
     updatedAt: string | null;
 }
@@ -158,6 +161,37 @@ export const productsApi = {
                     "Content-Type": "multipart/form-data",
                 },
             }
+        );
+        return response.data;
+    },
+
+    // Banner Management
+    setBanner: async (productId: string) => {
+        const response = await apiClient.post<ApiResponse<null>>(
+            `/Products/${productId}/banner`
+        );
+        return response.data;
+    },
+
+    removeBanner: async (productId: string) => {
+        const response = await apiClient.delete<ApiResponse<null>>(
+            `/Products/${productId}/banner`
+        );
+        return response.data;
+    },
+
+    // Featured Management
+    setFeatured: async (productId: string, displayOrder: number) => {
+        const response = await apiClient.post<ApiResponse<null>>(
+            `/Products/${productId}/featured`,
+            { displayOrder }
+        );
+        return response.data;
+    },
+
+    removeFeatured: async (productId: string) => {
+        const response = await apiClient.delete<ApiResponse<null>>(
+            `/Products/${productId}/featured`
         );
         return response.data;
     },

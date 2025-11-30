@@ -6,6 +6,7 @@ import { Table } from "../components/commons/Table";
 import { Pagination } from "../components/commons/Pagination";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { Input } from "../components/commons/Input";
+import { Checkbox } from "../components/commons/Checkbox";
 import { Modal } from "../components/commons/Modal";
 import { brandsApi } from "../core/api/brands.api";
 import type { Brand, CreateBrandRequest, UpdateBrandRequest } from "../core/api/brands.api";
@@ -33,6 +34,8 @@ export const BrandsPage = () => {
   // Form state
   const [formData, setFormData] = useState({
     name: "",
+    isPromotional: false,
+    displayOrder: 1,
   });
 
   // Query
@@ -60,7 +63,7 @@ export const BrandsPage = () => {
       queryClient.invalidateQueries({ queryKey: ["brands"] });
       setIsModalOpen(false);
       setEditingBrand(null);
-      setFormData({ name: "" });
+      setFormData({ name: "", isPromotional: false, displayOrder: 1 });
       toast.success(editingBrand ? t('brands.update_success') : t('brands.create_success'));
     },
     onError: (err) => {
@@ -120,27 +123,35 @@ export const BrandsPage = () => {
     setEditingBrand(brand);
     setFormData({
       name: brand.name,
+      isPromotional: brand.isPromotional || false,
+      displayOrder: brand.displayOrder || 1,
     });
     setIsModalOpen(true);
   };
 
   const handleAddNew = () => {
     setEditingBrand(null);
-    setFormData({ name: "" });
+    setFormData({ name: "", isPromotional: false, displayOrder: 1 });
     setIsModalOpen(true);
   };
 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditingBrand(null);
-    setFormData({ name: "" });
+    setFormData({ name: "", isPromotional: false, displayOrder: 1 });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const submitData: CreateBrandRequest | UpdateBrandRequest = {
-      name: formData.name,
-    };
+    const submitData: CreateBrandRequest | UpdateBrandRequest = editingBrand
+      ? {
+          name: formData.name,
+          isPromotional: formData.isPromotional || null,
+          displayOrder: formData.isPromotional ? formData.displayOrder : null,
+        }
+      : {
+          name: formData.name,
+        };
     saveMutation.mutate(submitData);
   };
 
@@ -317,6 +328,32 @@ export const BrandsPage = () => {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
           />
+          
+          {editingBrand && (
+            <>
+              <Checkbox
+                label={t('brands.is_promotional')}
+                checked={formData.isPromotional}
+                onChange={(checked) => setFormData({ ...formData, isPromotional: checked })}
+              />
+              
+              {formData.isPromotional && (
+                <Input
+                  type="number"
+                  label={t('brands.display_order')}
+                  value={formData.displayOrder.toString()}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value);
+                    if (value >= 0) {
+                      setFormData({ ...formData, displayOrder: value });
+                    }
+                  }}
+                  min={0}
+                />
+              )}
+            </>
+          )}
+          
           <div className="flex justify-end gap-3 pt-4">
             <Button
               type="button"

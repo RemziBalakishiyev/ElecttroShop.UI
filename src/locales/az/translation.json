@@ -62,7 +62,23 @@
         "update_success": "Məhsul uğurla yeniləndi",
         "create_success": "Məhsul uğurla yaradıldı",
         "image_upload_error": "Şəkil yüklənə bilmədi",
-        "discount": "Endirim"
+        "discount": "Endirim",
+        "banner": "Banner",
+        "set_banner": "Banner olaraq təyin et",
+        "remove_banner": "Banner-dan çıxar",
+        "banner_set_success": "Məhsul banner olaraq təyin edildi",
+        "banner_remove_success": "Məhsul banner-dan çıxarıldı",
+        "banner_error": "Banner əməliyyatı mümkün olmadı",
+        "featured": "Featured",
+        "set_featured": "Featured olaraq təyin et",
+        "remove_featured": "Featured-dan çıxar",
+        "featured_set_success": "Məhsul featured olaraq təyin edildi",
+        "featured_remove_success": "Məhsul featured-dan çıxarıldı",
+        "featured_error": "Featured əməliyyatı mümkün olmadı",
+        "display_order": "Göstərmə sırası",
+        "display_order_required": "Göstərmə sırası 1-5 arasında olmalıdır",
+        "is_banner": "Banner",
+        "is_featured": "Featured"
     },
     "product_details": {
         "title": "Məhsul Detalları",
@@ -155,7 +171,10 @@
         "create_error": "Brendi yaratmaq mümkün olmadı",
         "update_success": "Brend uğurla yeniləndi",
         "update_error": "Brendi yeniləmək mümkün olmadı",
-        "discount": "Endirim"
+        "discount": "Endirim",
+        "is_promotional": "Promotional Brend",
+        "display_order": "Göstərmə Sırası",
+        "promotional": "Promotional"
     },
     "categories": {
         "title": "Kateqoriyalar",
@@ -191,7 +210,8 @@
         "new_products": "Yeni Məhsullar",
         "view_all": "Hamısına bax",
         "vs_last_month": "keçən aya nisbətən",
-        "dashboard_load_error": "İdarə paneli məlumatlarını yükləmək mümkün olmadı"
+        "dashboard_load_error": "İdarə paneli məlumatlarını yükləmək mümkün olmadı",
+        "shop_now": "Alış-veriş et"
     },
     "table": {
         "order_id": "Sifariş ID",

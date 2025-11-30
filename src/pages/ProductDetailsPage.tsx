@@ -1,15 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     ArrowLeft, Calendar, Box, Info,
-    Edit, Trash2, Package, Layers, Hash, CheckCircle, XCircle
+    Edit, Trash2, Package, Layers, Hash, CheckCircle, XCircle,
+    Star, Image as ImageIcon
 } from "lucide-react";
 import { productsApi } from "../core/api/products.api";
 import { Button } from "../components/commons/Button";
 import { API_CONFIG } from "../core/config/api.config";
 import { AddItemModal } from "../components/modals/AddItemModal";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
+import { Modal } from "../components/commons/Modal";
+import { Input } from "../components/commons/Input";
 import { useToast } from "../core/providers/ToastContext";
 import type { UpdateProductRequest } from "../core/api/products.api";
 import { useTranslation } from "react-i18next";
@@ -24,12 +27,29 @@ export const ProductDetailsPage = () => {
     // State for modals
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
+    const [featuredDisplayOrder, setFeaturedDisplayOrder] = useState(1);
+    
+    // Local state for banner and featured status
+    const [isBanner, setIsBanner] = useState(false);
+    const [isFeatured, setIsFeatured] = useState(false);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["product", id],
         queryFn: () => productsApi.getProductById(id!),
         enabled: !!id,
     });
+
+    // Update local state when product data changes
+    useEffect(() => {
+        if (data) {
+            const product = (data as any)?.value || data;
+            if (product) {
+                setIsBanner(product.isBanner || false);
+                setIsFeatured(product.isFeatured || false);
+            }
+        }
+    }, [data]);
 
     // Mutations
     const deleteMutation = useMutation({
@@ -67,6 +87,62 @@ export const ProductDetailsPage = () => {
         },
         onError: () => {
             toast.error(t('products.image_upload_error'));
+        },
+    });
+
+    // Banner mutations
+    const setBannerMutation = useMutation({
+        mutationFn: (productId: string) => productsApi.setBanner(productId),
+        onSuccess: () => {
+            setIsBanner(true);
+            toast.success(t('products.banner_set_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.banner_error'));
+        },
+    });
+
+    const removeBannerMutation = useMutation({
+        mutationFn: (productId: string) => productsApi.removeBanner(productId),
+        onSuccess: () => {
+            setIsBanner(false);
+            toast.success(t('products.banner_remove_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.banner_error'));
+        },
+    });
+
+    // Featured mutations
+    const setFeaturedMutation = useMutation({
+        mutationFn: ({ productId, displayOrder }: { productId: string; displayOrder: number }) =>
+            productsApi.setFeatured(productId, displayOrder),
+        onSuccess: () => {
+            setIsFeatured(true);
+            setIsFeaturedModalOpen(false);
+            toast.success(t('products.featured_set_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.featured_error'));
+        },
+    });
+
+    const removeFeaturedMutation = useMutation({
+        mutationFn: (productId: string) => productsApi.removeFeatured(productId),
+        onSuccess: () => {
+            setIsFeatured(false);
+            toast.success(t('products.featured_remove_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.featured_error'));
         },
     });
 
@@ -142,7 +218,52 @@ export const ProductDetailsPage = () => {
                     <span className="font-medium text-neutral-900 truncate max-w-[200px]">{product.name}</span>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 flex-wrap">
+                    {/* Banner Button */}
+                    {isBanner ? (
+                        <Button
+                            variant="outline"
+                            onClick={() => id && removeBannerMutation.mutate(id)}
+                            className="flex items-center gap-2"
+                            loading={removeBannerMutation.isPending}
+                        >
+                            <ImageIcon size={16} />
+                            {t('products.remove_banner')}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="outline"
+                            onClick={() => id && setBannerMutation.mutate(id)}
+                            className="flex items-center gap-2"
+                            loading={setBannerMutation.isPending}
+                        >
+                            <ImageIcon size={16} />
+                            {t('products.set_banner')}
+                        </Button>
+                    )}
+
+                    {/* Featured Button */}
+                    {isFeatured ? (
+                        <Button
+                            variant="outline"
+                            onClick={() => id && removeFeaturedMutation.mutate(id)}
+                            className="flex items-center gap-2"
+                            loading={removeFeaturedMutation.isPending}
+                        >
+                            <Star size={16} className="fill-yellow-400 text-yellow-400" />
+                            {t('products.remove_featured')}
+                        </Button>
+                    ) : (
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsFeaturedModalOpen(true)}
+                            className="flex items-center gap-2"
+                        >
+                            <Star size={16} />
+                            {t('products.set_featured')}
+                        </Button>
+                    )}
+
                     <Button
                         variant="outline"
                         onClick={() => setIsEditModalOpen(true)}
@@ -319,6 +440,55 @@ export const ProductDetailsPage = () => {
                 onCancel={() => setIsDeleteModalOpen(false)}
                 isLoading={deleteMutation.isPending}
             />
+
+            {/* Featured Modal */}
+            <Modal
+                open={isFeaturedModalOpen}
+                onClose={() => setIsFeaturedModalOpen(false)}
+                title={t('products.set_featured')}
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-neutral-600">
+                        {t('products.display_order_required')}
+                    </p>
+                    <Input
+                        type="number"
+                        label={t('products.display_order')}
+                        min={1}
+                        max={5}
+                        value={featuredDisplayOrder.toString()}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (value >= 1 && value <= 5) {
+                                setFeaturedDisplayOrder(value);
+                            }
+                        }}
+                        required
+                    />
+                    <div className="flex justify-end gap-3 pt-4">
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsFeaturedModalOpen(false)}
+                        >
+                            {t('common.cancel')}
+                        </Button>
+                        <Button
+                            variant="primary"
+                            onClick={() => {
+                                if (id && featuredDisplayOrder >= 1 && featuredDisplayOrder <= 5) {
+                                    setFeaturedMutation.mutate({
+                                        productId: id,
+                                        displayOrder: featuredDisplayOrder,
+                                    });
+                                }
+                            }}
+                            loading={setFeaturedMutation.isPending}
+                        >
+                            {t('common.confirm')}
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };

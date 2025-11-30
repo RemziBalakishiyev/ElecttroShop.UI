@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Plus, Filter, Trash2, Edit, Eye } from "lucide-react";
+import { Search, Plus, Filter, Trash2, Edit, Eye, Star, Image as ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/commons/Button";
 import { Table } from "../components/commons/Table";
@@ -282,6 +282,30 @@ export const ItemsPage = () => {
         >
           {item.isActive ? t('products.active') : t('products.inactive')}
         </span>
+      ),
+    },
+    {
+      key: "badges",
+      label: "Statuslar",
+      render: (item: Product) => (
+        <div className="flex items-center gap-2 flex-wrap">
+          {item.isBanner && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-100">
+              <ImageIcon size={12} />
+              {t('products.is_banner')}
+            </span>
+          )}
+          {item.isFeatured && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-100">
+              <Star size={12} className="fill-yellow-400" />
+              {t('products.is_featured')}
+              {item.displayOrder && ` (${item.displayOrder})`}
+            </span>
+          )}
+          {!item.isBanner && !item.isFeatured && (
+            <span className="text-xs text-neutral-400">-</span>
+          )}
+        </div>
       ),
     },
     {

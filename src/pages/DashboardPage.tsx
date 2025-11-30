@@ -6,6 +6,7 @@ import {
 import { dashboardApi } from "../core/api/dashboard.api";
 import { API_CONFIG } from "../core/config/api.config";
 import { DashboardChart } from "../components/dashboard/DashboardChart";
+import { PromotionalBrands } from "../components/dashboard/PromotionalBrands";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
@@ -140,6 +141,9 @@ export const DashboardPage = () => {
                     color="bg-orange-500"
                 />
             </div>
+
+            {/* Promotional Brands */}
+            <PromotionalBrands />
 
             {/* Main Content Split */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

@@ -7,6 +7,8 @@ export interface Brand {
     id: string;
     name: string;
     discountPercent?: number | null;
+    isPromotional?: boolean | null;
+    displayOrder?: number | null;
     createdAt: string;
 }
 
@@ -22,6 +24,8 @@ export interface CreateBrandRequest {
 
 export interface UpdateBrandRequest {
     name: string;
+    isPromotional?: boolean | null;
+    displayOrder?: number | null;
 }
 
 export interface PagedBrandResponse extends ApiResponse<Brand[]> {
@@ -74,4 +78,35 @@ export const brandsApi = {
         );
         return response.data;
     },
+
+    // Promotional Brands
+    getPromotionalBrands: async () => {
+        const response = await apiClient.get<ApiResponse<PromotionalBrandItem[]>>(
+            "/brands/promotional"
+        );
+        return response.data;
+    },
 };
+
+// Promotional Brand Types
+export interface PromotionalBrandItem {
+    brand: Brand;
+    featuredProduct: PromotionalProduct | null;
+}
+
+export interface PromotionalProduct {
+    id: string;
+    name: string;
+    price: number;
+    finalPrice?: number | null;
+    finalDiscountPercent?: number | null;
+    currency: string;
+    sku: string;
+    categoryName: string;
+    brandName: string;
+    stock: number;
+    imageId?: string | null;
+    isActive: boolean;
+    isFeatured?: boolean;
+    displayOrder?: number | null;
+}
