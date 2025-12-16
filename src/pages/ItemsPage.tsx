@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Search, Plus, Filter, Trash2, Edit, Eye, Star, Image as ImageIcon } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -11,11 +11,43 @@ import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { ImagePreviewModal } from "../components/modals/ImagePreviewModal";
 import { productsApi } from "../core/api/products.api";
 import type { Product, ProductListParams, CreateProductRequest, UpdateProductRequest } from "../core/api/products.api";
+import { imagesApi } from "../core/api/images.api";
 import { useToast } from "../core/providers/ToastContext";
 import { API_CONFIG } from "../core/config/api.config";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
+
+// Image component with fallback to prevent infinite loop
+const ImageWithFallback: React.FC<{
+    src: string;
+    alt: string;
+    className?: string;
+    onClick?: (e: React.MouseEvent<HTMLImageElement>) => void;
+    fallback: React.ReactNode;
+}> = ({ src, alt, className, onClick, fallback }) => {
+    const [hasError, setHasError] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+
+    if (hasError) {
+        return <>{fallback}</>;
+    }
+
+    return (
+        <img
+            src={src}
+            alt={alt}
+            className={className}
+            onClick={onClick}
+            onError={() => {
+                setHasError(true);
+                setIsLoading(false);
+            }}
+            onLoad={() => setIsLoading(false)}
+            style={{ display: isLoading ? 'none' : 'block' }}
+        />
+    );
+};
 
 export const ItemsPage = () => {
   const { t } = useTranslation();
@@ -130,7 +162,109 @@ export const ItemsPage = () => {
   const handleSaveProduct = async (formData: any) => {
     console.log("handleSaveProduct called with:", formData);
     try {
-      // 1. Prepare Data
+      // Determine if this is an update or create
+      const isUpdate = !!editingProduct;
+      const productId = editingProduct?.id;
+      
+      // STEP 1: Upload product images first and collect imageIds
+      const imageIds: string[] = [];
+      
+      // For UPDATE: Preserve existing images by adding their imageIds first
+      if (isUpdate && editingProduct?.images && editingProduct.images.length > 0) {
+        console.log("Preserving existing product images...", editingProduct.images);
+        for (const existingImage of editingProduct.images) {
+          if (existingImage.imageId) {
+            imageIds.push(existingImage.imageId);
+            console.log("Preserved existing image, imageId:", existingImage.imageId);
+          }
+        }
+      }
+      
+      // Upload new images and add to imageIds
+      if (formData.images && formData.images.length > 0) {
+        console.log("Uploading new product images...", formData.images);
+        for (const imageFile of formData.images) {
+          try {
+            const imageResponse = await imagesApi.uploadImage(imageFile);
+            // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
+            const imageData = (imageResponse as any)?.value || imageResponse;
+            const imageId = imageData?.imageId || imageData?.id;
+            
+            if (imageId) {
+              imageIds.push(imageId);
+              console.log("New product image uploaded, imageId:", imageId);
+            } else {
+              console.warn("Image uploaded but imageId not found in response:", imageResponse);
+            }
+          } catch (imgErr: any) {
+            console.error("Failed to upload product image:", imgErr);
+            
+            // Handle validation errors
+            if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
+              const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
+              toast.error(errorMessages || imgErr.error.message || t('products.image_upload_error'));
+            } else if (imgErr?.error?.message) {
+              toast.error(imgErr.error.message);
+            } else if (imgErr?.message) {
+              toast.error(imgErr.message);
+            } else {
+              toast.error(t('products.image_upload_error'));
+            }
+            // Continue with other images even if one fails
+          }
+        }
+      }
+
+      // STEP 2: Process variants - upload variant images if needed
+      const processedVariants = [];
+      if (formData.variants && formData.variants.length > 0) {
+        for (const variant of formData.variants) {
+          let variantImageId = variant.imageId || null;
+
+          // If variant has imageFile, upload it first using imagesApi
+          if (variant.imageFile) {
+            try {
+              const imageResponse = await imagesApi.uploadImage(variant.imageFile);
+              // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
+              const imageData = (imageResponse as any)?.value || imageResponse;
+              variantImageId = imageData?.imageId || imageData?.id || null;
+              
+              if (variantImageId) {
+                console.log("Variant image uploaded, imageId:", variantImageId);
+              }
+            } catch (imgErr: any) {
+              console.error("Failed to upload variant image:", imgErr);
+              
+              // Handle validation errors
+              if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
+                const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
+                toast.warning(errorMessages || imgErr.error.message || 'Variant şəkli yüklənə bilmədi');
+              } else if (imgErr?.error?.message) {
+                toast.warning(imgErr.error.message);
+              } else if (imgErr?.message) {
+                toast.warning(imgErr.message);
+              }
+              // Continue without variant image if upload fails
+            }
+          }
+
+          // Prepare variant data (only attributes and optional imageId)
+          const variantData: any = {
+            attributes: variant.attributes || {}, // Already an object
+            ...(variantImageId && { imageId: variantImageId }),
+          };
+
+          // For update: include id and isActive if present
+          if (variant.id) {
+            variantData.id = variant.id;
+            variantData.isActive = variant.isActive !== undefined ? variant.isActive : true;
+          }
+
+          processedVariants.push(variantData);
+        }
+      }
+
+      // STEP 3: Prepare product data with imageIds
       const commonData = {
         name: formData.itemName,
         description: formData.description,
@@ -140,12 +274,12 @@ export const ItemsPage = () => {
         brandId: formData.manufacturer,
         stock: Number(formData.amount),
         vatRate: 0.18,
+        ...(imageIds.length > 0 && { imageIds }), // Send imageIds array
+        ...(processedVariants.length > 0 && { variants: processedVariants }),
       };
 
-      let productId = editingProduct?.id;
-      let isUpdate = !!editingProduct;
-
       console.log("isUpdate:", isUpdate, "productId:", productId);
+      console.log("ImageIds to send:", imageIds);
 
       if (isUpdate && productId) {
         // UPDATE
@@ -170,29 +304,33 @@ export const ItemsPage = () => {
         const createdProduct = (response as any).value || response;
         productId = createdProduct?.id;
 
+        if (!productId) {
+          throw new Error("Product ID not found in response");
+        }
+
         console.log("Created productId:", productId);
         toast.success(t('products.create_success'));
       }
 
-      // 2. Upload Image if exists and productId is available
-      if (productId && formData.image) {
-        console.log("Uploading image...", formData.image);
-        try {
-          await productsApi.uploadImage(productId, formData.image);
-          console.log("Image uploaded successfully.");
-        } catch (imgErr) {
-          console.error("Failed to upload image:", imgErr);
-          toast.warning(t('products.image_upload_error'));
-        }
-      } else {
-        console.log("Skipping image upload. productId:", productId, "image:", formData.image);
-      }
-
       queryClient.invalidateQueries({ queryKey: ["products"] });
       handleAddItemClose();
-    } catch (err) {
+    } catch (err: any) {
       console.error("Failed to save product:", err);
-      toast.error(t('products.save_error'));
+      
+      // Handle validation errors
+      if (err?.error?.errors && Array.isArray(err.error.errors)) {
+        // Multiple validation errors
+        const errorMessages = err.error.errors.map((e: any) => e.message).join(', ');
+        toast.error(errorMessages || err.error.message || t('products.save_error'));
+      } else if (err?.error?.message) {
+        // Single error message
+        toast.error(err.error.message);
+      } else if (err?.message) {
+        // Direct error message
+        toast.error(err.message);
+      } else {
+        toast.error(t('products.save_error'));
+      }
     }
   };
 
@@ -220,22 +358,35 @@ export const ItemsPage = () => {
       key: "image",
       label: t('products.image'),
       render: (item: Product) => {
-        const imageUrl = item.imageUrl
-          ? (item.imageUrl.startsWith("http") ? item.imageUrl : `${API_CONFIG.BASE_URL}${item.imageUrl}`)
+        // Use primaryImageUrl if available, fallback to imageUrl
+        const imageUrl = item.primaryImageUrl || item.imageUrl;
+        const fullImageUrl = imageUrl
+          ? (imageUrl.startsWith("http") 
+              ? imageUrl 
+              : imageUrl.startsWith("/api/")
+              ? `${API_CONFIG.BASE_URL}${imageUrl}`
+              : `${API_CONFIG.BASE_URL}/api/images/${imageUrl}`)
           : null;
+        
+        // Debug log (remove in production)
+        if (item.primaryImageUrl) {
+          console.log(`Product ${item.name}: primaryImageUrl=${item.primaryImageUrl}, fullImageUrl=${fullImageUrl}`);
+        }
 
-        return imageUrl ? (
-          <img
-            src={imageUrl}
+        return fullImageUrl ? (
+          <ImageWithFallback
+            src={fullImageUrl}
             alt={item.name}
             className="w-12 h-12 rounded-lg object-cover border border-neutral-200 cursor-pointer hover:opacity-80 transition-opacity"
             onClick={(e) => {
               e.stopPropagation();
-              setPreviewImage(imageUrl);
+              setPreviewImage(fullImageUrl);
             }}
-            onError={(e) => {
-              (e.target as HTMLImageElement).src = "https://via.placeholder.com/48?text=No+Img";
-            }}
+            fallback={
+              <div className="w-12 h-12 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-400 text-xs">
+                {t('products.no_image')}
+              </div>
+            }
           />
         ) : (
           <div className="w-12 h-12 rounded-lg bg-neutral-100 flex items-center justify-center text-neutral-400 text-xs">

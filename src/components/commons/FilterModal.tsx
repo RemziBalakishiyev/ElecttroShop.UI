@@ -33,17 +33,29 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   const [minPrice, setMinPrice] = useState<string>("");
   const [maxPrice, setMaxPrice] = useState<string>("");
 
-  // Fetch dynamic options
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => categoriesApi.getCategories({ pageSize: 100 }),
+  // Fetch dynamic options using lookup APIs
+  const { data: categoriesLookup } = useQuery({
+    queryKey: ["categories-lookup"],
+    queryFn: async () => {
+      const response = await categoriesApi.getLookup();
+      // Response structure: { value: { items: [...] } } or { items: [...] }
+      const lookupData = (response as any)?.value || response;
+      return lookupData?.items || [];
+    },
     enabled: open,
+    staleTime: 60 * 60 * 1000, // 1 hour cache
   });
 
-  const { data: brands } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => brandsApi.getBrands({ pageSize: 100 }),
+  const { data: brandsLookup } = useQuery({
+    queryKey: ["brands-lookup"],
+    queryFn: async () => {
+      const response = await brandsApi.getLookup();
+      // Response structure: { value: { items: [...] } } or { items: [...] }
+      const lookupData = (response as any)?.value || response;
+      return lookupData?.items || [];
+    },
     enabled: open,
+    staleTime: 60 * 60 * 1000, // 1 hour cache
   });
 
   if (!open) return null;
@@ -65,8 +77,14 @@ export const FilterModal: React.FC<FilterModalProps> = ({
     setMaxPrice("");
   };
 
-  const categoryOptions = categories?.value?.map((c: any) => ({ label: c.name, value: c.id })) || [];
-  const brandOptions = brands?.value?.map((b: any) => ({ label: b.name, value: b.id })) || [];
+  const categoryOptions = categoriesLookup?.map((item: any) => ({ 
+    label: item.value, 
+    value: item.key 
+  })) || [];
+  const brandOptions = brandsLookup?.map((item: any) => ({ 
+    label: item.value, 
+    value: item.key 
+  })) || [];
 
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">

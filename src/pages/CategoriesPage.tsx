@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Plus, Trash2, Edit } from "lucide-react";
+import { Search, Plus, Trash2, Edit, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../components/commons/Button";
 import { Table } from "../components/commons/Table";
 import { Pagination } from "../components/commons/Pagination";
@@ -19,6 +20,7 @@ export const CategoriesPage = () => {
   const { theme } = useTheme();
   const queryClient = useQueryClient();
   const toast = useToast();
+  const navigate = useNavigate();
 
   // State
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set());
@@ -118,14 +120,38 @@ export const CategoriesPage = () => {
     }
   };
 
-  const handleEdit = (category: Category) => {
+  const handleEdit = async (category: Category) => {
     setEditingCategory(category);
-    setFormData({
-      name: category.name,
-      slug: category.slug,
-      parentId: category.parentId || "",
-    });
     setIsModalOpen(true);
+    
+    // Load fresh category data from API
+    try {
+      const categoryData = await categoriesApi.getCategoryById(category.id);
+      const freshCategory = (categoryData as any)?.value || categoryData;
+      
+      if (freshCategory) {
+        setFormData({
+          name: freshCategory.name,
+          slug: freshCategory.slug || "",
+          parentId: freshCategory.parentId || "",
+        });
+      } else {
+        // Fallback to table data if API fails
+        setFormData({
+          name: category.name,
+          slug: category.slug,
+          parentId: category.parentId || "",
+        });
+      }
+    } catch (error) {
+      console.error("Failed to load category:", error);
+      // Fallback to table data
+      setFormData({
+        name: category.name,
+        slug: category.slug,
+        parentId: category.parentId || "",
+      });
+    }
   };
 
   const handleAddNew = () => {
@@ -210,6 +236,21 @@ export const CategoriesPage = () => {
       label: t('common.actions'),
       render: (item: Category) => (
         <div className="flex items-center gap-2">
+          <button
+            className={cn(
+              "p-1 rounded transition-colors",
+              theme === "light"
+                ? "hover:bg-blue-50 text-blue-600"
+                : "hover:bg-blue-900/20 text-blue-400"
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate(`/categories/${item.id}/attributes`);
+            }}
+            title="Atributlar"
+          >
+            <Settings size={16} />
+          </button>
           <button
             className={cn(
               "p-1 rounded transition-colors",

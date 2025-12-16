@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Plus, Trash2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "../commons/Button";
 import { Input } from "../commons/Input";
@@ -7,8 +7,9 @@ import { Select } from "../commons/Select";
 import { FileUpload } from "../commons/FileUpload";
 import { Textarea } from "../commons/Textarea";
 import { categoriesApi } from "../../core/api/categories.api";
+import type { CategoryAttribute } from "../../core/api/categories.api";
 import { brandsApi } from "../../core/api/brands.api";
-import type { Product } from "../../core/api/products.api";
+import type { Product, CreateProductVariantRequest } from "../../core/api/products.api";
 import { API_CONFIG } from "../../core/config/api.config";
 import { useTranslation } from "react-i18next";
 
@@ -26,23 +27,35 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
   initialData,
 }) => {
   const { t } = useTranslation();
-  // Fetch dynamic options
-  const { data: categories } = useQuery({
-    queryKey: ["categories"],
-    queryFn: () => categoriesApi.getCategories({ pageSize: 100 }),
+  // Fetch dynamic options using lookup APIs
+  const { data: categoriesLookup } = useQuery({
+    queryKey: ["categories-lookup"],
+    queryFn: async () => {
+      const response = await categoriesApi.getLookup();
+      // Response structure: { value: { items: [...] } } or { items: [...] }
+      const lookupData = (response as any)?.value || response;
+      return lookupData?.items || [];
+    },
     enabled: open,
+    staleTime: 60 * 60 * 1000, // 1 hour cache
   });
 
-  const { data: brands } = useQuery({
-    queryKey: ["brands"],
-    queryFn: () => brandsApi.getBrands({ pageSize: 100 }),
+  const { data: brandsLookup } = useQuery({
+    queryKey: ["brands-lookup"],
+    queryFn: async () => {
+      const response = await brandsApi.getLookup();
+      // Response structure: { value: { items: [...] } } or { items: [...] }
+      const lookupData = (response as any)?.value || response;
+      return lookupData?.items || [];
+    },
     enabled: open,
+    staleTime: 60 * 60 * 1000, // 1 hour cache
   });
 
   const [formData, setFormData] = useState({
     // Left Column
     type: "",
-    image: null as File | null,
+    images: [] as File[],
     price: "",
     currency: "AZN",
     description: "",
@@ -53,28 +66,33 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
     amount: "", // Stock
     category: "",
     manufacturer: "", // Brand
+    
+    // Variants
+    variants: [] as CreateProductVariantRequest[],
   });
 
   // Populate form when initialData changes (Edit Mode)
+  // Wait for lookup data to be loaded before setting category and brand
   useEffect(() => {
-    if (initialData) {
+    if (initialData && categoriesLookup && brandsLookup) {
       setFormData({
         type: "", // Not in Product type, maybe category?
-        image: null, // Can't pre-fill file input
+        images: [], // Can't pre-fill file input
         price: String(initialData.price),
         currency: initialData.currency,
         description: initialData.description || "",
         itemName: initialData.name,
         itemNumber: initialData.sku,
         amount: String(initialData.stock),
-        category: initialData.categoryId,
-        manufacturer: initialData.brandId,
+        category: initialData.categoryId || "",
+        manufacturer: initialData.brandId || "",
+        variants: [],
       });
-    } else {
+    } else if (!initialData) {
       // Reset form
       setFormData({
         type: "",
-        image: null,
+        images: [],
         price: "",
         currency: "AZN",
         description: "",
@@ -83,9 +101,31 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
         amount: "",
         category: "",
         manufacturer: "",
+        variants: [],
       });
     }
-  }, [initialData, open]);
+  }, [initialData, open, categoriesLookup, brandsLookup]);
+
+  // Fetch category attributes when category is selected
+  const { data: categoryAttributesData } = useQuery({
+    queryKey: ["category-attributes", formData.category],
+    queryFn: () => categoriesApi.getCategoryAttributes(formData.category),
+    enabled: open && !!formData.category,
+  });
+
+  // Process and sort attributes by displayOrder
+  const rawAttributes: CategoryAttribute[] = 
+    (categoryAttributesData as any)?.value || categoryAttributesData || [];
+  
+  const categoryAttributes: CategoryAttribute[] = rawAttributes
+    .map(attr => ({
+      ...attr,
+      // Sort values by displayOrder
+      values: [...(attr.values || [])].sort((a, b) => 
+        (a.displayOrder || 0) - (b.displayOrder || 0)
+      ),
+    }))
+    .sort((a, b) => (a.displayOrder || 0) - (b.displayOrder || 0));
 
   if (!open) return null;
 
@@ -95,8 +135,14 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
     // Don't close here, let parent handle it (e.g. after async success)
   };
 
-  const categoryOptions = categories?.value?.map((c: any) => ({ label: c.name, value: c.id })) || [];
-  const brandOptions = brands?.value?.map((b: any) => ({ label: b.name, value: b.id })) || [];
+  const categoryOptions = categoriesLookup?.map((item: any) => ({ 
+    label: item.value, 
+    value: item.key 
+  })) || [];
+  const brandOptions = brandsLookup?.map((item: any) => ({ 
+    label: item.value, 
+    value: item.key 
+  })) || [];
 
   const currencyOptions = [
     { label: "AZN (₼)", value: "AZN" },
@@ -125,7 +171,7 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column */}
             <div className="space-y-4">
-              {initialData?.imageUrl && !formData.image && (
+              {initialData?.imageUrl && formData.images.length === 0 && (
                 <div className="relative w-full h-48 mb-2 rounded-lg overflow-hidden border border-neutral-200">
                   <img
                     src={initialData.imageUrl.startsWith("http") ? initialData.imageUrl : `${API_CONFIG.BASE_URL}${initialData.imageUrl}`}
@@ -135,11 +181,44 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
                 </div>
               )}
 
-              <FileUpload
-                label={t('modals.add_product.image')}
-                accept="image/*"
-                onChange={(file) => setFormData({ ...formData, image: file })}
-              />
+              <div>
+                <label className="text-sm font-medium text-neutral-700 mb-2 block">
+                  {t('modals.add_product.image')} ({formData.images.length})
+                </label>
+                <FileUpload
+                  accept="image/*"
+                  multiple={true}
+                  placeholder="Şəkillər seçin"
+                  onChangeMultiple={(files) => {
+                    if (files && files.length > 0) {
+                      setFormData({ ...formData, images: [...formData.images, ...files] });
+                    }
+                  }}
+                />
+                {formData.images.length > 0 && (
+                  <div className="mt-2 flex flex-wrap gap-2">
+                    {formData.images.map((img, idx) => (
+                      <div key={idx} className="relative w-20 h-20 rounded border border-neutral-200 overflow-hidden">
+                        <img
+                          src={URL.createObjectURL(img)}
+                          alt={`Preview ${idx + 1}`}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const newImages = formData.images.filter((_, i) => i !== idx);
+                            setFormData({ ...formData, images: newImages });
+                          }}
+                          className="absolute top-0 right-0 bg-red-500 text-white rounded-bl p-1 hover:bg-red-600"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
 
               <Input
                 label={t('modals.add_product.price')}
@@ -213,9 +292,11 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
                 options={categoryOptions}
                 placeholder={t('modals.add_product.category_placeholder')}
                 value={formData.category}
-                onChange={(e) =>
-                  setFormData({ ...formData, category: e.target.value })
-                }
+                onChange={(e) => {
+                  setFormData({ ...formData, category: e.target.value });
+                  // Reset variants when category changes
+                  setFormData(prev => ({ ...prev, category: e.target.value, variants: [] }));
+                }}
               />
 
               <Select
@@ -229,6 +310,102 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
                 }
               />
             </div>
+          </div>
+
+          {/* Variants Section */}
+          <div className="mt-6 pt-6 border-t border-neutral-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-neutral-900">
+                Variantlar ({formData.variants.length})
+              </h3>
+              <Button
+                type="button"
+                variant="outline"
+                icon={<Plus size={16} />}
+                onClick={() => {
+                  setFormData({
+                    ...formData,
+                    variants: [
+                      ...formData.variants,
+                      {
+                        attributes: {},
+                      },
+                    ],
+                  });
+                }}
+              >
+                Variant əlavə et
+              </Button>
+            </div>
+
+            {formData.variants.length > 0 && (
+              <div className="space-y-4">
+                {formData.variants.map((variant, idx) => (
+                  <div key={idx} className="p-4 border border-neutral-200 rounded-lg space-y-3">
+                    <div className="flex items-center justify-between">
+                      <h4 className="font-medium text-neutral-900">Variant {idx + 1}</h4>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const newVariants = formData.variants.filter((_, i) => i !== idx);
+                          setFormData({ ...formData, variants: newVariants });
+                        }}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                    <div className="space-y-3">
+                      {/* Category Attributes Dropdowns */}
+                      {categoryAttributes.length > 0 ? (
+                        <div className="space-y-2">
+                          <label className="text-sm font-medium text-neutral-700">
+                            Atributlar
+                          </label>
+                          <div className="grid grid-cols-2 gap-3">
+                            {categoryAttributes.map((attr) => (
+                              <Select
+                                key={attr.id}
+                                label={attr.displayName}
+                                required={attr.isRequired}
+                                options={[
+                                  { label: "Seçin", value: "" },
+                                  ...attr.values.map((val) => ({
+                                    label: val.displayValue || val.value,
+                                    value: val.value,
+                                  })),
+                                ]}
+                                value={variant.attributes?.[attr.attributeType] || ""}
+                                onChange={(e) => {
+                                  const newVariants = [...formData.variants];
+                                  const newAttributes = {
+                                    ...(variant.attributes || {}),
+                                    [attr.attributeType]: e.target.value,
+                                  };
+                                  // Remove attribute if empty
+                                  if (!e.target.value) {
+                                    delete newAttributes[attr.attributeType];
+                                  }
+                                  newVariants[idx] = {
+                                    ...variant,
+                                    attributes: newAttributes,
+                                  };
+                                  setFormData({ ...formData, variants: newVariants });
+                                }}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-sm text-neutral-500">
+                          Bu kateqoriya üçün atribut mövcud deyil
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Action Buttons */}

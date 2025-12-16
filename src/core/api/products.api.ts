@@ -21,9 +21,13 @@ export interface Product {
     isActive: boolean;
     imageId: string | null;
     imageUrl: string | null;
+    primaryImageUrl?: string | null;
+    images?: ProductImage[];
     isBanner?: boolean;
     isFeatured?: boolean;
     displayOrder?: number | null;
+    categoryAttributes?: any[];
+    variants?: ProductVariant[];
     createdAt: string;
     updatedAt: string | null;
 }
@@ -39,6 +43,50 @@ export interface ProductListParams {
     isActive?: boolean;
 }
 
+// Product Image Types
+export interface ProductImage {
+    id: string;
+    imageId: string;
+    imageUrl: string;
+    displayOrder: number;
+    isPrimary: boolean;
+}
+
+export interface AddProductImageRequest {
+    imageId: string;
+    displayOrder?: number;
+    isPrimary?: boolean;
+}
+
+// Product Variant Types
+// Note: SKU, Price, Currency, and Stock are at Product level, not Variant level
+// Variants only represent attribute combinations
+export interface ProductVariant {
+    id: string;
+    // Deprecated: These fields are now at Product level
+    sku?: string;
+    price?: number;
+    currency?: string;
+    stock?: number;
+    isActive: boolean;
+    imageId: string | null;
+    imageUrl: string | null;
+    attributes: Record<string, string>;
+    finalDiscountPercent?: number | null;
+    finalPrice?: number | null;
+}
+
+export interface CreateProductVariantRequest {
+    imageId?: string | null;
+    attributes: Record<string, string>;
+}
+
+export interface UpdateProductVariantRequest {
+    imageId?: string | null;
+    attributes: Record<string, string>;
+    isActive?: boolean;
+}
+
 export interface CreateProductRequest {
     name: string;
     description?: string | null;
@@ -49,6 +97,8 @@ export interface CreateProductRequest {
     brandId: string;
     vatRate?: number;
     stock: number;
+    imageIds?: string[];
+    variants?: CreateProductVariantRequest[];
 }
 
 export interface UpdateProductRequest {
@@ -60,6 +110,8 @@ export interface UpdateProductRequest {
     brandId: string;
     vatRate?: number;
     stock: number;
+    imageIds?: string[];
+    variants?: (CreateProductVariantRequest & { id?: string; isActive?: boolean })[];
 }
 
 export interface PagedApiResponse<T> extends ApiResponse<T[]> {
@@ -192,6 +244,57 @@ export const productsApi = {
     removeFeatured: async (productId: string) => {
         const response = await apiClient.delete<ApiResponse<null>>(
             `/Products/${productId}/featured`
+        );
+        return response.data;
+    },
+
+    // Product Images Management
+    addProductImage: async (productId: string, data: AddProductImageRequest) => {
+        const response = await apiClient.post<ApiResponse<ProductImage>>(
+            `/Products/${productId}/images`,
+            data
+        );
+        return response.data;
+    },
+
+    deleteProductImage: async (productId: string, imageId: string) => {
+        const response = await apiClient.delete<ApiResponse<null>>(
+            `/Products/${productId}/images/${imageId}`
+        );
+        return response.data;
+    },
+
+    setPrimaryImage: async (productId: string, imageId: string) => {
+        const response = await apiClient.post<ApiResponse<null>>(
+            `/Products/${productId}/images/${imageId}/primary`
+        );
+        return response.data;
+    },
+
+    // Product Variants Management
+    createProductVariant: async (productId: string, data: CreateProductVariantRequest) => {
+        const response = await apiClient.post<ApiResponse<ProductVariant>>(
+            `/Products/${productId}/variants`,
+            data
+        );
+        return response.data;
+    },
+
+    updateProductVariant: async (
+        productId: string,
+        variantId: string,
+        data: UpdateProductVariantRequest
+    ) => {
+        const response = await apiClient.put<ApiResponse<ProductVariant>>(
+            `/Products/${productId}/variants/${variantId}`,
+            data
+        );
+        return response.data;
+    },
+
+    deleteProductVariant: async (productId: string, variantId: string) => {
+        const response = await apiClient.delete<ApiResponse<null>>(
+            `/Products/${productId}/variants/${variantId}`
         );
         return response.data;
     },

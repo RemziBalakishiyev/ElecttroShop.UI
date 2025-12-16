@@ -4,6 +4,7 @@ import { ItemsPage } from "./pages/ItemsPage";
 import { ProductDetailsPage } from "./pages/ProductDetailsPage";
 import { DashboardPage } from "./pages/DashboardPage";
 import { CategoriesPage } from "./pages/CategoriesPage";
+import { CategoryAttributesPage } from "./pages/CategoryAttributesPage";
 import { BrandsPage } from "./pages/BrandsPage";
 import { DiscountsPage } from "./pages/DiscountsPage";
 import { ProtectedRoute } from "./core/components/ProtectedRoute";
@@ -89,6 +90,16 @@ export default function App() {
           <ProtectedRoute>
             <MainLayout>
               <CategoriesPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/categories/:categoryId/attributes"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <CategoryAttributesPage />
             </MainLayout>
           </ProtectedRoute>
         }

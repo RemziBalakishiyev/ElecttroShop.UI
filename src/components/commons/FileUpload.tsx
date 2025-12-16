@@ -7,7 +7,9 @@ interface FileUploadProps {
   required?: boolean;
   placeholder?: string;
   accept?: string;
+  multiple?: boolean;
   onChange?: (file: File | null) => void;
+  onChangeMultiple?: (files: File[]) => void;
   error?: string;
   className?: string;
 }
@@ -17,7 +19,9 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   required,
   placeholder = "Choose file",
   accept,
+  multiple = false,
   onChange,
+  onChangeMultiple,
   error,
   className,
 }) => {
@@ -29,9 +33,22 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0] || null;
-    setFileName(file?.name || "");
-    onChange?.(file);
+    const files = e.target.files;
+    
+    if (multiple && files && files.length > 0) {
+      const fileArray = Array.from(files);
+      setFileName(`${fileArray.length} fayl seçildi`);
+      onChangeMultiple?.(fileArray);
+    } else if (!multiple) {
+      const file = files?.[0] || null;
+      setFileName(file?.name || "");
+      onChange?.(file);
+    }
+    
+    // Reset input value to allow selecting the same file again
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
   };
 
   return (
@@ -61,6 +78,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           ref={inputRef}
           type="file"
           accept={accept}
+          multiple={multiple}
           onChange={handleChange}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
         />

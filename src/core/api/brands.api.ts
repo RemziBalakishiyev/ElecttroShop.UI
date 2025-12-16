@@ -86,7 +86,31 @@ export const brandsApi = {
         );
         return response.data;
     },
+
+    // Lookup API
+    getLookup: async () => {
+        const response = await apiClient.get<LookupApiResponse>(
+            "/brands/lookup"
+        );
+        return response.data;
+    },
 };
+
+// Lookup Types
+export interface LookupItem {
+    key: string;
+    value: string;
+}
+
+export interface LookupResponse {
+    items: LookupItem[];
+    cachedAt?: string;
+    cacheKey?: string;
+}
+
+export interface LookupApiResponse extends ApiResponse<LookupResponse> {
+    value?: LookupResponse;
+}
 
 // Promotional Brand Types
 export interface PromotionalBrandItem {
