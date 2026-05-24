@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -36,9 +36,17 @@ const ImageWithFallback: React.FC<{
         />
     );
 };
-import { productsApi, buildProductImageIdsForSave } from "../core/api/products.api";
-import type { UpdateProductRequest, ProductVariant } from "../core/api/products.api";
-import { imagesApi } from "../core/api/images.api";
+import { productsApi } from "../core/api/products.api";
+import type { Product, ProductVariant, UpdateProductRequest } from "../core/api/products.api";
+import { categoriesApi } from "../core/api/categories.api";
+import {
+  buildUpdateProductPayload,
+  type ProductFormSubmitData,
+} from "../utils/productSave";
+import {
+  isConcurrencyConflictError,
+  mapProductSaveErrorMessage,
+} from "../utils/productAttributes";
 import { Button } from "../components/commons/Button";
 import { API_CONFIG } from "../core/config/api.config";
 import { AddItemModal } from "../components/modals/AddItemModal";
@@ -70,6 +78,11 @@ export const ProductDetailsPage = () => {
         queryFn: () => productsApi.getProductById(id!),
         enabled: !!id,
     });
+
+    const product = useMemo((): Product | undefined => {
+        if (!data) return undefined;
+        return (data as { value?: Product }).value || (data as Product);
+    }, [data]);
 
     // Update local state when product data changes
     useEffect(() => {
@@ -104,8 +117,11 @@ export const ProductDetailsPage = () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
             setIsEditModalOpen(false);
         },
-        onError: (error: any) => {
-            toast.error(error.response?.data?.message || t('products.save_error'));
+        onError: (error: unknown) => {
+            toast.error(mapProductSaveErrorMessage(error));
+            if (isConcurrencyConflictError(error) && id) {
+                queryClient.invalidateQueries({ queryKey: ["product", id] });
+            }
         },
     });
 
@@ -181,86 +197,25 @@ export const ProductDetailsPage = () => {
         },
     });
 
-    const handleSaveProduct = async (formData: any) => {
-        if (!id) return;
+    const handleSaveProduct = async (formData: ProductFormSubmitData) => {
+        if (!id || !product) return;
 
+        let categoryAttributes = product.categoryAttributes ?? [];
         try {
-            // STEP 1: Process variants - upload variant images if needed
-            const processedVariants = [];
-            if (formData.variants && formData.variants.length > 0) {
-                for (const variant of formData.variants) {
-                    let variantImageId = variant.imageId || null;
-
-                    // If variant has imageFile, upload it first using imagesApi
-                    if (variant.imageFile) {
-                        try {
-                            const imageResponse = await imagesApi.uploadImage(variant.imageFile);
-                            // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
-                            const imageData = (imageResponse as any)?.value || imageResponse;
-                            variantImageId = imageData?.imageId || imageData?.id || null;
-                            
-                            if (variantImageId) {
-                                console.log("Variant image uploaded, imageId:", variantImageId);
-                            }
-                        } catch (imgErr: any) {
-                            console.error("Failed to upload variant image:", imgErr);
-                            
-                            // Handle validation errors
-                            if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
-                                const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
-                                toast.warning(errorMessages || imgErr.error.message || 'Variant şəkli yüklənə bilmədi');
-                            } else if (imgErr?.error?.message) {
-                                toast.warning(imgErr.error.message);
-                            } else if (imgErr?.message) {
-                                toast.warning(imgErr.message);
-                            }
-                            // Continue without variant image if upload fails
-                        }
-                    }
-
-                    // Prepare variant data (only attributes and optional imageId)
-                    const variantData: any = {
-                        attributes: variant.attributes || {},
-                        ...(variantImageId && { imageId: variantImageId }),
-                    };
-
-                    // For update: include id and isActive if present
-                    if (variant.id) {
-                        variantData.id = variant.id;
-                        variantData.isActive = variant.isActive !== undefined ? variant.isActive : true;
-                    }
-
-                    processedVariants.push(variantData);
-                }
-            }
-
-            // STEP 2: Collect all image IDs (existing + newly uploaded)
-            const imageIds = await buildProductImageIdsForSave(
-                formData.existingImageIds,
-                formData.images,
-                product
+            categoryAttributes = await categoriesApi.getCategoryAttributes(
+                formData.category
             );
-
-            const updateData: UpdateProductRequest = {
-                name: formData.itemName,
-                description: formData.description,
-                price: Number(formData.price),
-                currency: formData.currency,
-                categoryId: formData.category,
-                brandId: formData.manufacturer,
-                stock: Number(formData.amount),
-                vatRate: 0.18,
-                ...(imageIds.length > 0 && { imageIds }),
-                ...(processedVariants.length > 0 && { variants: processedVariants }),
-            };
-
-            await updateMutation.mutateAsync({
-                id,
-                data: updateData
-            });
-        } catch (error) {
-            console.error("Error updating product:", error);
+        } catch {
+            // fallback to embedded attributes from GET product
         }
+
+        const updateData = await buildUpdateProductPayload(
+            formData,
+            categoryAttributes,
+            product
+        );
+
+        await updateMutation.mutateAsync({ id, data: updateData });
     };
 
     if (isLoading) {
@@ -270,9 +225,6 @@ export const ProductDetailsPage = () => {
             </div>
         );
     }
-
-    // Handle both wrapped (data.value) and unwrapped (data) responses
-    const product = (data as any)?.value || data;
 
     const categoryAttributes: CategoryAttribute[] = (product?.categoryAttributes ?? [])
         .map((attr: CategoryAttribute) => ({

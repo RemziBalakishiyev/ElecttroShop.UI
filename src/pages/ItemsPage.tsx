@@ -9,9 +9,21 @@ import { FilterModal } from "../components/commons/FilterModal";
 import { AddItemModal } from "../components/modals/AddItemModal";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { ImagePreviewModal } from "../components/modals/ImagePreviewModal";
-import { productsApi, buildProductImageIdsForSave } from "../core/api/products.api";
-import type { Product, ProductListParams, CreateProductRequest, UpdateProductRequest } from "../core/api/products.api";
+import { productsApi } from "../core/api/products.api";
+import type { Product, ProductListParams } from "../core/api/products.api";
 import { imagesApi } from "../core/api/images.api";
+import { categoriesApi } from "../core/api/categories.api";
+import type { CategoryAttribute } from "../core/api/categories.api";
+import {
+  buildCreateProductPayload,
+  buildUpdateProductPayload,
+  type ProductFormSubmitData,
+} from "../utils/productSave";
+import {
+  isConcurrencyConflictError,
+  mapProductSaveErrorMessage,
+} from "../utils/productAttributes";
+import { unwrapApiData } from "../utils/apiResponse";
 import { useToast } from "../core/providers/ToastContext";
 import { API_CONFIG } from "../core/config/api.config";
 import { useTranslation } from "react-i18next";
@@ -159,156 +171,69 @@ export const ItemsPage = () => {
     setEditingProduct(null);
   };
 
-  const handleSaveProduct = async (formData: any) => {
-    console.log("handleSaveProduct called with:", formData);
+  const loadCategoryAttributes = async (
+    categoryId: string
+  ): Promise<CategoryAttribute[]> => {
     try {
-      // Determine if this is an update or create
-      const isUpdate = !!editingProduct;
-      let productId = editingProduct?.id;
+      return await categoriesApi.getCategoryAttributes(categoryId);
+    } catch {
+      return editingProduct?.categoryAttributes ?? [];
+    }
+  };
 
-      // STEP 1: For CREATE — upload images and collect imageIds for POST body
-      const imageIds: string[] = [];
-      if (!isUpdate && formData.images?.length > 0) {
-        for (const imageFile of formData.images) {
-          try {
-            const imageResponse = await imagesApi.uploadImage(imageFile);
-            const imageData = (imageResponse as any)?.value || imageResponse;
-            const imageId = imageData?.imageId || imageData?.id;
-            if (imageId) {
-              imageIds.push(imageId);
-            }
-          } catch (imgErr: any) {
-            console.error("Failed to upload product image:", imgErr);
-            if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
-              const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
-              toast.error(errorMessages || imgErr.error.message || t('products.image_upload_error'));
-            } else if (imgErr?.error?.message) {
-              toast.error(imgErr.error.message);
-            } else if (imgErr?.message) {
-              toast.error(imgErr.message);
-            } else {
-              toast.error(t('products.image_upload_error'));
-            }
-          }
-        }
-      }
+  const handleSaveProduct = async (formData: ProductFormSubmitData) => {
+    const isUpdate = !!editingProduct;
+    const productId = editingProduct?.id;
 
-      // STEP 2: Process variants - upload variant images if needed
-      const processedVariants = [];
-      if (formData.variants && formData.variants.length > 0) {
-        for (const variant of formData.variants) {
-          let variantImageId = variant.imageId || null;
-
-          // If variant has imageFile, upload it first using imagesApi
-          if (variant.imageFile) {
-            try {
-              const imageResponse = await imagesApi.uploadImage(variant.imageFile);
-              // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
-              const imageData = (imageResponse as any)?.value || imageResponse;
-              variantImageId = imageData?.imageId || imageData?.id || null;
-              
-              if (variantImageId) {
-                console.log("Variant image uploaded, imageId:", variantImageId);
-              }
-            } catch (imgErr: any) {
-              console.error("Failed to upload variant image:", imgErr);
-              
-              // Handle validation errors
-              if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
-                const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
-                toast.warning(errorMessages || imgErr.error.message || 'Variant şəkli yüklənə bilmədi');
-              } else if (imgErr?.error?.message) {
-                toast.warning(imgErr.error.message);
-              } else if (imgErr?.message) {
-                toast.warning(imgErr.message);
-              }
-              // Continue without variant image if upload fails
-            }
-          }
-
-          // Prepare variant data (only attributes and optional imageId)
-          const variantData: any = {
-            attributes: variant.attributes || {}, // Already an object
-            ...(variantImageId && { imageId: variantImageId }),
-          };
-
-          // For update: include id and isActive if present
-          if (variant.id) {
-            variantData.id = variant.id;
-            variantData.isActive = variant.isActive !== undefined ? variant.isActive : true;
-          }
-
-          processedVariants.push(variantData);
-        }
-      }
-
-      // STEP 3: Prepare product data with imageIds
-      const commonData = {
-        name: formData.itemName,
-        description: formData.description,
-        price: Number(formData.price),
-        currency: formData.currency || "AZN",
-        categoryId: formData.category,
-        brandId: formData.manufacturer,
-        stock: Number(formData.amount),
-        vatRate: 0.18,
-        ...(!isUpdate && imageIds.length > 0 && { imageIds }),
-        ...(processedVariants.length > 0 && { variants: processedVariants }),
-      };
+    try {
+      const categoryAttributes = await loadCategoryAttributes(formData.category);
 
       if (isUpdate && productId) {
-        const imageIds = await buildProductImageIdsForSave(
-          formData.existingImageIds,
-          formData.images,
+        const updateData = await buildUpdateProductPayload(
+          formData,
+          categoryAttributes,
           editingProduct
         );
-
-        const updateData: UpdateProductRequest = {
-          ...commonData,
-          ...(imageIds.length > 0 && { imageIds }),
-        };
         await productsApi.updateProduct(productId, updateData);
-        toast.success(t('products.update_success'));
+        toast.success(t("products.update_success"));
       } else {
-        // CREATE
-        const createData: CreateProductRequest = {
-          ...commonData,
-          sku: formData.itemNumber,
-        };
-        console.log("Creating product...", createData);
-        const response = await productsApi.createProduct(createData);
-        console.log("Create response:", response);
-
-        // Handle both wrapped (ApiResponse) and unwrapped (Product) responses
-        const createdProduct = (response as any).value || response;
-        productId = createdProduct?.id;
-
-        if (!productId) {
-          throw new Error("Product ID not found in response");
+        const imageIds: string[] = [];
+        for (const imageFile of formData.images ?? []) {
+          try {
+            const imageResponse = await imagesApi.uploadImage(imageFile);
+            const imageData = unwrapApiData<{ imageId?: string; id?: string }>(
+              imageResponse
+            );
+            const imageId = imageData?.imageId || imageData?.id;
+            if (imageId) imageIds.push(imageId);
+          } catch (imgErr: unknown) {
+            toast.error(mapProductSaveErrorMessage(imgErr));
+          }
         }
 
-        console.log("Created productId:", productId);
-        toast.success(t('products.create_success'));
+        const createData = await buildCreateProductPayload(
+          formData,
+          categoryAttributes,
+          imageIds
+        );
+        const response = await productsApi.createProduct(createData);
+        const createdProduct = unwrapApiData<Product>(response);
+        if (!createdProduct?.id) {
+          throw new Error("Product ID not found in response");
+        }
+        toast.success(t("products.create_success"));
       }
 
       queryClient.invalidateQueries({ queryKey: ["products"] });
+      if (productId) {
+        queryClient.invalidateQueries({ queryKey: ["product", productId] });
+      }
       handleAddItemClose();
-    } catch (err: any) {
-      console.error("Failed to save product:", err);
-      
-      // Handle validation errors
-      if (err?.error?.errors && Array.isArray(err.error.errors)) {
-        // Multiple validation errors
-        const errorMessages = err.error.errors.map((e: any) => e.message).join(', ');
-        toast.error(errorMessages || err.error.message || t('products.save_error'));
-      } else if (err?.error?.message) {
-        // Single error message
-        toast.error(err.error.message);
-      } else if (err?.message) {
-        // Direct error message
-        toast.error(err.message);
-      } else {
-        toast.error(t('products.save_error'));
+    } catch (err: unknown) {
+      const message = mapProductSaveErrorMessage(err);
+      toast.error(message);
+      if (isUpdate && isConcurrencyConflictError(err) && productId) {
+        queryClient.invalidateQueries({ queryKey: ["product", productId] });
       }
     }
   };

@@ -1,231 +1,103 @@
 # TV Store Admin Panel
 
-Modern and fully functional admin panel - inventory management system built with React, TypeScript, and Tailwind CSS 4.
+**tvstore-admin** — Electronics Number One / TV Store e-ticarət platformasının **admin idarəetmə panelidir**. Mağaza operatorları və administratorlar bu panel vasitəsilə məhsullar, kateqoriyalar, brendlər, endirimlər və dashboard statistikalarını idarə edirlər.
 
-## 🚀 Features
+## Məqsəd
 
-### Authentication
-- ✅ **Login** - Email and password authentication
-- ✅ **Forgot Password** - Password recovery
-- ✅ **Enter OTP** - OTP code verification
-- ✅ **Reset Password** - Set new password
-- ✅ JWT Token Authentication (Access Token + Refresh Token)
-- ✅ Auto Token Refresh
-- ✅ Protected Routes
+Frontend layihəsi aşağıdakı biznes funksiyalarını təmin edir:
 
-### Inventory Management
-- ✅ **All Items** - Complete items list
-- ✅ **Add Item** - Add new items
-- ✅ **Filter** - Filter by store and location
-- ✅ **Search** - Search functionality
-- ✅ **Pagination** - Page navigation
-- ✅ **Table Sorting** - Sortable table columns
+- İnventar (məhsul) idarəetməsi — CRUD, şəkil, variant, banner/featured
+- Kateqoriya və atribut idarəetməsi
+- Brend idarəetməsi (promotional brendlər daxil)
+- Endirim idarəetməsi (məhsul/brend/kateqoriya səviyyəsində)
+- Dashboard — statistika, qrafik, son sifarişlər və məhsullar
+- Autentifikasiya — login, token refresh, parol bərpası axınları (qismən)
 
-### UI Components
-- ✅ Modern and responsive design
-- ✅ Dark/Light theme support
-- ✅ Reusable components (Button, Input, Select, Modal, Table, Pagination)
-- ✅ Form validation (Formik + Yup)
-- ✅ File upload functionality
-- ✅ Date picker
+## İstifadəçi rolları
 
-## 🛠️ Technologies
+Backend `UserRole` enum-u frontend-də təyin olunub:
 
-- **Frontend Framework:** React 19.2.0
-- **Language:** TypeScript 5.9.3
-- **Styling:** Tailwind CSS 4.1.16
-- **Build Tool:** Vite 7.1.7
-- **Routing:** React Router DOM 7.9.6
-- **State Management:** 
-  - React Query (@tanstack/react-query) 5.62.0
-  - Context API
-- **Form Handling:** Formik 2.4.6
-- **Validation:** Yup 1.4.0
-- **HTTP Client:** Axios 1.7.9
-- **Icons:** Lucide React 0.552.0
+| Rol | Dəyər | Təsvir |
+|-----|-------|--------|
+| Admin | `1` | Administrator |
+| Agent | `2` | Agent |
 
-## 📦 Installation
+**Qeyd:** Rollar hazırda yalnız `Header`-da göstərilir. Route və ya UI element səviyyəsində role-based access control (RBAC) **tətbiq olunmayıb** — bütün autentifikasiya olunmuş istifadəçilər eyni səhifələrə daxil ola bilir.
 
-### Requirements
-- Node.js 18+ 
-- npm or yarn
+## Əsas modullar
 
-### Steps
+| Modul | Route | Təsvir |
+|-------|-------|--------|
+| Dashboard | `/` | Statistika, qrafik, promosional brendlər |
+| Məhsullar | `/products`, `/products/:id` | Siyahı və detallı səhifə |
+| Kateqoriyalar | `/categories` | Kateqoriya CRUD |
+| Kateqoriya atributları | `/categories/:categoryId/attributes` | Atribut və dəyər idarəetməsi |
+| Brendlər | `/brands` | Brend CRUD |
+| Endirimlər | `/discounts` | Endirim CRUD |
+| Auth | `/login`, `/forgot-password`, ... | Giriş və parol bərpası |
 
-1. **Clone the repository:**
-```bash
-git clone https://github.com/your-username/tvstore-admin.git
-cd tvstore-admin
-```
+## Backend əlaqəsi
 
-2. **Install dependencies:**
+- **HTTP client:** Axios (`src/core/api/apiClient.ts`)
+- **Base URL:** `https://localhost:44312/api` (`src/core/config/api.config.ts`)
+- **Auth:** JWT Bearer token (access + refresh)
+- **Response format:** `{ isSuccess, value, error }` wrapper (bəzi endpoint-lər birbaşa data qaytarır)
+
+## Texnologiya stack
+
+| Kateqoriya | Texnologiya |
+|------------|-------------|
+| Framework | React 19.2 |
+| Dil | TypeScript 5.9 |
+| Build | Vite 7.1 |
+| Styling | Tailwind CSS 4.1 |
+| Routing | React Router DOM 7.9 |
+| Server state | TanStack React Query 5.62 |
+| Global state | React Context API |
+| Form | Formik 2.4 + Yup 1.4 |
+| HTTP | Axios 1.7 |
+| Chart | Recharts 3.4 |
+| i18n | i18next (yalnız `az` locale) |
+| İkonlar | Lucide React |
+
+## Sürətli başlanğıc
+
 ```bash
 npm install
-```
-
-3. **Start development server:**
-```bash
 npm run dev
 ```
 
-4. **Open in browser:**
-```
-http://localhost:5173
-```
+Brauzer: `http://localhost:5173`
 
-## 🏗️ Build
+## Sənədləşdirmə indeksi
 
-For production build:
+| Sənəd | Mövzu |
+|-------|-------|
+| [FRONTEND_ARCHITECTURE.md](./FRONTEND_ARCHITECTURE.md) | Arxitektura və folder strukturu |
+| [ROUTING.md](./ROUTING.md) | Route-lar və qorunma mexanizmi |
+| [PAGES_AND_SCREENS.md](./PAGES_AND_SCREENS.md) | Səhifələr və funksionallıq |
+| [COMPONENT_SYSTEM.md](./COMPONENT_SYSTEM.md) | Komponent sistemi |
+| [STATE_MANAGEMENT.md](./STATE_MANAGEMENT.md) | State idarəetməsi |
+| [API_INTEGRATION.md](./API_INTEGRATION.md) | API inteqrasiyası |
+| [AUTHENTICATION_AUTHORIZATION_FRONTEND.md](./AUTHENTICATION_AUTHORIZATION_FRONTEND.md) | Auth flow |
+| [FORMS_AND_VALIDATION.md](./FORMS_AND_VALIDATION.md) | Form və validasiya |
+| [UI_UX_DESIGN_SYSTEM.md](./UI_UX_DESIGN_SYSTEM.md) | UI/UX qaydaları |
+| [STYLING.md](./STYLING.md) | Styling yanaşması |
+| [CONFIGURATION.md](./CONFIGURATION.md) | Konfiqurasiya |
+| [BUILD_AND_DEPLOYMENT.md](./BUILD_AND_DEPLOYMENT.md) | Build və deploy |
+| [PERFORMANCE_REVIEW.md](./PERFORMANCE_REVIEW.md) | Performans analizi |
+| [ERROR_HANDLING_AND_LOGGING.md](./ERROR_HANDLING_AND_LOGGING.md) | Xəta idarəetməsi |
+| [TESTING.md](./TESTING.md) | Test vəziyyəti |
+| [ACCESSIBILITY.md](./ACCESSIBILITY.md) | Accessibility |
+| [CODE_QUALITY_REVIEW.md](./CODE_QUALITY_REVIEW.md) | Kod keyfiyyəti |
+| [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Developer quick reference |
 
-```bash
-npm run build
-```
+## Əlavə mövcud sənədlər
 
-Build files will be generated in the `dist/` folder.
-
-## 📁 Project Structure
-
-```
-tvstore-admin/
-├── src/
-│   ├── components/          # Reusable components
-│   │   ├── commons/         # Common components
-│   │   └── modals/          # Modal components
-│   ├── core/                # Core functionality
-│   │   ├── api/             # API client and endpoints
-│   │   ├── config/           # Configuration files
-│   │   ├── context/          # React Context
-│   │   ├── hooks/            # Custom hooks
-│   │   ├── providers/        # Context providers
-│   │   ├── types/            # TypeScript types
-│   │   └── utils/             # Utility functions
-│   ├── layouts/              # Layout components
-│   ├── modules/              # Feature modules
-│   │   └── auth/             # Authentication module
-│   ├── pages/                # Page components
-│   └── utils/                # General utility functions
-├── public/                   # Static files
-├── package.json
-├── tsconfig.json
-├── vite.config.ts
-└── README.md
-```
-
-## 🔧 Configuration
-
-### API Configuration
-
-API base URL and endpoints are defined in `src/core/config/api.config.ts`:
-
-```typescript
-export const API_CONFIG = {
-  BASE_URL: "https://localhost:44312",
-  ENDPOINTS: {
-    AUTH: {
-      LOGIN: "/api/auth/login",
-      REFRESH_TOKEN: "/api/auth/refresh-token",
-    },
-  },
-};
-```
-
-### Environment Variables
-
-Create `.env` file (if needed):
-
-```env
-VITE_API_BASE_URL=https://localhost:44312
-```
-
-## 🔐 Authentication Flow
-
-1. User logs in with email and password
-2. JWT access token and refresh token are received from API
-3. Tokens are stored in localStorage
-4. Access token is sent in `Authorization` header with every request
-5. If token expires, new access token is obtained using refresh token
-6. If refresh token also expires, user is redirected to login page
-
-## 📝 API Documentation
-
-### Login Endpoint
-
-**POST** `/api/auth/login`
-
-**Request:**
-```json
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-```
-
-**Response:**
-```json
-{
-  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "refreshToken": "refresh_token_here",
-  "expiresAt": "2024-01-01T12:00:00Z",
-  "user": {
-    "id": "guid",
-    "email": "user@example.com",
-    "fullName": "John Doe",
-    "role": 1,
-    "isActive": true,
-    "createdAt": "2024-01-01T12:00:00Z"
-  }
-}
-```
-
-## 🎨 UI Components
-
-### Button
-```tsx
-<Button variant="primary" onClick={handleClick}>
-  Click Me
-</Button>
-```
-
-### Input
-```tsx
-<Input
-  label="Email"
-  type="email"
-  placeholder="Enter email"
-  value={email}
-  onChange={(e) => setEmail(e.target.value)}
-/>
-```
-
-### Modal
-```tsx
-<Modal open={isOpen} onClose={handleClose} title="Modal Title">
-  <p>Modal content</p>
-</Modal>
-```
-
-## 🧪 Testing
-
-```bash
-npm run lint
-```
-
-## 📄 License
-
-This project is private.
-
-## 👥 Authors
-
-- Development Team
-
-## 🤝 Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## 📞 Contact
-
-Open an issue for questions.
+- `API_REQUIREMENTS.md` — Backend API tələbləri
+- `src/core/README.md` — Auth API inteqrasiyası (qısa)
+- `USER_SIDE_DOCUMENTATION.md` — İstifadəçi tərəfi sənədləri
 
 ---
 
-**Note:** This project is in development stage. Please test all features before using in production.
+**Status:** Layihə aktiv inkişaf mərhələsindədir. Production istifadəsi üçün auth parol bərpası axınları, environment konfiqurasiyası və test coverage tamamlanmalıdır.

@@ -1,5 +1,6 @@
 import apiClient from "./apiClient";
 import { imagesApi } from "./images.api";
+import type { CategoryAttribute } from "./categories.api";
 import type { ApiResponse } from "../types/auth.types";
 import { unwrapApiData } from "../../utils/apiResponse";
 
@@ -28,8 +29,9 @@ export interface Product {
     isBanner?: boolean;
     isFeatured?: boolean;
     displayOrder?: number | null;
-    categoryAttributes?: any[];
+    categoryAttributes?: CategoryAttribute[];
     variants?: ProductVariant[];
+    rowVersion?: number;
     createdAt: string;
     updatedAt: string | null;
 }
@@ -78,12 +80,37 @@ export interface ProductVariant {
     finalPrice?: number | null;
 }
 
+/** @deprecated Prefer ProductVariantRequest on create/update product body */
 export interface CreateProductVariantRequest {
     imageId?: string | null;
     attributes: Record<string, string>;
 }
 
+/** @deprecated Prefer ProductVariantRequest on create/update product body */
 export interface UpdateProductVariantRequest {
+    imageId?: string | null;
+    attributes: Record<string, string>;
+    isActive?: boolean;
+}
+
+export interface InlineProductAttributeValue {
+    value: string;
+    displayValue?: string;
+    displayOrder: number;
+    colorCode?: string;
+}
+
+export interface InlineProductAttribute {
+    name: string;
+    displayName: string;
+    attributeType: string;
+    isRequired: boolean;
+    displayOrder: number;
+    values: InlineProductAttributeValue[];
+}
+
+export interface ProductVariantRequest {
+    id?: string | null;
     imageId?: string | null;
     attributes: Record<string, string>;
     isActive?: boolean;
@@ -100,7 +127,8 @@ export interface CreateProductRequest {
     vatRate?: number;
     stock: number;
     imageIds?: string[];
-    variants?: CreateProductVariantRequest[];
+    inlineAttributes?: InlineProductAttribute[];
+    variants?: ProductVariantRequest[];
 }
 
 export interface UpdateProductRequest {
@@ -112,8 +140,10 @@ export interface UpdateProductRequest {
     brandId: string;
     vatRate?: number;
     stock: number;
+    rowVersion: number;
     imageIds?: string[];
-    variants?: (CreateProductVariantRequest & { id?: string; isActive?: boolean })[];
+    inlineAttributes?: InlineProductAttribute[];
+    variants?: ProductVariantRequest[];
 }
 
 export interface PagedApiResponse<T> extends ApiResponse<T[]> {
