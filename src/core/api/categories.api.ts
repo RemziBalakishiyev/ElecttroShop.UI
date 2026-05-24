@@ -1,5 +1,6 @@
 import apiClient from "./apiClient";
 import type { ApiResponse } from "../types/auth.types";
+import { unwrapApiData } from "../../utils/apiResponse";
 
 // --- Types ---
 
@@ -168,7 +169,7 @@ export const categoriesApi = {
         const response = await apiClient.get<ApiResponse<CategoryAttribute[]>>(
             `/categories/${categoryId}/attributes`
         );
-        return response.data;
+        return unwrapApiData<CategoryAttribute[]>(response.data);
     },
 
     // Category Attribute Values Management

@@ -1,5 +1,7 @@
 import apiClient from "./apiClient";
+import { imagesApi } from "./images.api";
 import type { ApiResponse } from "../types/auth.types";
+import { unwrapApiData } from "../../utils/apiResponse";
 
 // --- Types ---
 
@@ -145,7 +147,7 @@ export const productsApi = {
         const response = await apiClient.get<ApiResponse<Product>>(
             `/Products/${id}`
         );
-        return response.data;
+        return unwrapApiData<Product>(response.data);
     },
 
     searchProducts: async (searchTerm: string, page = 1, pageSize = 20) => {
@@ -298,4 +300,62 @@ export const productsApi = {
         );
         return response.data;
     },
+
+    /** Upload files and link each to a product without replacing existing images */
+    addProductImagesFromFiles: async (
+        productId: string,
+        files: File[],
+        existingImageCount = 0
+    ) => {
+        for (let i = 0; i < files.length; i++) {
+            const imageResponse = await imagesApi.uploadImage(files[i]);
+            const imageData = (imageResponse as any)?.value || imageResponse;
+            const imageId = imageData?.imageId || imageData?.id;
+            if (!imageId) continue;
+
+            await productsApi.addProductImage(productId, {
+                imageId,
+                displayOrder: existingImageCount + i,
+                isPrimary: existingImageCount === 0 && i === 0,
+            });
+        }
+    },
 };
+
+export function getProductExistingImageCount(
+    product?: Pick<Product, "images" | "imageId"> | null,
+    existingImageIds?: string[]
+): number {
+    if (existingImageIds?.length) return existingImageIds.length;
+    if (product?.images?.length) return product.images.length;
+    if (product?.imageId) return 1;
+    return 0;
+}
+
+export async function buildProductImageIdsForSave(
+    existingImageIds: string[] | undefined,
+    newFiles: File[] | undefined,
+    product?: Pick<Product, "images" | "imageId"> | null
+): Promise<string[]> {
+    const imageIds: string[] = [];
+    const seen = new Set<string>();
+
+    const addId = (id?: string | null) => {
+        if (id && !seen.has(id)) {
+            seen.add(id);
+            imageIds.push(id);
+        }
+    };
+
+    existingImageIds?.forEach(addId);
+    product?.images?.forEach((img) => addId(img.imageId));
+    addId(product?.imageId);
+
+    for (const file of newFiles ?? []) {
+        const imageResponse = await imagesApi.uploadImage(file);
+        const imageData = unwrapApiData<{ imageId?: string; id?: string }>(imageResponse);
+        addId(imageData?.imageId || imageData?.id);
+    }
+
+    return imageIds;
+}

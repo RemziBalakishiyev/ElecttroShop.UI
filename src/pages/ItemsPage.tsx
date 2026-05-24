@@ -9,7 +9,7 @@ import { FilterModal } from "../components/commons/FilterModal";
 import { AddItemModal } from "../components/modals/AddItemModal";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { ImagePreviewModal } from "../components/modals/ImagePreviewModal";
-import { productsApi } from "../core/api/products.api";
+import { productsApi, buildProductImageIdsForSave } from "../core/api/products.api";
 import type { Product, ProductListParams, CreateProductRequest, UpdateProductRequest } from "../core/api/products.api";
 import { imagesApi } from "../core/api/images.api";
 import { useToast } from "../core/providers/ToastContext";
@@ -164,42 +164,21 @@ export const ItemsPage = () => {
     try {
       // Determine if this is an update or create
       const isUpdate = !!editingProduct;
-      const productId = editingProduct?.id;
-      
-      // STEP 1: Upload product images first and collect imageIds
+      let productId = editingProduct?.id;
+
+      // STEP 1: For CREATE — upload images and collect imageIds for POST body
       const imageIds: string[] = [];
-      
-      // For UPDATE: Preserve existing images by adding their imageIds first
-      if (isUpdate && editingProduct?.images && editingProduct.images.length > 0) {
-        console.log("Preserving existing product images...", editingProduct.images);
-        for (const existingImage of editingProduct.images) {
-          if (existingImage.imageId) {
-            imageIds.push(existingImage.imageId);
-            console.log("Preserved existing image, imageId:", existingImage.imageId);
-          }
-        }
-      }
-      
-      // Upload new images and add to imageIds
-      if (formData.images && formData.images.length > 0) {
-        console.log("Uploading new product images...", formData.images);
+      if (!isUpdate && formData.images?.length > 0) {
         for (const imageFile of formData.images) {
           try {
             const imageResponse = await imagesApi.uploadImage(imageFile);
-            // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
             const imageData = (imageResponse as any)?.value || imageResponse;
             const imageId = imageData?.imageId || imageData?.id;
-            
             if (imageId) {
               imageIds.push(imageId);
-              console.log("New product image uploaded, imageId:", imageId);
-            } else {
-              console.warn("Image uploaded but imageId not found in response:", imageResponse);
             }
           } catch (imgErr: any) {
             console.error("Failed to upload product image:", imgErr);
-            
-            // Handle validation errors
             if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
               const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
               toast.error(errorMessages || imgErr.error.message || t('products.image_upload_error'));
@@ -210,7 +189,6 @@ export const ItemsPage = () => {
             } else {
               toast.error(t('products.image_upload_error'));
             }
-            // Continue with other images even if one fails
           }
         }
       }
@@ -274,21 +252,22 @@ export const ItemsPage = () => {
         brandId: formData.manufacturer,
         stock: Number(formData.amount),
         vatRate: 0.18,
-        ...(imageIds.length > 0 && { imageIds }), // Send imageIds array
+        ...(!isUpdate && imageIds.length > 0 && { imageIds }),
         ...(processedVariants.length > 0 && { variants: processedVariants }),
       };
 
-      console.log("isUpdate:", isUpdate, "productId:", productId);
-      console.log("ImageIds to send:", imageIds);
-
       if (isUpdate && productId) {
-        // UPDATE
+        const imageIds = await buildProductImageIdsForSave(
+          formData.existingImageIds,
+          formData.images,
+          editingProduct
+        );
+
         const updateData: UpdateProductRequest = {
           ...commonData,
+          ...(imageIds.length > 0 && { imageIds }),
         };
-        console.log("Updating product...", updateData);
         await productsApi.updateProduct(productId, updateData);
-        console.log("Product updated.");
         toast.success(t('products.update_success'));
       } else {
         // CREATE

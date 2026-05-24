@@ -4,8 +4,9 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     ArrowLeft, Calendar, Box, Info,
     Edit, Trash2, Package, Layers, Hash, CheckCircle, XCircle,
-    Star, Image as ImageIcon, Copy, AlertTriangle
+    Star, Image as ImageIcon, Copy, AlertTriangle, Tags
 } from "lucide-react";
+import type { CategoryAttribute } from "../core/api/categories.api";
 
 // Image component with fallback to prevent infinite loop
 const ImageWithFallback: React.FC<{
@@ -35,7 +36,8 @@ const ImageWithFallback: React.FC<{
         />
     );
 };
-import { productsApi } from "../core/api/products.api";
+import { productsApi, buildProductImageIdsForSave } from "../core/api/products.api";
+import type { UpdateProductRequest, ProductVariant } from "../core/api/products.api";
 import { imagesApi } from "../core/api/images.api";
 import { Button } from "../components/commons/Button";
 import { API_CONFIG } from "../core/config/api.config";
@@ -44,7 +46,6 @@ import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { Modal } from "../components/commons/Modal";
 import { Input } from "../components/commons/Input";
 import { useToast } from "../core/providers/ToastContext";
-import type { UpdateProductRequest } from "../core/api/products.api";
 import { useTranslation } from "react-i18next";
 
 export const ProductDetailsPage = () => {
@@ -184,56 +185,7 @@ export const ProductDetailsPage = () => {
         if (!id) return;
 
         try {
-            // STEP 1: Upload product images first and collect imageIds
-            const imageIds: string[] = [];
-            
-            // Preserve existing images by adding their imageIds first
-            if (product?.images && product.images.length > 0) {
-                console.log("Preserving existing product images...", product.images);
-                for (const existingImage of product.images) {
-                    if (existingImage.imageId) {
-                        imageIds.push(existingImage.imageId);
-                        console.log("Preserved existing image, imageId:", existingImage.imageId);
-                    }
-                }
-            }
-            
-            // Upload new images and add to imageIds
-            if (formData.images && formData.images.length > 0) {
-                console.log("Uploading new product images...", formData.images);
-                for (const imageFile of formData.images) {
-                    try {
-                        const imageResponse = await imagesApi.uploadImage(imageFile);
-                        // Response structure: { value: { imageId: "..." } } or { imageId: "..." }
-                        const imageData = (imageResponse as any)?.value || imageResponse;
-                        const imageId = imageData?.imageId || imageData?.id;
-                        
-                        if (imageId) {
-                            imageIds.push(imageId);
-                            console.log("New product image uploaded, imageId:", imageId);
-                        } else {
-                            console.warn("Image uploaded but imageId not found in response:", imageResponse);
-                        }
-                    } catch (imgErr: any) {
-                        console.error("Failed to upload product image:", imgErr);
-                        
-                        // Handle validation errors
-                        if (imgErr?.error?.errors && Array.isArray(imgErr.error.errors)) {
-                            const errorMessages = imgErr.error.errors.map((e: any) => e.message).join(', ');
-                            toast.error(errorMessages || imgErr.error.message || 'Şəkil yüklənə bilmədi');
-                        } else if (imgErr?.error?.message) {
-                            toast.error(imgErr.error.message);
-                        } else if (imgErr?.message) {
-                            toast.error(imgErr.message);
-                        } else {
-                            toast.error('Şəkil yüklənə bilmədi');
-                        }
-                        // Continue with other images even if one fails
-                    }
-                }
-            }
-
-            // STEP 2: Process variants - upload variant images if needed
+            // STEP 1: Process variants - upload variant images if needed
             const processedVariants = [];
             if (formData.variants && formData.variants.length > 0) {
                 for (const variant of formData.variants) {
@@ -282,7 +234,13 @@ export const ProductDetailsPage = () => {
                 }
             }
 
-            // STEP 3: Map AddItemModal formData to UpdateProductRequest with imageIds
+            // STEP 2: Collect all image IDs (existing + newly uploaded)
+            const imageIds = await buildProductImageIdsForSave(
+                formData.existingImageIds,
+                formData.images,
+                product
+            );
+
             const updateData: UpdateProductRequest = {
                 name: formData.itemName,
                 description: formData.description,
@@ -292,11 +250,9 @@ export const ProductDetailsPage = () => {
                 brandId: formData.manufacturer,
                 stock: Number(formData.amount),
                 vatRate: 0.18,
-                ...(imageIds.length > 0 && { imageIds }), // Send imageIds array
+                ...(imageIds.length > 0 && { imageIds }),
                 ...(processedVariants.length > 0 && { variants: processedVariants }),
             };
-
-            console.log("Updating product with imageIds:", imageIds);
 
             await updateMutation.mutateAsync({
                 id,
@@ -317,6 +273,17 @@ export const ProductDetailsPage = () => {
 
     // Handle both wrapped (data.value) and unwrapped (data) responses
     const product = (data as any)?.value || data;
+
+    const categoryAttributes: CategoryAttribute[] = (product?.categoryAttributes ?? [])
+        .map((attr: CategoryAttribute) => ({
+            ...attr,
+            values: [...(attr.values || [])].sort(
+                (a, b) => (a.displayOrder || 0) - (b.displayOrder || 0)
+            ),
+        }))
+        .sort((a: CategoryAttribute, b: CategoryAttribute) =>
+            (a.displayOrder || 0) - (b.displayOrder || 0)
+        );
 
     if (isError || !product) {
         return (
@@ -678,6 +645,114 @@ export const ProductDetailsPage = () => {
                             </p>
                         </div>
                     </div>
+
+                    {/* Category Attributes */}
+                    {categoryAttributes.length > 0 && (
+                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-6">
+                            <h3 className="text-base font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                <div className="p-1.5 bg-violet-100 rounded-lg">
+                                    <Tags size={16} className="text-violet-600" />
+                                </div>
+                                Kateqoriya atributları
+                            </h3>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                {categoryAttributes.map((attr) => (
+                                    <div
+                                        key={attr.id}
+                                        className="rounded-lg border border-neutral-100 bg-neutral-50/60 p-4"
+                                    >
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <span className="text-sm font-semibold text-neutral-800">
+                                                {attr.displayName}
+                                            </span>
+                                            {attr.isRequired && (
+                                                <span className="text-[10px] font-medium text-red-500 uppercase">
+                                                    Tələb olunur
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-wrap gap-2">
+                                            {attr.values.map((val) => (
+                                                <span
+                                                    key={val.id ?? val.value}
+                                                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white border border-neutral-200 text-neutral-700"
+                                                    style={
+                                                        val.colorCode
+                                                            ? {
+                                                                  borderColor: val.colorCode,
+                                                                  backgroundColor: `${val.colorCode}18`,
+                                                              }
+                                                            : undefined
+                                                    }
+                                                >
+                                                    {val.displayValue || val.value}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Product Variants */}
+                    {product.variants && product.variants.length > 0 && (
+                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-6">
+                            <h3 className="text-base font-semibold text-neutral-800 mb-4 flex items-center gap-2">
+                                <div className="p-1.5 bg-amber-100 rounded-lg">
+                                    <Layers size={16} className="text-amber-600" />
+                                </div>
+                                Variantlar
+                                <span className="text-xs font-medium text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
+                                    {product.variants.length}
+                                </span>
+                            </h3>
+                            <div className="space-y-3">
+                                {product.variants.map((variant: ProductVariant, idx: number) => (
+                                    <div
+                                        key={variant.id}
+                                        className="rounded-lg border border-neutral-200 p-4 bg-neutral-50/40"
+                                    >
+                                        <div className="flex items-center justify-between mb-3">
+                                            <span className="text-sm font-semibold text-neutral-800">
+                                                Variant {idx + 1}
+                                            </span>
+                                            <span
+                                                className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
+                                                    variant.isActive
+                                                        ? "bg-green-50 text-green-700 border border-green-100"
+                                                        : "bg-neutral-100 text-neutral-500 border border-neutral-200"
+                                                }`}
+                                            >
+                                                {variant.isActive ? "Aktiv" : "Deaktiv"}
+                                            </span>
+                                        </div>
+                                        {Object.keys(variant.attributes ?? {}).length > 0 ? (
+                                            <div className="flex flex-wrap gap-2">
+                                                {Object.entries(variant.attributes).map(
+                                                    ([key, value]) => (
+                                                        <span
+                                                            key={key}
+                                                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs bg-white border border-neutral-200"
+                                                        >
+                                                            <span className="text-neutral-500">{key}:</span>
+                                                            <span className="font-medium text-neutral-800">
+                                                                {String(value)}
+                                                            </span>
+                                                        </span>
+                                                    )
+                                                )}
+                                            </div>
+                                        ) : (
+                                            <p className="text-xs text-neutral-400">
+                                                Atribut təyin edilməyib
+                                            </p>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Description - Enhanced Readability */}
                     {product.description && (
