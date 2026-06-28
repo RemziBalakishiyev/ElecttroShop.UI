@@ -1,12 +1,12 @@
 import axios from "axios";
 import type { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from "axios";
-import { API_CONFIG, getApiUrl } from "../config/api.config";
+import { apiBaseUrl } from "../config/api.config";
 import { tokenStorage } from "../utils/tokenStorage";
 import type { ApiResponse } from "../types/auth.types";
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
-  baseURL: `${API_CONFIG.BASE_URL}${API_CONFIG.API_PREFIX}`,
+  baseURL: apiBaseUrl,
   headers: {
     "Content-Type": "application/json",
   },
@@ -45,7 +45,7 @@ apiClient.interceptors.response.use(
       if (refreshToken) {
         try {
           const response = await axios.post<ApiResponse<any>>(
-            getApiUrl(API_CONFIG.ENDPOINTS.AUTH.REFRESH_TOKEN),
+            `${apiBaseUrl}/auth/refresh-token`,
             { refreshToken }
           );
 
