@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     ArrowLeft, Calendar, Box, Info,
     Edit, Trash2, Package, Layers, Hash, CheckCircle, XCircle,
-    Star, Image as ImageIcon, Copy, AlertTriangle, Tags
+    Star, Image as ImageIcon, Copy, AlertTriangle, Tags, TrendingUp
 } from "lucide-react";
 import type { CategoryAttribute } from "../core/api/categories.api";
 
@@ -68,10 +68,13 @@ export const ProductDetailsPage = () => {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
     const [featuredDisplayOrder, setFeaturedDisplayOrder] = useState(1);
+    const [isPopularModalOpen, setIsPopularModalOpen] = useState(false);
+    const [popularDisplayOrder, setPopularDisplayOrder] = useState(1);
     
-    // Local state for banner and featured status
+    // Local state for banner, featured and popular status
     const [isBanner, setIsBanner] = useState(false);
     const [isFeatured, setIsFeatured] = useState(false);
+    const [isPopular, setIsPopular] = useState(false);
 
     const { data, isLoading, isError } = useQuery({
         queryKey: ["product", id],
@@ -91,6 +94,7 @@ export const ProductDetailsPage = () => {
             if (product) {
                 setIsBanner(product.isBanner || false);
                 setIsFeatured(product.isFeatured || false);
+                setIsPopular(product.isPopular || false);
             }
         }
     }, [data]);
@@ -194,6 +198,37 @@ export const ProductDetailsPage = () => {
         },
         onError: (error: any) => {
             toast.error(error.response?.data?.error?.message || t('products.featured_error'));
+        },
+    });
+
+    // Popular mutations
+    const setPopularMutation = useMutation({
+        mutationFn: ({ productId, displayOrder }: { productId: string; displayOrder: number }) =>
+            productsApi.setPopular(productId, displayOrder),
+        onSuccess: () => {
+            setIsPopular(true);
+            setIsPopularModalOpen(false);
+            toast.success(t('products.popular_set_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+            queryClient.invalidateQueries({ queryKey: ["popular-products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.popular_error'));
+        },
+    });
+
+    const removePopularMutation = useMutation({
+        mutationFn: (productId: string) => productsApi.removePopular(productId),
+        onSuccess: () => {
+            setIsPopular(false);
+            toast.success(t('products.popular_remove_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+            queryClient.invalidateQueries({ queryKey: ["popular-products"] });
+        },
+        onError: (error: any) => {
+            toast.error(error.response?.data?.error?.message || t('products.popular_error'));
         },
     });
 
@@ -305,6 +340,27 @@ export const ProductDetailsPage = () => {
                             >
                                 <Star size={16} />
                                 {t('products.set_featured')}
+                            </Button>
+                        )}
+
+                        {isPopular ? (
+                            <Button
+                                variant="outline"
+                                onClick={() => id && removePopularMutation.mutate(id)}
+                                className="flex items-center gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
+                                loading={removePopularMutation.isPending}
+                            >
+                                <TrendingUp size={16} />
+                                {t('products.remove_popular')}
+                            </Button>
+                        ) : (
+                            <Button
+                                variant="outline"
+                                onClick={() => setIsPopularModalOpen(true)}
+                                className="flex items-center gap-2 hover:border-purple-300 hover:text-purple-700"
+                            >
+                                <TrendingUp size={16} />
+                                {t('products.set_popular')}
                             </Button>
                         )}
 
@@ -789,6 +845,55 @@ export const ProductDetailsPage = () => {
                                 }
                             }}
                             loading={setFeaturedMutation.isPending}
+                        >
+                            {t('common.confirm')}
+                        </Button>
+                    </div>
+                </div>
+            </Modal>
+
+            {/* Popular Modal */}
+            <Modal
+                open={isPopularModalOpen}
+                onClose={() => setIsPopularModalOpen(false)}
+                title={t('products.set_popular')}
+            >
+                <div className="space-y-4">
+                    <p className="text-sm text-neutral-600">
+                        {t('products.popular_display_order_required')}
+                    </p>
+                    <Input
+                        type="number"
+                        label={t('products.display_order')}
+                        min={1}
+                        max={4}
+                        value={popularDisplayOrder.toString()}
+                        onChange={(e) => {
+                            const value = parseInt(e.target.value);
+                            if (value >= 1 && value <= 4) {
+                                setPopularDisplayOrder(value);
+                            }
+                        }}
+                        required
+                    />
+                    <div className="flex justify-end gap-3 pt-4">
+                        <Button
+                            variant="outline"
+                            onClick={() => setIsPopularModalOpen(false)}
+                        >
+                            {t('common.cancel')}
+                        </Button>
+                        <Button
+                            variant="primary"
+                            onClick={() => {
+                                if (id && popularDisplayOrder >= 1 && popularDisplayOrder <= 4) {
+                                    setPopularMutation.mutate({
+                                        productId: id,
+                                        displayOrder: popularDisplayOrder,
+                                    });
+                                }
+                            }}
+                            loading={setPopularMutation.isPending}
                         >
                             {t('common.confirm')}
                         </Button>

@@ -197,9 +197,10 @@ export const categoriesApi = {
     },
 
     // Lookup API
-    getLookup: async () => {
+    getLookup: async (params?: { includeAll?: boolean; parentId?: string }) => {
         const response = await apiClient.get<LookupApiResponse>(
-            "/categories/lookup"
+            "/categories/lookup",
+            { params }
         );
         return response.data;
     },
@@ -217,6 +218,4 @@ export interface LookupResponse {
     cacheKey?: string;
 }
 
-export interface LookupApiResponse extends ApiResponse<LookupResponse> {
-    value?: LookupResponse;
-}
+export type LookupApiResponse = ApiResponse<LookupResponse>;

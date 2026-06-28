@@ -28,7 +28,7 @@ export const CategoryAttributeForm: React.FC<CategoryAttributeFormProps> = ({
   onSuccess,
   onCancel,
 }) => {
-  const { t } = useTranslation();
+  useTranslation();
   const { theme } = useTheme();
   const toast = useToast();
 

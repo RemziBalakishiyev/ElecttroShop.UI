@@ -28,7 +28,9 @@ export interface Product {
     images?: ProductImage[];
     isBanner?: boolean;
     isFeatured?: boolean;
+    isPopular?: boolean;
     displayOrder?: number | null;
+    popularDisplayOrder?: number | null;
     categoryAttributes?: CategoryAttribute[];
     variants?: ProductVariant[];
     rowVersion?: number;
@@ -144,6 +146,15 @@ export interface UpdateProductRequest {
     imageIds?: string[];
     inlineAttributes?: InlineProductAttribute[];
     variants?: ProductVariantRequest[];
+}
+
+export interface PopularProduct {
+    id: string;
+    name: string;
+    shortDescription: string | null;
+    imageUrl: string | null;
+    displayOrder: number;
+    isActive?: boolean;
 }
 
 export interface PagedApiResponse<T> extends ApiResponse<T[]> {
@@ -276,6 +287,29 @@ export const productsApi = {
     removeFeatured: async (productId: string) => {
         const response = await apiClient.delete<ApiResponse<null>>(
             `/Products/${productId}/featured`
+        );
+        return response.data;
+    },
+
+    // Popular Management
+    getPopularProducts: async () => {
+        const response = await apiClient.get<ApiResponse<PopularProduct[]>>(
+            "/Products/popular"
+        );
+        return unwrapApiData<PopularProduct[]>(response.data) ?? [];
+    },
+
+    setPopular: async (productId: string, displayOrder: number) => {
+        const response = await apiClient.post<ApiResponse<null>>(
+            `/Products/${productId}/popular`,
+            { displayOrder }
+        );
+        return response.data;
+    },
+
+    removePopular: async (productId: string) => {
+        const response = await apiClient.delete<ApiResponse<null>>(
+            `/Products/${productId}/popular`
         );
         return response.data;
     },

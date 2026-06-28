@@ -58,19 +58,24 @@ export const Header = () => {
           "flex items-center gap-3 pl-3 border-l",
           theme === "light" ? "border-neutral-200" : "border-neutral-800"
         )}>
-          <img
-            src="https://randomuser.me/api/portraits/men/32.jpg"
-            alt="profile"
-            className="w-9 h-9 rounded-full border-2 border-primary-200"
-          />
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center flex-shrink-0" aria-hidden="true">
+            <span className="text-sm font-semibold text-white select-none">
+              {user?.fullName
+                ? user.fullName.split(" ").map((n) => n[0]).slice(0, 2).join("").toUpperCase()
+                : "U"}
+            </span>
+          </div>
           <div className="text-sm">
             <p className={cn(
-              "font-semibold",
+              "font-semibold leading-tight",
               theme === "light" ? "text-neutral-900" : "text-white"
             )}>
               {user?.fullName || "User"}
             </p>
-            <p className={theme === "light" ? "text-neutral-500" : "text-neutral-400"}>
+            <p className={cn(
+              "text-xs",
+              theme === "light" ? "text-neutral-500" : "text-neutral-400"
+            )}>
               {user?.role === 1 ? t('roles.admin') : t('roles.agent')}
             </p>
           </div>

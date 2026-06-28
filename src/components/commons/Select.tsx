@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useId } from "react";
 import { ChevronDown } from "lucide-react";
 import { useTheme } from "../../core/context/ThemeContext";
 import { cn } from "../../utils/cn";
@@ -9,6 +9,7 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: string;
   required?: boolean;
   placeholder?: string;
+  wrapperClassName?: string;
 }
 
 export const Select: React.FC<SelectProps> = ({
@@ -18,30 +19,41 @@ export const Select: React.FC<SelectProps> = ({
   required,
   placeholder = "Select",
   className,
+  wrapperClassName,
+  id,
   ...props
 }) => {
   const { theme } = useTheme();
-  
+  const generatedId = useId();
+  const selectId = id ?? generatedId;
+
   return (
-    <div className={cn("flex flex-col gap-1 relative", className || "w-full")}>
+    <div className={cn("flex flex-col gap-1 w-full", wrapperClassName)}>
       {label && (
-        <label className={cn(
-          "text-sm font-medium",
-          theme === "light" ? "text-neutral-700" : "text-neutral-300"
-        )}>
+        <label
+          htmlFor={selectId}
+          className={cn(
+            "text-sm font-medium",
+            theme === "light" ? "text-neutral-700" : "text-neutral-300"
+          )}
+        >
           {label}
-          {required && <span className="text-error ml-1">*</span>}
+          {required && <span className="text-error ml-1" aria-hidden="true">*</span>}
         </label>
       )}
       <div className="relative">
         <select
           {...props}
+          id={selectId}
+          aria-invalid={!!error}
+          aria-required={required}
           className={cn(
             "w-full appearance-none border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-primary-400 focus:border-primary-400 outline-none transition-all",
             theme === "light"
               ? "bg-white border-neutral-300 text-neutral-900"
               : "bg-neutral-800 border-neutral-700 text-white",
-            error && "border-error"
+            error && "border-error focus:ring-error",
+            className
           )}
         >
           <option value="">{placeholder}</option>
@@ -59,7 +71,9 @@ export const Select: React.FC<SelectProps> = ({
           )}
         />
       </div>
-      {error && <p className="text-xs text-error mt-0.5">{error}</p>}
+      {error && (
+        <p className="text-xs text-error mt-0.5" role="alert">{error}</p>
+      )}
     </div>
   );
 };

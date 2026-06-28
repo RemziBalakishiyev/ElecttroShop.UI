@@ -167,9 +167,9 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
   const toast = useToast();
 
   const { data: categoriesLookup } = useQuery({
-    queryKey: ["categories-lookup"],
+    queryKey: ["categories-lookup-all"],
     queryFn: async () => {
-      const response = await categoriesApi.getLookup();
+      const response = await categoriesApi.getLookup({ includeAll: true });
       const lookupData = (response as { value?: { items?: unknown[] } }).value || response;
       return (lookupData as { items?: { key: string; value: string }[] })?.items || [];
     },

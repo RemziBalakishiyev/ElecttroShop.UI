@@ -108,9 +108,7 @@ export interface LookupResponse {
     cacheKey?: string;
 }
 
-export interface LookupApiResponse extends ApiResponse<LookupResponse> {
-    value?: LookupResponse;
-}
+export type LookupApiResponse = ApiResponse<LookupResponse>;
 
 // Promotional Brand Types
 export interface PromotionalBrandItem {

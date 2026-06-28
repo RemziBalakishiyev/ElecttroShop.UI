@@ -7,6 +7,8 @@ import {
   Tag,
   Percent,
   Box,
+  TrendingUp,
+  Receipt,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { cn } from "../utils/cn";
@@ -22,9 +24,11 @@ export const Sidebar = () => {
   const menuItems = [
     { label: t('sidebar.dashboard'), icon: <LayoutDashboard size={18} />, path: "/" },
     { label: t('sidebar.items'), icon: <ShoppingBag size={18} />, path: "/products" },
+    { label: t('sidebar.popular_products'), icon: <TrendingUp size={18} />, path: "/popular-products" },
     { label: t('sidebar.categories'), icon: <FolderTree size={18} />, path: "/categories" },
     { label: t('sidebar.brands'), icon: <Tag size={18} />, path: "/brands" },
     { label: t('sidebar.discounts'), icon: <Percent size={18} />, path: "/discounts" },
+    { label: t('sidebar.sales'), icon: <Receipt size={18} />, path: "/sales" },
   ];
 
   return (

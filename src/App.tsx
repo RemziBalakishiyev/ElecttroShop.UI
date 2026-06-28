@@ -7,6 +7,8 @@ import { CategoriesPage } from "./pages/CategoriesPage";
 import { CategoryAttributesPage } from "./pages/CategoryAttributesPage";
 import { BrandsPage } from "./pages/BrandsPage";
 import { DiscountsPage } from "./pages/DiscountsPage";
+import { PopularProductsPage } from "./pages/PopularProductsPage";
+import { SalesPage } from "./pages/SalesPage";
 import { ProtectedRoute } from "./core/components/ProtectedRoute";
 import { PublicRoute } from "./core/components/PublicRoute";
 import {
@@ -115,11 +117,32 @@ export default function App() {
         }
       />
       <Route
+        path="/popular-products"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <PopularProductsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/discounts"
         element={
           <ProtectedRoute>
             <MainLayout>
               <DiscountsPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/sales"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <SalesPage />
             </MainLayout>
           </ProtectedRoute>
         }

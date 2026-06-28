@@ -33,13 +33,12 @@ export const Button: React.FC<ButtonProps> = ({
       disabled={loading || props.disabled}
       className={cn(baseStyle, variants[variant], className)}
     >
-      {loading ? (
-        <span className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full" />
-      ) : (
-        <>
-          {icon && <span className="text-lg">{icon}</span>}
-          {children}
-        </>
+      {loading && (
+        <span className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full opacity-70 flex-shrink-0" />
+      )}
+      {!loading && icon && <span className="text-lg flex-shrink-0">{icon}</span>}
+      {children && (
+        <span className={cn(loading && "opacity-70")}>{children}</span>
       )}
     </button>
   );

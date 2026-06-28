@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { Search, Plus, Filter, Trash2, Edit, Eye, Star, Image as ImageIcon } from "lucide-react";
+import { Search, Plus, Filter, Trash2, Edit, Eye, Star, Image as ImageIcon, TrendingUp } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/commons/Button";
 import { Table } from "../components/commons/Table";
@@ -357,7 +357,14 @@ export const ItemsPage = () => {
               {item.displayOrder && ` (${item.displayOrder})`}
             </span>
           )}
-          {!item.isBanner && !item.isFeatured && (
+          {item.isPopular && (
+            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-100">
+              <TrendingUp size={12} />
+              {t('products.is_popular')}
+              {item.popularDisplayOrder && ` (${item.popularDisplayOrder})`}
+            </span>
+          )}
+          {!item.isBanner && !item.isFeatured && !item.isPopular && (
             <span className="text-xs text-neutral-400">-</span>
           )}
         </div>
@@ -448,6 +455,13 @@ export const ItemsPage = () => {
         </div>
 
         <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            icon={<TrendingUp size={18} />}
+            onClick={() => navigate("/popular-products")}
+          >
+            {t('products.manage_popular')}
+          </Button>
           <Button
             variant="primary"
             icon={<Plus size={18} />}

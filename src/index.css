@@ -39,10 +39,19 @@
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); opacity: 0; }
+  from { transform: translateX(110%); opacity: 0; }
   to { transform: translateX(0); opacity: 1; }
 }
 
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; max-height: 80px; margin-bottom: 0; }
+  to { transform: translateX(110%); opacity: 0; max-height: 0; margin-bottom: -8px; }
+}
+
 .toast-slide-in {
-  animation: slideIn 0.3s ease-out forwards;
+  animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.toast-slide-out {
+  animation: slideOut 0.2s ease-in forwards;
 }

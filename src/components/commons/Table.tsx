@@ -36,11 +36,53 @@ export function Table<T>({
 
   if (isLoading) {
     return (
-      <div className={cn(
-        "w-full p-8 flex justify-center items-center",
-        theme === "light" ? "text-neutral-500" : "text-neutral-400"
-      )}>
-        {t('common.loading')}
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className={cn(
+            "border-b",
+            theme === "light"
+              ? "bg-neutral-50 border-neutral-200"
+              : "bg-neutral-800 border-neutral-700"
+          )}>
+            <tr>
+              {selectable && <th className="px-4 py-3 w-12" />}
+              {columns.map((col) => (
+                <th key={col.key} className="px-4 py-3">
+                  <div className={cn(
+                    "h-3 rounded animate-pulse w-20",
+                    theme === "light" ? "bg-neutral-200" : "bg-neutral-700"
+                  )} />
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className={cn(
+            "divide-y",
+            theme === "light" ? "bg-white divide-neutral-100" : "bg-neutral-900 divide-neutral-800"
+          )}>
+            {Array.from({ length: 5 }).map((_, rowIdx) => (
+              <tr key={rowIdx}>
+                {selectable && (
+                  <td className="px-4 py-4">
+                    <div className={cn(
+                      "w-4 h-4 rounded animate-pulse",
+                      theme === "light" ? "bg-neutral-200" : "bg-neutral-700"
+                    )} />
+                  </td>
+                )}
+                {columns.map((col, colIdx) => (
+                  <td key={col.key} className="px-4 py-4">
+                    <div className={cn(
+                      "h-3 rounded animate-pulse",
+                      colIdx === 0 ? "w-32" : colIdx % 3 === 0 ? "w-16" : "w-24",
+                      theme === "light" ? "bg-neutral-200" : "bg-neutral-700"
+                    )} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     );
   }
@@ -108,12 +150,24 @@ export function Table<T>({
             <tr>
               <td
                 colSpan={columns.length + (selectable ? 1 : 0)}
-                className={cn(
-                  "px-4 py-8 text-center",
-                  theme === "light" ? "text-neutral-500" : "text-neutral-400"
-                )}
+                className="px-4 py-16 text-center"
               >
-                {t('common.no_items_found')}
+                <div className="flex flex-col items-center gap-3">
+                  <div className={cn(
+                    "w-12 h-12 rounded-full flex items-center justify-center",
+                    theme === "light" ? "bg-neutral-100" : "bg-neutral-800"
+                  )}>
+                    <svg className={cn("w-6 h-6", theme === "light" ? "text-neutral-400" : "text-neutral-500")} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
+                    </svg>
+                  </div>
+                  <p className={cn(
+                    "text-sm font-medium",
+                    theme === "light" ? "text-neutral-500" : "text-neutral-400"
+                  )}>
+                    {t('common.no_items_found')}
+                  </p>
+                </div>
               </td>
             </tr>
           ) : (

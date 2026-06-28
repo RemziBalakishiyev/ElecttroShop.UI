@@ -35,9 +35,9 @@ export const FilterModal: React.FC<FilterModalProps> = ({
 
   // Fetch dynamic options using lookup APIs
   const { data: categoriesLookup } = useQuery({
-    queryKey: ["categories-lookup"],
+    queryKey: ["categories-lookup-all"],
     queryFn: async () => {
-      const response = await categoriesApi.getLookup();
+      const response = await categoriesApi.getLookup({ includeAll: true });
       // Response structure: { value: { items: [...] } } or { items: [...] }
       const lookupData = (response as any)?.value || response;
       return lookupData?.items || [];

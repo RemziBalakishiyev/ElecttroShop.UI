@@ -21,7 +21,7 @@ export const ProductImageManager: React.FC<ProductImageManagerProps> = ({
   images = [],
   onUpdate,
 }) => {
-  const { t } = useTranslation();
+  useTranslation();
   const { theme } = useTheme();
   const toast = useToast();
 

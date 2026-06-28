@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { ArrowLeft, Plus, Edit, Trash2, X } from "lucide-react";
+import { ArrowLeft, Plus, Edit, Trash2 } from "lucide-react";
 import { Button } from "../components/commons/Button";
 import { Input } from "../components/commons/Input";
 import { Select } from "../components/commons/Select";
@@ -24,7 +24,7 @@ import { cn } from "../utils/cn";
 export const CategoryAttributesPage = () => {
   const { categoryId } = useParams<{ categoryId: string }>();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  useTranslation();
   const { theme } = useTheme();
   const queryClient = useQueryClient();
   const toast = useToast();

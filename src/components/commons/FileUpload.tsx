@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import { Paperclip } from "lucide-react";
 import { cn } from "../../utils/cn";
+import { useTheme } from "../../core/context/ThemeContext";
+import { useTranslation } from "react-i18next";
 
 interface FileUploadProps {
   label?: string;
@@ -25,6 +27,8 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   error,
   className,
 }) => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = React.useState<string>("");
 
@@ -34,18 +38,17 @@ export const FileUpload: React.FC<FileUploadProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    
+
     if (multiple && files && files.length > 0) {
       const fileArray = Array.from(files);
-      setFileName(`${fileArray.length} fayl seçildi`);
+      setFileName(t('common.files_selected', { count: fileArray.length }));
       onChangeMultiple?.(fileArray);
     } else if (!multiple) {
       const file = files?.[0] || null;
       setFileName(file?.name || "");
       onChange?.(file);
     }
-    
-    // Reset input value to allow selecting the same file again
+
     if (inputRef.current) {
       inputRef.current.value = '';
     }
@@ -54,7 +57,10 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   return (
     <div className={cn("flex flex-col gap-1 w-full", className)}>
       {label && (
-        <label className="text-sm font-medium text-neutral-700">
+        <label className={cn(
+          "text-sm font-medium",
+          theme === "light" ? "text-neutral-700" : "text-neutral-300"
+        )}>
           {label}
           {required && <span className="text-error ml-1">*</span>}
         </label>
@@ -63,14 +69,22 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       <div
         onClick={handleClick}
         className={cn(
-          "relative border border-neutral-300 rounded-lg px-3 py-2 text-sm cursor-pointer transition-all hover:border-primary-400",
+          "relative border rounded-lg px-3 py-2 text-sm cursor-pointer transition-all hover:border-primary-400",
           "focus-within:ring-2 focus-within:ring-primary-400 focus-within:border-primary-400",
+          theme === "light"
+            ? "border-neutral-300 bg-white"
+            : "border-neutral-700 bg-neutral-800",
           error && "border-error"
         )}
       >
         <div className="flex items-center gap-2">
-          <Paperclip size={16} className="text-neutral-400" />
-          <span className={cn("flex-1", fileName ? "text-neutral-900" : "text-neutral-400")}>
+          <Paperclip size={16} className={theme === "light" ? "text-neutral-400" : "text-neutral-500"} />
+          <span className={cn(
+            "flex-1",
+            fileName
+              ? theme === "light" ? "text-neutral-900" : "text-white"
+              : theme === "light" ? "text-neutral-400" : "text-neutral-500"
+          )}>
             {fileName || placeholder}
           </span>
         </div>

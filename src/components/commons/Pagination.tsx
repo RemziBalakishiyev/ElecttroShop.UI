@@ -2,6 +2,7 @@ import React from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "../../utils/cn";
 import { useTranslation } from "react-i18next";
+import { useTheme } from "../../core/context/ThemeContext";
 
 interface PaginationProps {
   currentPage: number;
@@ -21,6 +22,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   onItemsPerPageChange,
 }) => {
   const { t } = useTranslation();
+  const { theme } = useTheme();
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -54,14 +56,27 @@ export const Pagination: React.FC<PaginationProps> = ({
   };
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 border-t border-neutral-200 bg-white">
+    <div className={cn(
+      "flex items-center justify-between px-4 py-3 border-t transition-colors",
+      theme === "light"
+        ? "border-neutral-200 bg-white"
+        : "border-neutral-800 bg-neutral-900"
+    )}>
       {/* Left: Items per page */}
       <div className="flex items-center gap-2">
-        <span className="text-sm text-neutral-600">{t('common.showing')}</span>
+        <span className={cn(
+          "text-sm",
+          theme === "light" ? "text-neutral-600" : "text-neutral-400"
+        )}>{t('common.showing')}</span>
         <select
           value={itemsPerPage}
           onChange={(e) => onItemsPerPageChange(Number(e.target.value))}
-          className="border border-neutral-300 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary-400 focus:border-primary-400 outline-none"
+          className={cn(
+            "border rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-primary-400 focus:border-primary-400 outline-none transition-colors",
+            theme === "light"
+              ? "border-neutral-300 bg-white text-neutral-900"
+              : "border-neutral-700 bg-neutral-800 text-white"
+          )}
         >
           <option value={10}>10</option>
           <option value={25}>25</option>
@@ -71,10 +86,17 @@ export const Pagination: React.FC<PaginationProps> = ({
       </div>
 
       {/* Center: Info */}
-      <div className="text-sm text-neutral-600">
-        {t('common.showing')} <span className="font-medium text-neutral-900">{startItem}</span> {t('common.to')}{" "}
-        <span className="font-medium text-neutral-900">{endItem}</span> {t('common.out_of')}{" "}
-        <span className="font-medium text-neutral-900">{totalItems}</span> {t('common.records')}
+      <div className={cn(
+        "text-sm",
+        theme === "light" ? "text-neutral-600" : "text-neutral-400"
+      )}>
+        {t('common.showing')}{" "}
+        <span className={cn("font-medium", theme === "light" ? "text-neutral-900" : "text-white")}>{startItem}</span>{" "}
+        {t('common.to')}{" "}
+        <span className={cn("font-medium", theme === "light" ? "text-neutral-900" : "text-white")}>{endItem}</span>{" "}
+        {t('common.out_of')}{" "}
+        <span className={cn("font-medium", theme === "light" ? "text-neutral-900" : "text-white")}>{totalItems}</span>{" "}
+        {t('common.records')}
       </div>
 
       {/* Right: Page numbers */}
@@ -82,15 +104,18 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="p-2 rounded-md hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className={cn(
+            "p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors",
+            theme === "light" ? "hover:bg-neutral-100" : "hover:bg-neutral-800"
+          )}
         >
-          <ChevronLeft size={18} className="text-neutral-600" />
+          <ChevronLeft size={18} className={theme === "light" ? "text-neutral-600" : "text-neutral-400"} />
         </button>
 
         {getPageNumbers().map((page, index) => (
           <React.Fragment key={index}>
             {page === "..." ? (
-              <span className="px-3 py-1 text-neutral-400">...</span>
+              <span className={cn("px-3 py-1", theme === "light" ? "text-neutral-400" : "text-neutral-500")}>...</span>
             ) : (
               <button
                 onClick={() => onPageChange(page as number)}
@@ -98,7 +123,9 @@ export const Pagination: React.FC<PaginationProps> = ({
                   "px-3 py-1 rounded-md text-sm font-medium transition-all",
                   currentPage === page
                     ? "bg-primary-400 text-white"
-                    : "text-neutral-600 hover:bg-neutral-100"
+                    : theme === "light"
+                      ? "text-neutral-600 hover:bg-neutral-100"
+                      : "text-neutral-400 hover:bg-neutral-800"
                 )}
               >
                 {page}
@@ -110,9 +137,12 @@ export const Pagination: React.FC<PaginationProps> = ({
         <button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
-          className="p-2 rounded-md hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className={cn(
+            "p-2 rounded-md disabled:opacity-50 disabled:cursor-not-allowed transition-colors",
+            theme === "light" ? "hover:bg-neutral-100" : "hover:bg-neutral-800"
+          )}
         >
-          <ChevronRight size={18} className="text-neutral-600" />
+          <ChevronRight size={18} className={theme === "light" ? "text-neutral-600" : "text-neutral-400"} />
         </button>
       </div>
     </div>
