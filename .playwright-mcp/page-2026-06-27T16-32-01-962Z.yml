@@ -1,0 +1,26 @@
+- generic [ref=e236]:
+  - generic [ref=e237]:
+    - generic [ref=e239]: I
+    - heading "Inventory" [level=1] [ref=e240]
+  - generic [ref=e241]:
+    - heading "Welcome 👋" [level=2] [ref=e242]
+    - paragraph [ref=e243]: Please login here
+  - generic [ref=e244]:
+    - generic [ref=e246]:
+      - generic [ref=e247]: Email Address
+      - textbox "Email Address" [ref=e248]:
+        - /placeholder: example@mail.com
+        - text: admin@electroshop.az
+    - generic [ref=e250]:
+      - generic [ref=e251]: Password
+      - textbox "Password" [ref=e252]:
+        - /placeholder: Enter your password
+        - text: Admin123!
+    - generic [ref=e253]:
+      - generic [ref=e254] [cursor=pointer]:
+        - checkbox "Remember Me" [ref=e255]
+        - generic [ref=e256]: Remember Me
+      - link "Forgot Password?" [ref=e257] [cursor=pointer]:
+        - /url: /forgot-password
+    - button "Login" [ref=e258]:
+      - generic [ref=e259]: Login

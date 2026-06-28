@@ -1,0 +1,115 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link "1" [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+          - generic [ref=e29]: "1"
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e31]
+  - main [ref=e34]:
+    - generic [ref=e37]:
+      - heading "Xoş gəlmisiniz" [level=1] [ref=e38]
+      - paragraph [ref=e39]: Hesabınıza daxil olun
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]: E-poçt
+          - textbox "siz@misal.com" [ref=e43]
+        - generic [ref=e44]:
+          - generic [ref=e45]: Şifrə
+          - textbox "••••••••" [ref=e46]
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - checkbox "Məni xatırla" [ref=e49]
+            - generic [ref=e50]: Məni xatırla
+          - link "Şifrəni unutmusunuz?" [ref=e51] [cursor=pointer]:
+            - /url: /forgot-password
+        - button "Daxil ol" [ref=e52]
+      - paragraph [ref=e54]:
+        - text: Hesabınız yoxdur?
+        - link "Qeydiyyatdan keç" [ref=e55] [cursor=pointer]:
+          - /url: /register
+  - contentinfo [ref=e56]:
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - link "CYBER" [ref=e60] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e61]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e62]:
+          - heading "Xidmətlər" [level=3] [ref=e63]
+          - list [ref=e64]:
+            - listitem [ref=e65]:
+              - link "Bonus proqramı" [ref=e66] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e67]:
+              - link "Hədiyyə kartları" [ref=e68] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e69]:
+              - link "Kredit və ödəniş" [ref=e70] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e71]:
+              - link "Xidmət müqavilələri" [ref=e72] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e73]:
+              - link "Nağdsız hesab" [ref=e74] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e75]:
+              - link "Ödəniş" [ref=e76] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=e77]:
+          - heading "Alıcıya kömək" [level=3] [ref=e78]
+          - list [ref=e79]:
+            - listitem [ref=e80]:
+              - link "Sifariş tap" [ref=e81] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e82]:
+              - link "Çatdırılma şərtləri" [ref=e83] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e84]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e85] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e86]:
+              - link "Zəmanət" [ref=e87] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e88]:
+              - link "Tez-tez verilən suallar" [ref=e89] [cursor=pointer]:
+                - /url: /login
+            - listitem [ref=e90]:
+              - link "Sayt istifadə şərtləri" [ref=e91] [cursor=pointer]:
+                - /url: /login
+        - generic [ref=e92]:
+          - heading "Bizi izləyin" [level=3] [ref=e93]
+          - generic [ref=e94]:
+            - link [ref=e95] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e96]
+            - link [ref=e98] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e99]
+            - link [ref=e101] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e102]
+            - link [ref=e105] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e106]
+      - generic [ref=e110]: © 2026 Cyber. Bütün hüquqlar qorunur.

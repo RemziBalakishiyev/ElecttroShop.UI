@@ -1,0 +1,94 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link "1" [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+          - generic [ref=e29]: "1"
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e31]
+  - main [ref=e34]
+  - contentinfo [ref=e44]:
+    - generic [ref=e45]:
+      - generic [ref=e46]:
+        - generic [ref=e47]:
+          - link "CYBER" [ref=e48] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e49]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e50]:
+          - heading "Xidmətlər" [level=3] [ref=e51]
+          - list [ref=e52]:
+            - listitem [ref=e53]:
+              - link "Bonus proqramı" [ref=e54] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e55]:
+              - link "Hədiyyə kartları" [ref=e56] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e57]:
+              - link "Kredit və ödəniş" [ref=e58] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e59]:
+              - link "Xidmət müqavilələri" [ref=e60] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e61]:
+              - link "Nağdsız hesab" [ref=e62] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e63]:
+              - link "Ödəniş" [ref=e64] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+        - generic [ref=e65]:
+          - heading "Alıcıya kömək" [level=3] [ref=e66]
+          - list [ref=e67]:
+            - listitem [ref=e68]:
+              - link "Sifariş tap" [ref=e69] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e70]:
+              - link "Çatdırılma şərtləri" [ref=e71] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e72]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e73] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e74]:
+              - link "Zəmanət" [ref=e75] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e76]:
+              - link "Tez-tez verilən suallar" [ref=e77] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+            - listitem [ref=e78]:
+              - link "Sayt istifadə şərtləri" [ref=e79] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+        - generic [ref=e80]:
+          - heading "Bizi izləyin" [level=3] [ref=e81]
+          - generic [ref=e82]:
+            - link [ref=e83] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e84]
+            - link [ref=e86] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e87]
+            - link [ref=e89] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e90]
+            - link [ref=e93] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e94]
+      - generic [ref=e98]: © 2026 Cyber. Bütün hüquqlar qorunur.

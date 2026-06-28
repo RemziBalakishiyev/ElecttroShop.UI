@@ -1,0 +1,360 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+        - link [ref=e29] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e30]
+  - main [ref=e33]:
+    - generic [ref=e34]:
+      - generic [ref=e36]:
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - img [ref=e41]
+              - generic [ref=e44]: Samsung
+            - heading "Samsung Galaxy s25 ultra" [level=1] [ref=e45]:
+              - generic [ref=e46]: Samsung Galaxy s25
+              - generic [ref=e47]: ultra
+            - paragraph [ref=e48]: Apple iPhone 15 Pro Max 256GB Titanium Blue
+            - generic [ref=e49]:
+              - generic [ref=e50]: 1,924.992 AZN
+              - generic [ref=e51]: "-23%"
+            - link "Alış-veriş et" [ref=e53] [cursor=pointer]:
+              - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+              - button "Alış-veriş et" [ref=e54]:
+                - text: Alış-veriş et
+                - img [ref=e55]
+          - img "Samsung Galaxy s25 ultra" [ref=e60]
+        - generic [ref=e63]:
+          - generic [ref=e64]:
+            - button "Slayd 1" [ref=e65]
+            - button "Slayd 2" [ref=e68]
+            - button "Slayd 3" [ref=e70]
+          - generic [ref=e72]:
+            - generic [ref=e73]: 01 / 03
+            - button "Əvvəlki slayd" [ref=e74]:
+              - img [ref=e75]
+            - button "Növbəti slayd" [ref=e77]:
+              - img [ref=e78]
+      - generic [ref=e81]:
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - img [ref=e84]
+            - text: Seçilmiş məhsullar
+          - heading "Bu həftənin seçimləri" [level=2] [ref=e86]
+        - generic [ref=e87]:
+          - generic [ref=e91]:
+            - generic [ref=e92]:
+              - generic [ref=e93]:
+                - img [ref=e94]
+                - text: Samsung
+              - heading "Samsung Galaxy S24 Ultra" [level=3] [ref=e97]
+              - paragraph [ref=e98]: Samsung brendinin seçilmiş məhsulu
+              - generic [ref=e100]: 2,299.99 AZN
+              - link "Alış-veriş et" [ref=e102] [cursor=pointer]:
+                - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                - button "Alış-veriş et" [ref=e103]:
+                  - text: Alış-veriş et
+                  - img [ref=e104]
+            - img "Samsung Galaxy S24 Ultra" [ref=e109]
+          - generic [ref=e113]:
+            - generic [ref=e114]:
+              - generic [ref=e115]:
+                - img [ref=e116]
+                - text: Lenovo
+              - heading "Lenovo ThinkPad X1 Carbon" [level=3] [ref=e119]
+              - paragraph [ref=e120]: Lenovo brendinin seçilmiş məhsulu
+              - generic [ref=e122]: 2,899.99 AZN
+              - link "Alış-veriş et" [ref=e124] [cursor=pointer]:
+                - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+                - button "Alış-veriş et" [ref=e125]:
+                  - text: Alış-veriş et
+                  - img [ref=e126]
+            - img "Lenovo ThinkPad X1 Carbon" [ref=e131]
+      - generic [ref=e135]:
+        - generic [ref=e136]:
+          - generic [ref=e137]:
+            - generic [ref=e138]:
+              - img [ref=e139]
+              - text: Kateqoriyalar
+            - heading "Kateqoriyalara görə bax" [level=2] [ref=e141]
+            - paragraph [ref=e142]: İstədiyiniz məhsul qrupunu seçin və alış-verişə başlayın
+          - link "Hamısına bax" [ref=e143] [cursor=pointer]:
+            - /url: /products
+            - text: Hamısına bax
+            - img [ref=e144]
+        - generic [ref=e147]:
+          - link "Elektronika Bax" [ref=e149] [cursor=pointer]:
+            - /url: /products?categoryId=3b005ccd-7ac5-4240-8327-40640a1c0162
+            - img [ref=e153]
+            - generic [ref=e156]: Elektronika
+            - generic [ref=e157]:
+              - text: Bax
+              - img [ref=e158]
+          - link "Məişət Texnikası Bax" [ref=e162] [cursor=pointer]:
+            - /url: /products?categoryId=06083b07-9a42-431e-94e5-f5076faf9bdd
+            - img [ref=e166]
+            - generic [ref=e169]: Məişət Texnikası
+            - generic [ref=e170]:
+              - text: Bax
+              - img [ref=e171]
+      - generic [ref=e175]:
+        - generic [ref=e176]:
+          - generic [ref=e177]:
+            - heading "Məhsullar" [level=2] [ref=e178]
+            - paragraph [ref=e179]: Yeni, populyar və seçilmiş məhsullar
+          - generic [ref=e180]:
+            - button "Yeni Gəlmələr" [ref=e181]
+            - button "Ən çox satılanlar" [ref=e182]
+            - button "Seçilmiş məhsullar" [ref=e183]
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - link "QA_TEST_Product Samsung TV 55" [ref=e186] [cursor=pointer]:
+              - /url: /products/eda6a0fe-6714-42be-b2eb-dbc027aa0e55
+              - img "QA_TEST_Product Samsung TV 55" [ref=e188]
+            - generic [ref=e189]:
+              - paragraph [ref=e190]: Samsung
+              - link "QA_TEST_Product Samsung TV 55" [ref=e191] [cursor=pointer]:
+                - /url: /products/eda6a0fe-6714-42be-b2eb-dbc027aa0e55
+                - heading "QA_TEST_Product Samsung TV 55" [level=3] [ref=e192]
+              - generic [ref=e193]:
+                - paragraph [ref=e195]: 999.99 AZN
+                - button "Səbətə əlavə et" [ref=e196]
+          - generic [ref=e197]:
+            - link "Samsung Galaxy s25 ultra -23%" [ref=e198] [cursor=pointer]:
+              - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+              - img "Samsung Galaxy s25 ultra" [ref=e200]
+              - generic [ref=e201]: "-23%"
+            - generic [ref=e202]:
+              - paragraph [ref=e203]: Samsung
+              - link "Samsung Galaxy s25 ultra" [ref=e204] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                - heading "Samsung Galaxy s25 ultra" [level=3] [ref=e205]
+              - generic [ref=e206]:
+                - generic [ref=e207]:
+                  - paragraph [ref=e208]: 1,924.992 AZN
+                  - paragraph [ref=e209]: 2,499.99 AZN
+                - button "Səbətə əlavə et" [ref=e210]
+          - generic [ref=e211]:
+            - link "Samsung Galaxy S24 Ultra" [ref=e212] [cursor=pointer]:
+              - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+              - img "Samsung Galaxy S24 Ultra" [ref=e214]
+            - generic [ref=e215]:
+              - paragraph [ref=e216]: Samsung
+              - link "Samsung Galaxy S24 Ultra" [ref=e217] [cursor=pointer]:
+                - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                - heading "Samsung Galaxy S24 Ultra" [level=3] [ref=e218]
+              - generic [ref=e219]:
+                - paragraph [ref=e221]: 2,299.99 AZN
+                - button "Səbətə əlavə et" [ref=e222]
+          - generic [ref=e223]:
+            - link "Lenovo ThinkPad X1 Carbon" [ref=e224] [cursor=pointer]:
+              - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+              - img "Lenovo ThinkPad X1 Carbon" [ref=e226]
+            - generic [ref=e227]:
+              - paragraph [ref=e228]: Lenovo
+              - link "Lenovo ThinkPad X1 Carbon" [ref=e229] [cursor=pointer]:
+                - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+                - heading "Lenovo ThinkPad X1 Carbon" [level=3] [ref=e230]
+              - generic [ref=e231]:
+                - paragraph [ref=e233]: 2,899.99 AZN
+                - button "Səbətə əlavə et" [ref=e234]
+        - link "Bütün məhsullara bax" [ref=e236] [cursor=pointer]:
+          - /url: /products
+          - button "Bütün məhsullara bax" [ref=e237]
+      - generic [ref=e239]:
+        - generic [ref=e240]:
+          - generic [ref=e241]:
+            - img [ref=e242]
+            - text: Populyar
+          - heading "Məşhur Məhsullar" [level=2] [ref=e244]
+          - paragraph [ref=e245]: Ən çox baxılan və seçilən məhsullar
+        - generic [ref=e246]:
+          - generic [ref=e247]:
+            - link "Lenovo ThinkPad X1 Carbon" [ref=e248] [cursor=pointer]:
+              - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+              - generic [ref=e249]:
+                - img "Lenovo ThinkPad X1 Carbon" [ref=e250]
+                - img [ref=e252]
+            - generic [ref=e255]:
+              - link "Lenovo ThinkPad X1 Carbon" [ref=e256] [cursor=pointer]:
+                - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+                - heading "Lenovo ThinkPad X1 Carbon" [level=3] [ref=e257]
+              - generic [ref=e258]:
+                - paragraph [ref=e259]: Qiymət sorğu ilə
+                - link "Alış-veriş et" [ref=e260] [cursor=pointer]:
+                  - /url: /products/71bfe8ed-5009-4a77-8a11-2c8c5a7353f8
+                  - button "Alış-veriş et" [ref=e261]
+          - generic [ref=e262]:
+            - link "Samsung Galaxy S24 Ultra" [ref=e263] [cursor=pointer]:
+              - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+              - generic [ref=e264]:
+                - img "Samsung Galaxy S24 Ultra" [ref=e265]
+                - img [ref=e267]
+            - generic [ref=e270]:
+              - link "Samsung Galaxy S24 Ultra" [ref=e271] [cursor=pointer]:
+                - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                - heading "Samsung Galaxy S24 Ultra" [level=3] [ref=e272]
+              - generic [ref=e273]:
+                - paragraph [ref=e274]: Qiymət sorğu ilə
+                - link "Alış-veriş et" [ref=e275] [cursor=pointer]:
+                  - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                  - button "Alış-veriş et" [ref=e276]
+          - generic [ref=e277]:
+            - link "Samsung Galaxy s25 ultra" [ref=e278] [cursor=pointer]:
+              - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+              - generic [ref=e279]:
+                - img "Samsung Galaxy s25 ultra" [ref=e280]
+                - img [ref=e282]
+            - generic [ref=e285]:
+              - link "Samsung Galaxy s25 ultra" [ref=e286] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                - heading "Samsung Galaxy s25 ultra" [level=3] [ref=e287]
+              - generic [ref=e288]:
+                - paragraph [ref=e289]: Qiymət sorğu ilə
+                - link "Alış-veriş et" [ref=e290] [cursor=pointer]:
+                  - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                  - button "Alış-veriş et" [ref=e291]
+          - generic [ref=e292]:
+            - link "MacBook Pro 16" [ref=e293] [cursor=pointer]:
+              - /url: /products/670d4c51-4d8d-4859-ba96-d231821d296a
+              - generic [ref=e294]:
+                - img "MacBook Pro 16" [ref=e295]
+                - img [ref=e297]
+            - generic [ref=e300]:
+              - link "MacBook Pro 16" [ref=e301] [cursor=pointer]:
+                - /url: /products/670d4c51-4d8d-4859-ba96-d231821d296a
+                - heading "MacBook Pro 16" [level=3] [ref=e302]
+              - generic [ref=e303]:
+                - paragraph [ref=e304]: Qiymət sorğu ilə
+                - link "Alış-veriş et" [ref=e305] [cursor=pointer]:
+                  - /url: /products/670d4c51-4d8d-4859-ba96-d231821d296a
+                  - button "Alış-veriş et" [ref=e306]
+      - generic [ref=e308]:
+        - heading "Discounts up to -50%" [level=2] [ref=e309]
+        - generic [ref=e311]:
+          - generic [ref=e312]:
+            - img "Samsung Galaxy s25 ultra" [ref=e313]
+            - button [ref=e314]:
+              - img [ref=e315]
+          - heading "Samsung Galaxy s25 ultra" [level=3] [ref=e317]
+          - generic [ref=e318]:
+            - generic [ref=e319]: AZN1924.9923
+            - generic [ref=e320]: AZN2499.99
+            - generic [ref=e321]: "-23%"
+          - button "İndi al" [ref=e322]
+      - generic [ref=e326]:
+        - generic [ref=e327]:
+          - generic [ref=e328]:
+            - img "Samsung Galaxy s25 ultra" [ref=e329]
+            - generic [ref=e330]: "-23%"
+          - paragraph [ref=e331]: Samsung Galaxy s25 ultra
+        - generic [ref=e332]:
+          - generic [ref=e333]:
+            - img [ref=e334]
+            - text: Xüsusi endirim
+          - generic [ref=e337]:
+            - heading "Böyük Yay Endirimi" [level=2] [ref=e338]:
+              - text: Böyük Yay
+              - generic [ref=e339]: Endirimi
+            - paragraph [ref=e340]: Ən yaxşı məhsullar ən yaxşı qiymətlərlə. Yay endirimi başlayıb!
+          - generic [ref=e341]:
+            - img [ref=e342]
+            - generic [ref=e346]:
+              - paragraph [ref=e347]: Ən böyük endirim
+              - paragraph [ref=e348]: "-23%"
+          - paragraph [ref=e349]: 1,924.992 AZN2,499.99 AZN
+          - generic [ref=e350]:
+            - link "Alış-veriş et" [ref=e351] [cursor=pointer]:
+              - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+              - button "Alış-veriş et" [ref=e352]:
+                - text: Alış-veriş et
+                - img [ref=e353]
+            - link "Bütün endirimlər" [ref=e355] [cursor=pointer]:
+              - /url: /products
+  - contentinfo [ref=e358]:
+    - generic [ref=e359]:
+      - generic [ref=e360]:
+        - generic [ref=e361]:
+          - link "CYBER" [ref=e362] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e363]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e364]:
+          - heading "Xidmətlər" [level=3] [ref=e365]
+          - list [ref=e366]:
+            - listitem [ref=e367]:
+              - link "Bonus proqramı" [ref=e368] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e369]:
+              - link "Hədiyyə kartları" [ref=e370] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e371]:
+              - link "Kredit və ödəniş" [ref=e372] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e373]:
+              - link "Xidmət müqavilələri" [ref=e374] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e375]:
+              - link "Nağdsız hesab" [ref=e376] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e377]:
+              - link "Ödəniş" [ref=e378] [cursor=pointer]:
+                - /url: /
+        - generic [ref=e379]:
+          - heading "Alıcıya kömək" [level=3] [ref=e380]
+          - list [ref=e381]:
+            - listitem [ref=e382]:
+              - link "Sifariş tap" [ref=e383] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e384]:
+              - link "Çatdırılma şərtləri" [ref=e385] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e386]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e387] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e388]:
+              - link "Zəmanət" [ref=e389] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e390]:
+              - link "Tez-tez verilən suallar" [ref=e391] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e392]:
+              - link "Sayt istifadə şərtləri" [ref=e393] [cursor=pointer]:
+                - /url: /
+        - generic [ref=e394]:
+          - heading "Bizi izləyin" [level=3] [ref=e395]
+          - generic [ref=e396]:
+            - link [ref=e397] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e398]
+            - link [ref=e400] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e401]
+            - link [ref=e403] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e404]
+            - link [ref=e407] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e408]
+      - generic [ref=e412]: © 2026 Cyber. Bütün hüquqlar qorunur.

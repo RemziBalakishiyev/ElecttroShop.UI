@@ -1,0 +1,245 @@
+- generic [ref=e35]:
+  - complementary [ref=e36]:
+    - generic [ref=e37]:
+      - generic [ref=e38]:
+        - img [ref=e40]
+        - generic [ref=e43]: İnventar
+      - navigation [ref=e44]:
+        - button "İdarə Paneli" [ref=e45]:
+          - img [ref=e46]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e55]:
+          - img [ref=e56]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e59]:
+          - img [ref=e60]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e69]:
+          - img [ref=e70]
+          - text: Endirimlər
+    - generic [ref=e74]:
+      - button "Açıq" [ref=e75]:
+        - img [ref=e76]
+        - text: Açıq
+      - button "Tünd" [ref=e82]:
+        - img [ref=e83]
+        - text: Tünd
+  - generic [ref=e85]:
+    - banner [ref=e86]:
+      - generic [ref=e87]:
+        - generic [ref=e88]:
+          - img [ref=e89]
+          - textbox "Axtar..." [ref=e92]
+        - button [ref=e93]:
+          - img [ref=e94]
+        - generic [ref=e98]:
+          - generic [ref=e100]: A
+          - generic [ref=e101]:
+            - paragraph [ref=e102]: Administrator
+            - paragraph [ref=e103]: Agent
+          - button "Çıxış" [ref=e104]:
+            - img [ref=e105]
+    - main [ref=e108]:
+      - generic [ref=e264]:
+        - generic [ref=e266]:
+          - heading "Məhsullar" [level=1] [ref=e267]
+          - paragraph [ref=e268]: Məhsul inventarınızı idarə edin
+        - generic [ref=e269]:
+          - generic [ref=e270]:
+            - img [ref=e271]
+            - textbox "Məhsulları axtar..." [ref=e274]: Samsung
+          - generic [ref=e275]:
+            - button "Məşhur Məhsullar" [ref=e276]:
+              - img [ref=e278]
+              - generic [ref=e281]: Məşhur Məhsullar
+            - button "Məhsul əlavə et" [ref=e282]:
+              - img [ref=e284]
+              - generic [ref=e285]: Məhsul əlavə et
+            - button "Filtr" [active] [ref=e286]:
+              - img [ref=e288]
+              - generic [ref=e290]: Filtr
+        - generic [ref=e291]:
+          - table [ref=e293]:
+            - rowgroup [ref=e294]:
+              - row "Məhsul Adı Şəkil Qiymət Kateqoriya Brend Stok Status Statuslar Əməliyyatlar" [ref=e642]:
+                - columnheader [ref=e296]:
+                  - checkbox [ref=e643]
+                - columnheader "Məhsul Adı" [ref=e644]:
+                  - generic [ref=e299]:
+                    - text: Məhsul Adı
+                    - img [ref=e645]
+                - columnheader "Şəkil" [ref=e647]:
+                  - generic [ref=e303]: Şəkil
+                - columnheader "Qiymət" [ref=e648]:
+                  - generic [ref=e305]: Qiymət
+                - columnheader "Kateqoriya" [ref=e649]:
+                  - generic [ref=e307]: Kateqoriya
+                - columnheader "Brend" [ref=e650]:
+                  - generic [ref=e309]: Brend
+                - columnheader "Stok" [ref=e651]:
+                  - generic [ref=e311]: Stok
+                - columnheader "Status" [ref=e652]:
+                  - generic [ref=e313]: Status
+                - columnheader "Statuslar" [ref=e653]:
+                  - generic [ref=e315]: Statuslar
+                - columnheader "Əməliyyatlar" [ref=e654]:
+                  - generic [ref=e317]: Əməliyyatlar
+            - rowgroup [ref=e318]:
+              - row "QA_TEST_Product Samsung TV 55 QA_TEST_SKU_001 Şəkil yoxdur 999.99 AZN Elektronika Samsung 10 Aktiv -" [ref=e655]:
+                - cell [ref=e656]:
+                  - checkbox [ref=e657]
+                - cell "QA_TEST_Product Samsung TV 55 QA_TEST_SKU_001" [ref=e658]:
+                  - generic [ref=e659]:
+                    - button "QA_TEST_Product Samsung TV 55" [ref=e660]
+                    - generic [ref=e661]: QA_TEST_SKU_001
+                - cell "Şəkil yoxdur" [ref=e662]:
+                  - generic [ref=e663]: Şəkil yoxdur
+                - cell "999.99 AZN" [ref=e664]:
+                  - generic [ref=e666]: 999.99 AZN
+                - cell "Elektronika" [ref=e667]
+                - cell "Samsung" [ref=e668]
+                - cell "10" [ref=e669]
+                - cell "Aktiv" [ref=e670]:
+                  - generic [ref=e671]: Aktiv
+                - cell "-" [ref=e672]:
+                  - generic [ref=e674]: "-"
+                - cell [ref=e675]:
+                  - generic [ref=e676]:
+                    - button "Detallara bax" [ref=e677]:
+                      - img [ref=e678]
+                    - button "Düzəliş et" [ref=e681]:
+                      - img [ref=e682]
+                    - button "Sil" [ref=e685]:
+                      - img [ref=e686]
+              - row "Samsung Galaxy s25 ultra IPHONE15PM256 Samsung Galaxy s25 ultra 2499.99 AZN 1924.99 AZN -23% Smartfonlar Samsung 50 Aktiv Banner Məşhur (3)" [ref=e689]:
+                - cell [ref=e690]:
+                  - checkbox [ref=e691]
+                - cell "Samsung Galaxy s25 ultra IPHONE15PM256" [ref=e692]:
+                  - generic [ref=e693]:
+                    - button "Samsung Galaxy s25 ultra" [ref=e694]
+                    - generic [ref=e695]: IPHONE15PM256
+                - cell "Samsung Galaxy s25 ultra" [ref=e696]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e697] [cursor=pointer]
+                - cell "2499.99 AZN 1924.99 AZN -23%" [ref=e698]:
+                  - generic [ref=e699]:
+                    - generic [ref=e700]: 2499.99 AZN
+                    - generic [ref=e701]: 1924.99 AZN
+                    - generic [ref=e702]: "-23%"
+                - cell "Smartfonlar" [ref=e703]
+                - cell "Samsung" [ref=e704]
+                - cell "50" [ref=e705]
+                - cell "Aktiv" [ref=e706]:
+                  - generic [ref=e707]: Aktiv
+                - cell "Banner Məşhur (3)" [ref=e708]:
+                  - generic [ref=e709]:
+                    - generic [ref=e710]:
+                      - img [ref=e711]
+                      - text: Banner
+                    - generic [ref=e715]:
+                      - img [ref=e716]
+                      - text: Məşhur (3)
+                - cell [ref=e719]:
+                  - generic [ref=e720]:
+                    - button "Detallara bax" [ref=e721]:
+                      - img [ref=e722]
+                    - button "Düzəliş et" [ref=e725]:
+                      - img [ref=e726]
+                    - button "Sil" [ref=e729]:
+                      - img [ref=e730]
+              - row "Samsung Galaxy S24 Ultra SGS24U512 Samsung Galaxy S24 Ultra 2299.99 AZN Smartfonlar Samsung 30 Aktiv Featured (1) Məşhur (2)" [ref=e733]:
+                - cell [ref=e734]:
+                  - checkbox [ref=e735]
+                - cell "Samsung Galaxy S24 Ultra SGS24U512" [ref=e736]:
+                  - generic [ref=e737]:
+                    - button "Samsung Galaxy S24 Ultra" [ref=e738]
+                    - generic [ref=e739]: SGS24U512
+                - cell "Samsung Galaxy S24 Ultra" [ref=e740]:
+                  - img "Samsung Galaxy S24 Ultra" [ref=e741] [cursor=pointer]
+                - cell "2299.99 AZN" [ref=e742]:
+                  - generic [ref=e744]: 2299.99 AZN
+                - cell "Smartfonlar" [ref=e745]
+                - cell "Samsung" [ref=e746]
+                - cell "30" [ref=e747]
+                - cell "Aktiv" [ref=e748]:
+                  - generic [ref=e749]: Aktiv
+                - cell "Featured (1) Məşhur (2)" [ref=e750]:
+                  - generic [ref=e751]:
+                    - generic [ref=e752]:
+                      - img [ref=e753]
+                      - text: Featured (1)
+                    - generic [ref=e755]:
+                      - img [ref=e756]
+                      - text: Məşhur (2)
+                - cell [ref=e759]:
+                  - generic [ref=e760]:
+                    - button "Detallara bax" [ref=e761]:
+                      - img [ref=e762]
+                    - button "Düzəliş et" [ref=e765]:
+                      - img [ref=e766]
+                    - button "Sil" [ref=e769]:
+                      - img [ref=e770]
+          - generic [ref=e773]:
+            - generic [ref=e774]:
+              - generic [ref=e775]: Göstərilir
+              - combobox [ref=e776]:
+                - option "10" [selected]
+                - option "25"
+                - option "50"
+                - option "100"
+            - generic [ref=e777]: Göstərilir 1 - 3 cəmi 3 qeyd
+            - generic [ref=e778]:
+              - button [disabled] [ref=e779]:
+                - img [ref=e780]
+              - button "1" [ref=e782]
+              - button [disabled] [ref=e783]:
+                - img [ref=e784]
+        - generic [ref=e787]:
+          - button [ref=e788]:
+            - img [ref=e789]
+          - heading "Məhsulları Filtrlə" [level=2] [ref=e792]
+          - generic [ref=e793]:
+            - generic [ref=e794]:
+              - heading "Kateqoriya" [level=3] [ref=e795]
+              - generic [ref=e797]:
+                - combobox [ref=e798]:
+                  - option "Kateqoriya seçin"
+                  - option "Aksessuarlar"
+                  - option "Elektronika"
+                  - option "Kompyuterlər"
+                  - option "Məişət Texnikası"
+                  - option "Mətbəx Texnikası"
+                  - option "Smartfonlar" [selected]
+                  - option "Təmizləmə Texnikası"
+                - img
+            - generic [ref=e799]:
+              - heading "Brend" [level=3] [ref=e800]
+              - generic [ref=e802]:
+                - combobox [ref=e803]:
+                  - option "Brend seçin" [selected]
+                  - option "Apple"
+                  - option "Bosch"
+                  - option "Dell"
+                  - option "HP"
+                  - option "Xiaomi"
+                  - option "Lenovo"
+                  - option "LG"
+                  - option "Philips"
+                  - option "Samsung"
+                  - option "Sony"
+                - img
+            - generic [ref=e804]:
+              - heading "Qiymət Aralığı" [level=3] [ref=e805]
+              - generic [ref=e806]:
+                - spinbutton [ref=e808]
+                - spinbutton [ref=e810]
+          - generic [ref=e811]:
+            - button "Sıfırla" [ref=e812]:
+              - generic [ref=e813]: Sıfırla
+            - button "Tətbiq et" [ref=e814]:
+              - generic [ref=e815]: Tətbiq et

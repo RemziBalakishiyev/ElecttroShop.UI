@@ -1,0 +1,125 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [active] [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e1239]:
+        - generic [ref=e1241]:
+          - heading "Kateqoriyalar" [level=1] [ref=e1242]
+          - paragraph [ref=e1243]: Kateqoriyaları idarə edin
+        - generic [ref=e1244]:
+          - generic [ref=e1245]:
+            - img [ref=e1246]
+            - textbox "Kateqoriyaları axtar..." [ref=e1249]
+          - button "Kateqoriya əlavə et" [ref=e1250]:
+            - img [ref=e1252]
+            - generic [ref=e1253]: Kateqoriya əlavə et
+        - generic [ref=e1254]:
+          - table [ref=e1256]:
+            - rowgroup [ref=e1257]:
+              - row "Kateqoriya Adı Slug Endirim Yaradılma tarixi Əməliyyatlar" [ref=e1258]:
+                - columnheader [ref=e1259]:
+                  - checkbox [ref=e1260]
+                - columnheader "Kateqoriya Adı" [ref=e1261]:
+                  - generic [ref=e1262]:
+                    - text: Kateqoriya Adı
+                    - img [ref=e1263]
+                - columnheader "Slug" [ref=e1265]:
+                  - generic [ref=e1266]: Slug
+                - columnheader "Endirim" [ref=e1267]:
+                  - generic [ref=e1268]: Endirim
+                - columnheader "Yaradılma tarixi" [ref=e1269]:
+                  - generic [ref=e1270]: Yaradılma tarixi
+                - columnheader "Əməliyyatlar" [ref=e1271]:
+                  - generic [ref=e1272]: Əməliyyatlar
+            - rowgroup [ref=e1273]:
+              - row "Elektronika elektronika - 6/25/2026" [ref=e1274]:
+                - cell [ref=e1275]:
+                  - checkbox [ref=e1276]
+                - cell "Elektronika" [ref=e1277]:
+                  - generic [ref=e1279]: Elektronika
+                - cell "elektronika" [ref=e1280]
+                - cell "-" [ref=e1281]
+                - cell "6/25/2026" [ref=e1282]
+                - cell [ref=e1283]:
+                  - generic [ref=e1284]:
+                    - button "Atributlar" [ref=e1285]:
+                      - img [ref=e1286]
+                    - button "Düzəliş et" [ref=e1289]:
+                      - img [ref=e1290]
+                    - button "Sil" [ref=e1293]:
+                      - img [ref=e1294]
+              - row "Məişət Texnikası meiset-texnikasi - 6/25/2026" [ref=e1297]:
+                - cell [ref=e1298]:
+                  - checkbox [ref=e1299]
+                - cell "Məişət Texnikası" [ref=e1300]:
+                  - generic [ref=e1302]: Məişət Texnikası
+                - cell "meiset-texnikasi" [ref=e1303]
+                - cell "-" [ref=e1304]
+                - cell "6/25/2026" [ref=e1305]
+                - cell [ref=e1306]:
+                  - generic [ref=e1307]:
+                    - button "Atributlar" [ref=e1308]:
+                      - img [ref=e1309]
+                    - button "Düzəliş et" [ref=e1312]:
+                      - img [ref=e1313]
+                    - button "Sil" [ref=e1316]:
+                      - img [ref=e1317]
+          - generic [ref=e1320]:
+            - generic [ref=e1321]:
+              - generic [ref=e1322]: Göstərilir
+              - combobox [ref=e1323]:
+                - option "10" [selected]
+                - option "25"
+                - option "50"
+                - option "100"
+            - generic [ref=e1324]: Göstərilir 1 - 2 cəmi 2 qeyd
+            - generic [ref=e1325]:
+              - button [disabled] [ref=e1326]:
+                - img [ref=e1327]
+              - button "1" [ref=e1329]
+              - button [disabled] [ref=e1330]:
+                - img [ref=e1331]

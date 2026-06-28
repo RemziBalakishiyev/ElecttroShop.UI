@@ -1,0 +1,119 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link "1" [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+          - generic [ref=e29]: "1"
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e31]
+  - main [ref=e34]:
+    - generic [ref=e35]:
+      - generic [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - text: Kateqoriyalar
+          - heading "Kateqoriyalara görə bax" [level=2] [ref=e63]
+          - paragraph [ref=e64]: İstədiyiniz məhsul qrupunu seçin və alış-verişə başlayın
+        - link "Hamısına bax" [ref=e65] [cursor=pointer]:
+          - /url: /products
+          - text: Hamısına bax
+          - img [ref=e66]
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - heading "Məhsullar" [level=2] [ref=e92]
+            - paragraph [ref=e93]: Yeni, populyar və seçilmiş məhsullar
+          - generic [ref=e94]:
+            - button "Yeni Gəlmələr" [ref=e95]
+            - button "Ən çox satılanlar" [ref=e96]
+            - button "Seçilmiş məhsullar" [ref=e97]
+        - link "Bütün məhsullara bax" [ref=e104] [cursor=pointer]:
+          - /url: /products
+          - button "Bütün məhsullara bax" [ref=e105]
+      - heading "Endirimlər -50%-ə qədər" [level=2] [ref=e148]
+  - contentinfo [ref=e164]:
+    - generic [ref=e165]:
+      - generic [ref=e166]:
+        - generic [ref=e167]:
+          - link "CYBER" [ref=e168] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e169]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e170]:
+          - heading "Xidmətlər" [level=3] [ref=e171]
+          - list [ref=e172]:
+            - listitem [ref=e173]:
+              - link "Bonus proqramı" [ref=e174] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e175]:
+              - link "Hədiyyə kartları" [ref=e176] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e177]:
+              - link "Kredit və ödəniş" [ref=e178] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e179]:
+              - link "Xidmət müqavilələri" [ref=e180] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e181]:
+              - link "Nağdsız hesab" [ref=e182] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e183]:
+              - link "Ödəniş" [ref=e184] [cursor=pointer]:
+                - /url: /
+        - generic [ref=e185]:
+          - heading "Alıcıya kömək" [level=3] [ref=e186]
+          - list [ref=e187]:
+            - listitem [ref=e188]:
+              - link "Sifariş tap" [ref=e189] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e190]:
+              - link "Çatdırılma şərtləri" [ref=e191] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e192]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e193] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e194]:
+              - link "Zəmanət" [ref=e195] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e196]:
+              - link "Tez-tez verilən suallar" [ref=e197] [cursor=pointer]:
+                - /url: /
+            - listitem [ref=e198]:
+              - link "Sayt istifadə şərtləri" [ref=e199] [cursor=pointer]:
+                - /url: /
+        - generic [ref=e200]:
+          - heading "Bizi izləyin" [level=3] [ref=e201]
+          - generic [ref=e202]:
+            - link [ref=e203] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e204]
+            - link [ref=e206] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e207]
+            - link [ref=e209] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e210]
+            - link [ref=e213] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e214]
+      - generic [ref=e218]: © 2026 Cyber. Bütün hüquqlar qorunur.

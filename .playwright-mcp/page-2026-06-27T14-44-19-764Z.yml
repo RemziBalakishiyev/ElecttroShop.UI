@@ -1,0 +1,146 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e474]:
+        - navigation [ref=e475]:
+          - generic [ref=e476]:
+            - button "Məhsullar" [ref=e477]:
+              - img [ref=e478]
+              - generic [ref=e480]: Məhsullar
+            - generic [ref=e481]: /
+            - generic [ref=e482]: Samsung Galaxy s25 ultra
+          - generic [ref=e483]:
+            - button "Düzəliş et" [ref=e484]:
+              - generic [ref=e485]:
+                - img [ref=e486]
+                - text: Düzəliş et
+            - button "Featured olaraq təyin et" [ref=e489]:
+              - generic [ref=e490]:
+                - img [ref=e491]
+                - text: Featured olaraq təyin et
+            - button "Məşhur siyahısından çıxar" [ref=e493]:
+              - generic [ref=e494]:
+                - img [ref=e495]
+                - text: Məşhur siyahısından çıxar
+            - button "Banner-dan çıxar" [ref=e498]:
+              - generic [ref=e499]:
+                - img [ref=e500]
+                - text: Banner-dan çıxar
+            - button "Sil" [ref=e504]:
+              - generic [ref=e505]:
+                - img [ref=e506]
+                - text: Sil
+        - generic [ref=e509]:
+          - generic [ref=e510]:
+            - generic [ref=e511]:
+              - img "Samsung Galaxy s25 ultra" [ref=e513]
+              - generic [ref=e514]:
+                - img [ref=e515]
+                - text: Primary
+            - generic [ref=e517]:
+              - generic [ref=e518]:
+                - heading "Additional Images" [level=3] [ref=e519]:
+                  - img [ref=e520]
+                  - text: Additional Images
+                - generic [ref=e524]: 2 images
+              - generic [ref=e525]:
+                - generic [ref=e527]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e528]
+                  - generic [ref=e529]:
+                    - img [ref=e530]
+                    - text: Primary
+                - generic [ref=e533]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e534]
+                  - button "product_details.set_primary" [ref=e535]
+          - generic [ref=e536]:
+            - generic [ref=e538]:
+              - generic [ref=e540]:
+                - generic [ref=e541]:
+                  - heading "Samsung Galaxy s25 ultra" [level=1] [ref=e542]
+                  - generic [ref=e543]:
+                    - img [ref=e544]
+                    - text: Aktiv
+                - generic [ref=e547]:
+                  - img [ref=e548]
+                  - generic [ref=e551]: IPHONE15PM256
+                  - button "SKU-nu kopyala" [ref=e552]:
+                    - img [ref=e553]
+              - generic [ref=e557]:
+                - generic [ref=e558]:
+                  - generic [ref=e559]: "2499.99"
+                  - generic [ref=e560]: AZN
+                - generic [ref=e561]:
+                  - generic [ref=e562]: "1924.99"
+                  - generic [ref=e563]: AZN
+                - generic [ref=e565]: "-23%"
+            - generic [ref=e566]:
+              - generic [ref=e567]:
+                - generic [ref=e568]:
+                  - img [ref=e570]
+                  - generic [ref=e574]: Kateqoriya
+                - paragraph [ref=e575]: Smartfonlar
+              - generic [ref=e576]:
+                - generic [ref=e577]:
+                  - img [ref=e579]
+                  - generic [ref=e582]: Brend
+                - paragraph [ref=e583]: Samsung
+              - generic [ref=e584]:
+                - generic [ref=e585]:
+                  - img [ref=e587]
+                  - generic [ref=e591]: Stok
+                - paragraph [ref=e593]: 50 ədəd
+              - generic [ref=e594]:
+                - generic [ref=e595]:
+                  - img [ref=e597]
+                  - generic [ref=e599]: Əlavə edilib
+                - paragraph [ref=e600]: 2026 M06 25
+            - generic [ref=e601]:
+              - heading "Təsvir" [level=3] [ref=e602]:
+                - img [ref=e604]
+                - text: Təsvir
+              - paragraph [ref=e607]: Apple iPhone 15 Pro Max 256GB Titanium Blue

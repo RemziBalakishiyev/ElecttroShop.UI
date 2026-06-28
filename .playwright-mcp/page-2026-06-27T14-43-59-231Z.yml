@@ -1,0 +1,235 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [active] [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e244]:
+        - generic [ref=e246]:
+          - heading "Məhsullar" [level=1] [ref=e247]
+          - paragraph [ref=e248]: Məhsul inventarınızı idarə edin
+        - generic [ref=e249]:
+          - generic [ref=e250]:
+            - img [ref=e251]
+            - textbox "Məhsulları axtar..." [ref=e254]
+          - generic [ref=e255]:
+            - button "Məşhur Məhsullar" [ref=e256]:
+              - img [ref=e258]
+              - generic [ref=e261]: Məşhur Məhsullar
+            - button "Məhsul əlavə et" [ref=e262]:
+              - img [ref=e264]
+              - generic [ref=e265]: Məhsul əlavə et
+            - button "Filtr" [ref=e266]:
+              - img [ref=e268]
+              - generic [ref=e270]: Filtr
+        - generic [ref=e271]:
+          - table [ref=e273]:
+            - rowgroup [ref=e274]:
+              - row "Məhsul Adı Şəkil Qiymət Kateqoriya Brend Stok Status Statuslar Əməliyyatlar" [ref=e275]:
+                - columnheader [ref=e276]:
+                  - checkbox [ref=e277]
+                - columnheader "Məhsul Adı" [ref=e278]:
+                  - generic [ref=e279]:
+                    - text: Məhsul Adı
+                    - img [ref=e280]
+                - columnheader "Şəkil" [ref=e282]:
+                  - generic [ref=e283]: Şəkil
+                - columnheader "Qiymət" [ref=e284]:
+                  - generic [ref=e285]: Qiymət
+                - columnheader "Kateqoriya" [ref=e286]:
+                  - generic [ref=e287]: Kateqoriya
+                - columnheader "Brend" [ref=e288]:
+                  - generic [ref=e289]: Brend
+                - columnheader "Stok" [ref=e290]:
+                  - generic [ref=e291]: Stok
+                - columnheader "Status" [ref=e292]:
+                  - generic [ref=e293]: Status
+                - columnheader "Statuslar" [ref=e294]:
+                  - generic [ref=e295]: Statuslar
+                - columnheader "Əməliyyatlar" [ref=e296]:
+                  - generic [ref=e297]: Əməliyyatlar
+            - rowgroup [ref=e298]:
+              - row "Samsung Galaxy s25 ultra IPHONE15PM256 Samsung Galaxy s25 ultra 2499.99 AZN 1924.99 AZN -23% Smartfonlar Samsung 50 Aktiv Banner Məşhur (3)" [ref=e299]:
+                - cell [ref=e300]:
+                  - checkbox [ref=e301]
+                - cell "Samsung Galaxy s25 ultra IPHONE15PM256" [ref=e302]:
+                  - generic [ref=e303]:
+                    - button "Samsung Galaxy s25 ultra" [ref=e304]
+                    - generic [ref=e305]: IPHONE15PM256
+                - cell "Samsung Galaxy s25 ultra" [ref=e306]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e307] [cursor=pointer]
+                - cell "2499.99 AZN 1924.99 AZN -23%" [ref=e308]:
+                  - generic [ref=e309]:
+                    - generic [ref=e310]: 2499.99 AZN
+                    - generic [ref=e311]: 1924.99 AZN
+                    - generic [ref=e312]: "-23%"
+                - cell "Smartfonlar" [ref=e313]
+                - cell "Samsung" [ref=e314]
+                - cell "50" [ref=e315]
+                - cell "Aktiv" [ref=e316]:
+                  - generic [ref=e317]: Aktiv
+                - cell "Banner Məşhur (3)" [ref=e318]:
+                  - generic [ref=e319]:
+                    - generic [ref=e320]:
+                      - img [ref=e321]
+                      - text: Banner
+                    - generic [ref=e325]:
+                      - img [ref=e326]
+                      - text: Məşhur (3)
+                - cell [ref=e329]:
+                  - generic [ref=e330]:
+                    - button "Detallara bax" [ref=e331]:
+                      - img [ref=e332]
+                    - button "Düzəliş et" [ref=e335]:
+                      - img [ref=e336]
+                    - button "Sil" [ref=e339]:
+                      - img [ref=e340]
+              - row "Samsung Galaxy S24 Ultra SGS24U512 Samsung Galaxy S24 Ultra 2299.99 AZN Smartfonlar Samsung 30 Aktiv Featured (1) Məşhur (2)" [ref=e343]:
+                - cell [ref=e344]:
+                  - checkbox [ref=e345]
+                - cell "Samsung Galaxy S24 Ultra SGS24U512" [ref=e346]:
+                  - generic [ref=e347]:
+                    - button "Samsung Galaxy S24 Ultra" [ref=e348]
+                    - generic [ref=e349]: SGS24U512
+                - cell "Samsung Galaxy S24 Ultra" [ref=e350]:
+                  - img "Samsung Galaxy S24 Ultra" [ref=e351] [cursor=pointer]
+                - cell "2299.99 AZN" [ref=e352]:
+                  - generic [ref=e354]: 2299.99 AZN
+                - cell "Smartfonlar" [ref=e355]
+                - cell "Samsung" [ref=e356]
+                - cell "30" [ref=e357]
+                - cell "Aktiv" [ref=e358]:
+                  - generic [ref=e359]: Aktiv
+                - cell "Featured (1) Məşhur (2)" [ref=e360]:
+                  - generic [ref=e361]:
+                    - generic [ref=e362]:
+                      - img [ref=e363]
+                      - text: Featured (1)
+                    - generic [ref=e365]:
+                      - img [ref=e366]
+                      - text: Məşhur (2)
+                - cell [ref=e369]:
+                  - generic [ref=e370]:
+                    - button "Detallara bax" [ref=e371]:
+                      - img [ref=e372]
+                    - button "Düzəliş et" [ref=e375]:
+                      - img [ref=e376]
+                    - button "Sil" [ref=e379]:
+                      - img [ref=e380]
+              - row "Lenovo ThinkPad X1 Carbon LENOVOX1C Lenovo ThinkPad X1 Carbon 2899.99 AZN Kompyuterlər Lenovo 20 Aktiv Featured (2) Məşhur (1)" [ref=e383]:
+                - cell [ref=e384]:
+                  - checkbox [ref=e385]
+                - cell "Lenovo ThinkPad X1 Carbon LENOVOX1C" [ref=e386]:
+                  - generic [ref=e387]:
+                    - button "Lenovo ThinkPad X1 Carbon" [ref=e388]
+                    - generic [ref=e389]: LENOVOX1C
+                - cell "Lenovo ThinkPad X1 Carbon" [ref=e390]:
+                  - img "Lenovo ThinkPad X1 Carbon" [ref=e391] [cursor=pointer]
+                - cell "2899.99 AZN" [ref=e392]:
+                  - generic [ref=e394]: 2899.99 AZN
+                - cell "Kompyuterlər" [ref=e395]
+                - cell "Lenovo" [ref=e396]
+                - cell "20" [ref=e397]
+                - cell "Aktiv" [ref=e398]:
+                  - generic [ref=e399]: Aktiv
+                - cell "Featured (2) Məşhur (1)" [ref=e400]:
+                  - generic [ref=e401]:
+                    - generic [ref=e402]:
+                      - img [ref=e403]
+                      - text: Featured (2)
+                    - generic [ref=e405]:
+                      - img [ref=e406]
+                      - text: Məşhur (1)
+                - cell [ref=e409]:
+                  - generic [ref=e410]:
+                    - button "Detallara bax" [ref=e411]:
+                      - img [ref=e412]
+                    - button "Düzəliş et" [ref=e415]:
+                      - img [ref=e416]
+                    - button "Sil" [ref=e419]:
+                      - img [ref=e420]
+              - row "MacBook Pro 16 MACBOOK16 MacBook Pro 16 3499.99 AZN Kompyuterlər Apple 15 Aktiv Məşhur (4)" [ref=e423]:
+                - cell [ref=e424]:
+                  - checkbox [ref=e425]
+                - cell "MacBook Pro 16 MACBOOK16" [ref=e426]:
+                  - generic [ref=e427]:
+                    - button "MacBook Pro 16" [ref=e428]
+                    - generic [ref=e429]: MACBOOK16
+                - cell "MacBook Pro 16" [ref=e430]:
+                  - img "MacBook Pro 16" [ref=e431] [cursor=pointer]
+                - cell "3499.99 AZN" [ref=e432]:
+                  - generic [ref=e434]: 3499.99 AZN
+                - cell "Kompyuterlər" [ref=e435]
+                - cell "Apple" [ref=e436]
+                - cell "15" [ref=e437]
+                - cell "Aktiv" [ref=e438]:
+                  - generic [ref=e439]: Aktiv
+                - cell "Məşhur (4)" [ref=e440]:
+                  - generic [ref=e442]:
+                    - img [ref=e443]
+                    - text: Məşhur (4)
+                - cell [ref=e446]:
+                  - generic [ref=e447]:
+                    - button "Detallara bax" [ref=e448]:
+                      - img [ref=e449]
+                    - button "Düzəliş et" [ref=e452]:
+                      - img [ref=e453]
+                    - button "Sil" [ref=e456]:
+                      - img [ref=e457]
+          - generic [ref=e460]:
+            - generic [ref=e461]:
+              - generic [ref=e462]: Göstərilir
+              - combobox [ref=e463]:
+                - option "10" [selected]
+                - option "25"
+                - option "50"
+                - option "100"
+            - generic [ref=e464]: Göstərilir 1 - 4 cəmi 4 qeyd
+            - generic [ref=e465]:
+              - button [disabled] [ref=e466]:
+                - img [ref=e467]
+              - button "1" [ref=e469]
+              - button [disabled] [ref=e470]:
+                - img [ref=e471]

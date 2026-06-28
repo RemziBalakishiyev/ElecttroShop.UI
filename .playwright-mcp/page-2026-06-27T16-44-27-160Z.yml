@@ -1,0 +1,78 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - generic [ref=e11]: İnventar
+      - navigation [ref=e12]:
+        - button "İdarə Paneli" [ref=e13]:
+          - img [ref=e14]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e19]:
+          - img [ref=e20]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e23]:
+          - img [ref=e24]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e27]:
+          - img [ref=e28]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e33]:
+          - img [ref=e34]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e37]:
+          - img [ref=e38]
+          - text: Endirimlər
+    - generic [ref=e42]:
+      - button "Açıq" [ref=e43]:
+        - img [ref=e44]
+        - text: Açıq
+      - button "Tünd" [ref=e50]:
+        - img [ref=e51]
+        - text: Tünd
+  - generic [ref=e53]:
+    - banner [ref=e54]:
+      - generic [ref=e55]:
+        - generic [ref=e56]:
+          - img [ref=e57]
+          - textbox "Axtar..." [ref=e60]
+        - button [ref=e61]:
+          - img [ref=e62]
+        - generic [ref=e66]:
+          - generic [ref=e68]: A
+          - generic [ref=e69]:
+            - paragraph [ref=e70]: Administrator
+            - paragraph [ref=e71]: Agent
+          - button "Çıxış" [ref=e72]:
+            - img [ref=e73]
+    - main [ref=e76]:
+      - generic [ref=e77]:
+        - generic [ref=e79]:
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - img [ref=e82]
+              - text: Ana səhifə önizləməsi
+            - heading "Məşhur Məhsullar (Maksimum 4)" [level=1] [ref=e85]
+            - paragraph [ref=e86]: Ana səhifədə göstəriləcək məşhur məhsulları idarə edin
+          - generic [ref=e88]:
+            - paragraph [ref=e89]: Hazırkı məhsullar
+            - paragraph [ref=e90]: —
+        - button "Qaydalar Qaydaları göstər" [ref=e92]:
+          - generic [ref=e93]:
+            - img [ref=e94]
+            - text: Qaydalar
+          - generic [ref=e97]:
+            - text: Qaydaları göstər
+            - img [ref=e98]
+        - generic [ref=e101]:
+          - heading "Hazırkı məhsullar" [level=2] [ref=e102]
+          - generic [ref=e103]: Ana səhifə önizləməsi
+        - generic [ref=e109]:
+          - generic [ref=e110]:
+            - generic [ref=e111]:
+              - heading "Bütün məhsullar" [level=2] [ref=e112]
+              - paragraph [ref=e113]: Slota təyin et
+            - generic [ref=e114]:
+              - img
+              - textbox "Məhsulları axtar..." [ref=e115]
+          - generic [ref=e118]: Yüklənir...

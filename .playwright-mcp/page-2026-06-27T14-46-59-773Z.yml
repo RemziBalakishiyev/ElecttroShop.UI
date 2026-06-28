@@ -1,0 +1,60 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e1333]:
+        - generic [ref=e1334]:
+          - generic [ref=e1335]:
+            - button [ref=e1336]:
+              - img [ref=e1337]
+            - generic [ref=e1339]:
+              - heading "Kateqoriya Atributları" [level=1] [ref=e1340]
+              - paragraph [ref=e1341]: Elektronika
+          - button "Yeni Atribut Əlavə Et" [ref=e1342]:
+            - img [ref=e1344]
+            - generic [ref=e1345]: Yeni Atribut Əlavə Et
+        - paragraph [ref=e1347]: Hələ atribut yoxdur

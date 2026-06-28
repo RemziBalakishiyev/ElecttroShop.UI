@@ -1,0 +1,165 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e1554]:
+        - generic [ref=e1556]:
+          - heading "Endirimlər" [level=1] [ref=e1557]
+          - paragraph [ref=e1558]: Endirimləri idarə edin
+        - generic [ref=e1559]:
+          - generic [ref=e1560]:
+            - img [ref=e1561]
+            - textbox "Endirimləri axtar..." [ref=e1564]
+          - generic [ref=e1565]:
+            - generic [ref=e1568]:
+              - combobox [ref=e1569]:
+                - option "Tipə görə" [selected]
+                - option "Bütün tiplər"
+                - option "Məhsul"
+                - option "Brend"
+                - option "Kateqoriya"
+              - img
+            - generic [ref=e1572]:
+              - combobox [ref=e1573]:
+                - option "Statusa görə" [selected]
+                - option "Bütün statuslar"
+                - option "Aktiv"
+                - option "Deaktiv"
+              - img
+            - button "Endirim əlavə et" [active] [ref=e1574]:
+              - img [ref=e1576]
+              - generic [ref=e1577]: Endirim əlavə et
+        - generic [ref=e1578]:
+          - table [ref=e1580]:
+            - rowgroup [ref=e1581]:
+              - row "Tip Hədəf Faiz (%) Başlama tarixi Bitmə tarixi Status Əməliyyatlar" [ref=e1582]:
+                - columnheader [ref=e1583]:
+                  - checkbox [ref=e1584]
+                - columnheader "Tip" [ref=e1585]:
+                  - generic [ref=e1586]: Tip
+                - columnheader "Hədəf" [ref=e1587]:
+                  - generic [ref=e1588]:
+                    - text: Hədəf
+                    - img [ref=e1589]
+                - columnheader "Faiz (%)" [ref=e1591]:
+                  - generic [ref=e1592]: Faiz (%)
+                - columnheader "Başlama tarixi" [ref=e1593]:
+                  - generic [ref=e1594]: Başlama tarixi
+                - columnheader "Bitmə tarixi" [ref=e1595]:
+                  - generic [ref=e1596]: Bitmə tarixi
+                - columnheader "Status" [ref=e1597]:
+                  - generic [ref=e1598]: Status
+                - columnheader "Əməliyyatlar" [ref=e1599]:
+                  - generic [ref=e1600]: Əməliyyatlar
+            - rowgroup [ref=e1601]:
+              - row "Məhsul Samsung Galaxy s25 ultra %23 6/3/2026 6/29/2026 Aktiv" [ref=e1602]:
+                - cell [ref=e1603]:
+                  - checkbox [ref=e1604]
+                - cell "Məhsul" [ref=e1605]
+                - cell "Samsung Galaxy s25 ultra" [ref=e1606]
+                - cell "%23" [ref=e1607]:
+                  - generic [ref=e1608]: "%23"
+                - cell "6/3/2026" [ref=e1609]
+                - cell "6/29/2026" [ref=e1610]
+                - cell "Aktiv" [ref=e1611]:
+                  - generic [ref=e1612]: Aktiv
+                - cell [ref=e1613]:
+                  - generic [ref=e1614]:
+                    - button "Düzəliş et" [ref=e1615]:
+                      - img [ref=e1616]
+                    - button "Sil" [ref=e1619]:
+                      - img [ref=e1620]
+          - generic [ref=e1623]:
+            - generic [ref=e1624]:
+              - generic [ref=e1625]: Göstərilir
+              - combobox [ref=e1626]:
+                - option "10" [selected]
+                - option "25"
+                - option "50"
+                - option "100"
+            - generic [ref=e1627]: Göstərilir 1 - 1 cəmi 1 qeyd
+            - generic [ref=e1628]:
+              - button [disabled] [ref=e1629]:
+                - img [ref=e1630]
+              - button "1" [ref=e1632]
+              - button [disabled] [ref=e1633]:
+                - img [ref=e1634]
+        - generic [ref=e1637]:
+          - button "Bağla" [ref=e1638]:
+            - img [ref=e1639]
+          - heading "Endirim əlavə et" [level=2] [ref=e1642]
+          - generic [ref=e1644]:
+            - generic [ref=e1645]:
+              - generic [ref=e1646]: Tip*
+              - generic [ref=e1647]:
+                - combobox "Tip" [ref=e1648]:
+                  - option "Select" [selected]
+                  - option "Məhsul"
+                  - option "Brend"
+                  - option "Kateqoriya"
+                - img
+            - generic [ref=e1649]:
+              - generic [ref=e1650]: Faiz (%)*
+              - spinbutton "Faiz (%)" [ref=e1651]
+            - generic [ref=e1652]:
+              - generic [ref=e1653]:
+                - generic [ref=e1654]: Başlama tarixi*
+                - generic [ref=e1655]:
+                  - textbox [ref=e1656]:
+                    - /placeholder: dd/mm/yyyy
+                  - img
+              - generic [ref=e1657]:
+                - generic [ref=e1658]: Bitmə tarixi
+                - generic [ref=e1659]:
+                  - textbox [ref=e1660]:
+                    - /placeholder: dd/mm/yyyy
+                  - img
+            - generic [ref=e1661]:
+              - button "Ləğv et" [ref=e1662]:
+                - generic [ref=e1663]: Ləğv et
+              - button "Yarat" [ref=e1664]:
+                - generic [ref=e1665]: Yarat

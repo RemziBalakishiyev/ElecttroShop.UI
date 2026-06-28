@@ -1,0 +1,229 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+        - link [ref=e29] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e30]
+  - main [ref=e33]:
+    - generic [ref=e34]:
+      - generic [ref=e37]:
+        - navigation [ref=e38]:
+          - link "Ana Səhifə" [ref=e39] [cursor=pointer]:
+            - /url: /
+          - generic [ref=e40]: /
+          - generic [ref=e41]: Məhsullar
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - img [ref=e45]
+            - generic [ref=e49]:
+              - heading "Bütün məhsullar" [level=1] [ref=e50]
+              - paragraph [ref=e51]: Premium elektronika və texnika — ən yaxşı qiymətlərlə
+          - generic [ref=e370]:
+            - generic [ref=e371]: 1–3
+            - generic [ref=e372]: /
+            - generic [ref=e373]: 3 məhsul
+        - button "Samsung" [ref=e375]:
+          - text: Samsung
+          - img [ref=e376]
+      - generic [ref=e53]:
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - generic [ref=e57]:
+              - img [ref=e58]
+              - heading "Filtrlər" [level=2] [ref=e59]
+              - generic [ref=e379]: Aktiv
+            - button "Təmizlə" [ref=e381]:
+              - img [ref=e382]
+              - text: Təmizlə
+          - generic [ref=e60]:
+            - generic [ref=e61]:
+              - button "Qiymət" [ref=e62]:
+                - generic [ref=e63]: Qiymət
+                - img [ref=e64]
+              - generic [ref=e66]:
+                - generic [ref=e67]:
+                  - spinbutton [ref=e68]
+                  - generic [ref=e69]: —
+                  - spinbutton [ref=e70]
+                - button "Qiymət tətbiq et" [ref=e71]
+            - generic [ref=e72]:
+              - button "Brend" [ref=e73]:
+                - generic [ref=e74]: Brend
+                - img [ref=e75]
+              - generic [ref=e78]:
+                - button "Apple" [ref=e203]: Apple
+                - button "Bosch" [ref=e205]: Bosch
+                - button "Dell" [ref=e207]: Dell
+                - button "HP" [ref=e209]: HP
+                - button "Lenovo" [ref=e211]: Lenovo
+                - button "LG" [ref=e213]: LG
+                - button "Philips" [ref=e215]: Philips
+                - button "Samsung" [active] [ref=e217]: Samsung
+                - button "Sony" [ref=e219]: Sony
+                - button "Xiaomi" [ref=e221]: Xiaomi
+            - generic [ref=e79]:
+              - button "Kateqoriya" [ref=e80]:
+                - generic [ref=e81]: Kateqoriya
+                - img [ref=e362]
+              - generic [ref=e365]:
+                - button "Elektronika" [ref=e366]: Elektronika
+                - button "Məişət Texnikası" [ref=e368]: Məişət Texnikası
+        - generic [ref=e87]:
+          - generic [ref=e385]:
+            - generic [ref=e386]:
+              - link "QA_TEST_Product Samsung TV 55 Səbətə əlavə et" [ref=e387] [cursor=pointer]:
+                - /url: /products/eda6a0fe-6714-42be-b2eb-dbc027aa0e55
+                - generic [ref=e388]:
+                  - img "QA_TEST_Product Samsung TV 55" [ref=e389]
+                  - button "Səbətə əlavə et" [ref=e391]:
+                    - img [ref=e392]
+                    - text: Səbətə əlavə et
+              - button "İstək siyahısı" [ref=e395]:
+                - img [ref=e396]
+            - generic [ref=e398]:
+              - generic [ref=e399]:
+                - generic [ref=e400]: Samsung
+                - generic [ref=e401]: Elektronika
+              - link "QA_TEST_Product Samsung TV 55" [ref=e402] [cursor=pointer]:
+                - /url: /products/eda6a0fe-6714-42be-b2eb-dbc027aa0e55
+                - heading "QA_TEST_Product Samsung TV 55" [level=3] [ref=e403]
+              - generic [ref=e404]:
+                - paragraph [ref=e406]: 999.99 AZN
+                - link [ref=e407] [cursor=pointer]:
+                  - /url: /products/eda6a0fe-6714-42be-b2eb-dbc027aa0e55
+                  - img [ref=e408]
+          - generic [ref=e411]:
+            - generic [ref=e412]:
+              - link "Samsung Galaxy s25 ultra Səbətə əlavə et" [ref=e413] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                - generic [ref=e414]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e415]
+                  - button "Səbətə əlavə et" [ref=e417]:
+                    - img [ref=e418]
+                    - text: Səbətə əlavə et
+              - generic [ref=e422]: "-23%"
+              - button "İstək siyahısı" [ref=e423]:
+                - img [ref=e424]
+            - generic [ref=e426]:
+              - generic [ref=e427]:
+                - generic [ref=e428]: Samsung
+                - generic [ref=e429]: Smartfonlar
+              - link "Samsung Galaxy s25 ultra" [ref=e430] [cursor=pointer]:
+                - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                - heading "Samsung Galaxy s25 ultra" [level=3] [ref=e431]
+              - generic [ref=e432]:
+                - generic [ref=e433]:
+                  - paragraph [ref=e434]: 1,924.99 AZN
+                  - paragraph [ref=e435]: 2,499.99 AZN
+                - link [ref=e436] [cursor=pointer]:
+                  - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                  - img [ref=e437]
+          - generic [ref=e440]:
+            - generic [ref=e441]:
+              - link "Samsung Galaxy S24 Ultra Səbətə əlavə et" [ref=e442] [cursor=pointer]:
+                - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                - generic [ref=e443]:
+                  - img "Samsung Galaxy S24 Ultra" [ref=e444]
+                  - button "Səbətə əlavə et" [ref=e446]:
+                    - img [ref=e447]
+                    - text: Səbətə əlavə et
+              - button "İstək siyahısı" [ref=e450]:
+                - img [ref=e451]
+            - generic [ref=e453]:
+              - generic [ref=e454]:
+                - generic [ref=e455]: Samsung
+                - generic [ref=e456]: Smartfonlar
+              - link "Samsung Galaxy S24 Ultra" [ref=e457] [cursor=pointer]:
+                - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                - heading "Samsung Galaxy S24 Ultra" [level=3] [ref=e458]
+              - generic [ref=e459]:
+                - paragraph [ref=e461]: 2,299.99 AZN
+                - link [ref=e462] [cursor=pointer]:
+                  - /url: /products/d2ffcf7a-1646-477e-a8cd-9b82bac9652c
+                  - img [ref=e463]
+  - contentinfo [ref=e144]:
+    - generic [ref=e145]:
+      - generic [ref=e146]:
+        - generic [ref=e147]:
+          - link "CYBER" [ref=e148] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e149]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e150]:
+          - heading "Xidmətlər" [level=3] [ref=e151]
+          - list [ref=e152]:
+            - listitem [ref=e153]:
+              - link "Bonus proqramı" [ref=e154] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e155]:
+              - link "Hədiyyə kartları" [ref=e156] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e157]:
+              - link "Kredit və ödəniş" [ref=e158] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e159]:
+              - link "Xidmət müqavilələri" [ref=e160] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e161]:
+              - link "Nağdsız hesab" [ref=e162] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e163]:
+              - link "Ödəniş" [ref=e164] [cursor=pointer]:
+                - /url: /products
+        - generic [ref=e165]:
+          - heading "Alıcıya kömək" [level=3] [ref=e166]
+          - list [ref=e167]:
+            - listitem [ref=e168]:
+              - link "Sifariş tap" [ref=e169] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e170]:
+              - link "Çatdırılma şərtləri" [ref=e171] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e172]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e173] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e174]:
+              - link "Zəmanət" [ref=e175] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e176]:
+              - link "Tez-tez verilən suallar" [ref=e177] [cursor=pointer]:
+                - /url: /products
+            - listitem [ref=e178]:
+              - link "Sayt istifadə şərtləri" [ref=e179] [cursor=pointer]:
+                - /url: /products
+        - generic [ref=e180]:
+          - heading "Bizi izləyin" [level=3] [ref=e181]
+          - generic [ref=e182]:
+            - link [ref=e183] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e184]
+            - link [ref=e186] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e187]
+            - link [ref=e189] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e190]
+            - link [ref=e193] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e194]
+      - generic [ref=e198]: © 2026 Cyber. Bütün hüquqlar qorunur.

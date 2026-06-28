@@ -1,0 +1,196 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - complementary [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - img [ref=e8]
+          - generic [ref=e11]: İnventar
+        - navigation [ref=e12]:
+          - button "İdarə Paneli" [ref=e13]:
+            - img [ref=e14]
+            - text: İdarə Paneli
+          - button "Məhsullar" [ref=e19]:
+            - img [ref=e20]
+            - text: Məhsullar
+          - button "Məşhur Məhsullar" [ref=e23]:
+            - img [ref=e24]
+            - text: Məşhur Məhsullar
+          - button "Kateqoriyalar" [ref=e27]:
+            - img [ref=e28]
+            - text: Kateqoriyalar
+          - button "Brendlər" [ref=e33]:
+            - img [ref=e34]
+            - text: Brendlər
+          - button "Endirimlər" [ref=e37]:
+            - img [ref=e38]
+            - text: Endirimlər
+          - button "Satışlar" [ref=e42]:
+            - img [ref=e43]
+            - text: Satışlar
+      - generic [ref=e46]:
+        - button "Açıq" [ref=e47]:
+          - img [ref=e48]
+          - text: Açıq
+        - button "Tünd" [ref=e54]:
+          - img [ref=e55]
+          - text: Tünd
+    - generic [ref=e57]:
+      - banner [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e60]:
+            - img [ref=e61]
+            - textbox "Axtar..." [ref=e64]
+          - button [ref=e65]:
+            - img [ref=e66]
+          - generic [ref=e70]:
+            - generic [ref=e72]: A
+            - generic [ref=e73]:
+              - paragraph [ref=e74]: Administrator
+              - paragraph [ref=e75]: Agent
+            - button "Çıxış" [ref=e76]:
+              - img [ref=e77]
+      - main [ref=e80]:
+        - generic [ref=e81]:
+          - generic [ref=e83]:
+            - heading "Satışlar" [level=1] [ref=e84]
+            - paragraph [ref=e85]: Satış əməliyyatlarını idarə edin
+          - generic [ref=e86]:
+            - generic [ref=e87]:
+              - generic [ref=e88]:
+                - img [ref=e89]
+                - textbox "Məhsul adı, kodu və ya kateqoriyaya görə axtar..." [ref=e92]
+              - generic [ref=e95]:
+                - combobox [ref=e96]:
+                  - option "Bütün kateqoriyalar" [selected]
+                  - option "Aksessuarlar"
+                  - option "Elektronika"
+                  - option "Kompyuterlər"
+                  - option "Məişət Texnikası"
+                  - option "Mətbəx Texnikası"
+                  - option "Smartfonlar"
+                  - option "Təmizləmə Texnikası"
+                - img
+              - generic [ref=e99]:
+                - combobox [ref=e100]:
+                  - option "Bütün növlər" [selected]
+                  - option "Mövcud məhsul"
+                  - option "Manuel giriş"
+                - img
+              - button "Satış əlavə et" [ref=e101]:
+                - img [ref=e103]
+                - generic [ref=e104]: Satış əlavə et
+            - generic [ref=e105]:
+              - generic [ref=e107]:
+                - generic [ref=e108]: Tarixdən
+                - generic [ref=e109]:
+                  - textbox [ref=e110]:
+                    - /placeholder: dd/mm/yyyy
+                  - img
+              - generic [ref=e112]:
+                - generic [ref=e113]: Tarixə qədər
+                - generic [ref=e114]:
+                  - textbox [ref=e115]:
+                    - /placeholder: dd/mm/yyyy
+                  - img
+              - generic [ref=e117]:
+                - generic [ref=e118]: Min mənfəət
+                - spinbutton "Min mənfəət" [ref=e119]
+              - generic [ref=e121]:
+                - generic [ref=e122]: Maks mənfəət
+                - spinbutton "Maks mənfəət" [ref=e123]
+          - generic [ref=e124]:
+            - table [ref=e126]:
+              - rowgroup [ref=e127]:
+                - row "Məhsul adı Kateqoriya Maya dəyəri Satış qiyməti Miqdar Ümumi maya dəyəri Ümumi satış məbləği Mənfəət Satış növü Satış tarixi Qeyd Əməliyyatlar" [ref=e279]:
+                  - columnheader "Məhsul adı" [ref=e280]:
+                    - generic [ref=e130]: Məhsul adı
+                  - columnheader "Kateqoriya" [ref=e281]:
+                    - generic [ref=e132]: Kateqoriya
+                  - columnheader "Maya dəyəri" [ref=e282]:
+                    - generic [ref=e134]: Maya dəyəri
+                  - columnheader "Satış qiyməti" [ref=e283]:
+                    - generic [ref=e136]: Satış qiyməti
+                  - columnheader "Miqdar" [ref=e284]:
+                    - generic [ref=e138]: Miqdar
+                  - columnheader "Ümumi maya dəyəri" [ref=e285]:
+                    - generic [ref=e140]: Ümumi maya dəyəri
+                  - columnheader "Ümumi satış məbləği" [ref=e286]:
+                    - generic [ref=e142]: Ümumi satış məbləği
+                  - columnheader "Mənfəət" [ref=e287]:
+                    - generic [ref=e144]: Mənfəət
+                  - columnheader "Satış növü" [ref=e288]:
+                    - generic [ref=e146]: Satış növü
+                  - columnheader "Satış tarixi" [ref=e289]:
+                    - generic [ref=e148]: Satış tarixi
+                  - columnheader "Qeyd" [ref=e290]:
+                    - generic [ref=e150]: Qeyd
+                  - columnheader "Əməliyyatlar" [ref=e291]:
+                    - generic [ref=e152]: Əməliyyatlar
+              - rowgroup [ref=e153]:
+                - row "Samsung Galaxy s25 ultra IPHONE15PM256 Smartfonlar 2,499.99 ₼ 200.00 ₼ 2 4,999.98 ₼ 400.00 ₼ -4,599.98 ₼ Mövcud məhsul 6/27/2026 —" [ref=e292]:
+                  - cell "Samsung Galaxy s25 ultra IPHONE15PM256" [ref=e293]:
+                    - generic [ref=e294]:
+                      - generic [ref=e295]: Samsung Galaxy s25 ultra
+                      - generic [ref=e296]: IPHONE15PM256
+                  - cell "Smartfonlar" [ref=e297]
+                  - cell "2,499.99 ₼" [ref=e298]
+                  - cell "200.00 ₼" [ref=e299]
+                  - cell "2" [ref=e300]
+                  - cell "4,999.98 ₼" [ref=e301]
+                  - cell "400.00 ₼" [ref=e302]
+                  - cell "-4,599.98 ₼" [ref=e303]
+                  - cell "Mövcud məhsul" [ref=e304]:
+                    - generic [ref=e305]: Mövcud məhsul
+                  - cell "6/27/2026" [ref=e306]
+                  - cell "—" [ref=e307]:
+                    - generic [ref=e308]: —
+                  - cell [ref=e309]:
+                    - generic [ref=e310]:
+                      - button "Düzəliş et" [ref=e311]:
+                        - img [ref=e312]
+                      - button "Sil" [ref=e315]:
+                        - img [ref=e316]
+                - row "QA_TEST_Manuel Satis QA_TEST_001 — 100.00 ₼ 150.00 ₼ 2 200.00 ₼ 300.00 ₼ +100.00 ₼ Manuel giriş 6/27/2026 —" [ref=e380]:
+                  - cell "QA_TEST_Manuel Satis QA_TEST_001" [ref=e381]:
+                    - generic [ref=e382]:
+                      - generic [ref=e383]: QA_TEST_Manuel Satis
+                      - generic [ref=e384]: QA_TEST_001
+                  - cell "—" [ref=e385]
+                  - cell "100.00 ₼" [ref=e386]
+                  - cell "150.00 ₼" [ref=e387]
+                  - cell "2" [ref=e388]
+                  - cell "200.00 ₼" [ref=e389]
+                  - cell "300.00 ₼" [ref=e390]
+                  - cell "+100.00 ₼" [ref=e391]:
+                    - generic [ref=e392]: +100.00 ₼
+                  - cell "Manuel giriş" [ref=e393]:
+                    - generic [ref=e394]: Manuel giriş
+                  - cell "6/27/2026" [ref=e395]
+                  - cell "—" [ref=e396]:
+                    - generic [ref=e397]: —
+                  - cell [ref=e398]:
+                    - generic [ref=e399]:
+                      - button "Düzəliş et" [ref=e400]:
+                        - img [ref=e401]
+                      - button "Sil" [ref=e404]:
+                        - img [ref=e405]
+            - generic [ref=e319]:
+              - generic [ref=e320]:
+                - generic [ref=e321]: Göstərilir
+                - combobox [ref=e322]:
+                  - option "10" [selected]
+                  - option "25"
+                  - option "50"
+                  - option "100"
+              - generic [ref=e323]: Göstərilir 1 - 2 cəmi 2 qeyd
+              - generic [ref=e324]:
+                - button [disabled] [ref=e325]:
+                  - img [ref=e326]
+                - button "1" [ref=e328]
+                - button [disabled] [ref=e329]:
+                  - img [ref=e330]
+  - alert [ref=e409]:
+    - img [ref=e410]
+    - paragraph [ref=e413]: Satış uğurla yaradıldı
+    - button "Bağla" [ref=e414]:
+      - img [ref=e415]

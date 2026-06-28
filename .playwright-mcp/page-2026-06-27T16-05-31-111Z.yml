@@ -1,0 +1,129 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link "1" [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+          - generic [ref=e29]: "1"
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e31]
+  - main [ref=e34]:
+    - generic [ref=e37]:
+      - heading "Hesab yarat" [level=1] [ref=e38]
+      - paragraph [ref=e39]: Başlamaq üçün qeydiyyatdan keçin
+      - generic [ref=e40]:
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - generic [ref=e43]: Ad
+            - textbox "Ad" [ref=e44]
+          - generic [ref=e45]:
+            - generic [ref=e46]: Soyad
+            - textbox "Soyad" [ref=e47]
+        - generic [ref=e48]:
+          - generic [ref=e49]: E-poçt
+          - textbox "siz@misal.com" [ref=e50]
+        - generic [ref=e51]:
+          - generic [ref=e52]: Şifrə
+          - textbox "••••••••" [ref=e53]
+        - generic [ref=e54]:
+          - generic [ref=e55]: Şifrəni təsdiqlə
+          - textbox "••••••••" [ref=e56]
+        - generic [ref=e57]:
+          - checkbox [ref=e58]
+          - generic [ref=e59]:
+            - text: Mən razıyam
+            - link "Xidmət şərtləri" [ref=e60] [cursor=pointer]:
+              - /url: /terms
+            - text: və
+            - link "Məxfilik siyasəti" [ref=e61] [cursor=pointer]:
+              - /url: /privacy
+            - text: ilə
+        - button "Hesab yarat" [ref=e62]
+      - paragraph [ref=e64]:
+        - text: Artıq hesabınız var?
+        - link "Daxil ol" [ref=e65] [cursor=pointer]:
+          - /url: /login
+  - contentinfo [ref=e66]:
+    - generic [ref=e67]:
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - link "CYBER" [ref=e70] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e71]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e72]:
+          - heading "Xidmətlər" [level=3] [ref=e73]
+          - list [ref=e74]:
+            - listitem [ref=e75]:
+              - link "Bonus proqramı" [ref=e76] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e77]:
+              - link "Hədiyyə kartları" [ref=e78] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e79]:
+              - link "Kredit və ödəniş" [ref=e80] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e81]:
+              - link "Xidmət müqavilələri" [ref=e82] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e83]:
+              - link "Nağdsız hesab" [ref=e84] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e85]:
+              - link "Ödəniş" [ref=e86] [cursor=pointer]:
+                - /url: /register
+        - generic [ref=e87]:
+          - heading "Alıcıya kömək" [level=3] [ref=e88]
+          - list [ref=e89]:
+            - listitem [ref=e90]:
+              - link "Sifariş tap" [ref=e91] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e92]:
+              - link "Çatdırılma şərtləri" [ref=e93] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e94]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e95] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e96]:
+              - link "Zəmanət" [ref=e97] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e98]:
+              - link "Tez-tez verilən suallar" [ref=e99] [cursor=pointer]:
+                - /url: /register
+            - listitem [ref=e100]:
+              - link "Sayt istifadə şərtləri" [ref=e101] [cursor=pointer]:
+                - /url: /register
+        - generic [ref=e102]:
+          - heading "Bizi izləyin" [level=3] [ref=e103]
+          - generic [ref=e104]:
+            - link [ref=e105] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e106]
+            - link [ref=e108] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e109]
+            - link [ref=e111] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e112]
+            - link [ref=e115] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e116]
+      - generic [ref=e120]: © 2026 Cyber. Bütün hüquqlar qorunur.

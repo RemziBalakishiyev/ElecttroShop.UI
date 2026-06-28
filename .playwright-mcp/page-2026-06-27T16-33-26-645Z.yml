@@ -1,0 +1,156 @@
+- generic [ref=e262]:
+  - complementary [ref=e263]:
+    - generic [ref=e264]:
+      - generic [ref=e265]:
+        - img [ref=e267]
+        - generic [ref=e270]: İnventar
+      - navigation [ref=e271]:
+        - button "İdarə Paneli" [ref=e272]:
+          - img [ref=e273]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e278]:
+          - img [ref=e279]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e282]:
+          - img [ref=e283]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e286]:
+          - img [ref=e287]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e292]:
+          - img [ref=e293]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e296]:
+          - img [ref=e297]
+          - text: Endirimlər
+    - generic [ref=e301]:
+      - button "Açıq" [ref=e302]:
+        - img [ref=e303]
+        - text: Açıq
+      - button "Tünd" [ref=e309]:
+        - img [ref=e310]
+        - text: Tünd
+  - generic [ref=e312]:
+    - banner [ref=e313]:
+      - generic [ref=e314]:
+        - generic [ref=e315]:
+          - img [ref=e316]
+          - textbox "Axtar..." [ref=e319]
+        - button [ref=e320]:
+          - img [ref=e321]
+        - generic [ref=e325]:
+          - generic [ref=e327]: A
+          - generic [ref=e328]:
+            - paragraph [ref=e329]: Administrator
+            - paragraph [ref=e330]: Agent
+          - button "Çıxış" [ref=e331]:
+            - img [ref=e332]
+    - main [ref=e335]:
+      - generic [ref=e336]:
+        - generic [ref=e337]:
+          - heading "İdarə Paneli" [level=1] [ref=e338]
+          - paragraph [ref=e339]: Mağazanızın performansına ümumi baxış
+        - generic [ref=e340]:
+          - generic [ref=e341]:
+            - generic [ref=e342]:
+              - generic [ref=e343]:
+                - paragraph [ref=e344]: Ümumi Gəlir
+                - heading "0 AZN" [level=3] [ref=e345]
+              - img [ref=e347]
+            - generic [ref=e349]:
+              - generic [ref=e350]:
+                - img [ref=e351]
+                - text: "+0"
+              - generic [ref=e354]: keçən aya nisbətən
+          - generic [ref=e355]:
+            - generic [ref=e356]:
+              - generic [ref=e357]:
+                - paragraph [ref=e358]: Ümumi Sifarişlər
+                - heading "0" [level=3] [ref=e359]
+              - img [ref=e361]
+            - generic [ref=e364]:
+              - generic [ref=e365]:
+                - img [ref=e366]
+                - text: "+0"
+              - generic [ref=e369]: keçən aya nisbətən
+          - generic [ref=e370]:
+            - generic [ref=e371]:
+              - generic [ref=e372]:
+                - paragraph [ref=e373]: Aktiv Məhsullar
+                - heading "5" [level=3] [ref=e374]
+              - img [ref=e376]
+            - generic [ref=e380]:
+              - generic [ref=e381]:
+                - img [ref=e382]
+                - text: 5 Ümumi
+              - generic [ref=e385]: keçən aya nisbətən
+          - generic [ref=e387]:
+            - generic [ref=e388]:
+              - paragraph [ref=e389]: Ümumi Müştərilər
+              - heading "0" [level=3] [ref=e390]
+            - img [ref=e392]
+        - generic [ref=e397]:
+          - generic [ref=e398]:
+            - generic [ref=e399]:
+              - generic [ref=e400]:
+                - generic [ref=e401]:
+                  - img [ref=e403]
+                  - heading "Revenue Overview" [level=2] [ref=e405]
+                - generic [ref=e406]:
+                  - button "Daily" [ref=e407]
+                  - button "Weekly" [ref=e408]
+                  - button "Monthly" [ref=e409]
+              - generic [ref=e411]: No data available for this period
+            - generic [ref=e412]:
+              - generic [ref=e413]:
+                - heading "Son Sifarişlər" [level=2] [ref=e414]
+                - button "Hamısına bax" [ref=e415]
+              - table [ref=e418]:
+                - rowgroup [ref=e419]:
+                  - row "Sifariş ID Müştəri Status Məbləğ Tarix" [ref=e420]:
+                    - columnheader "Sifariş ID" [ref=e421]
+                    - columnheader "Müştəri" [ref=e422]
+                    - columnheader "Status" [ref=e423]
+                    - columnheader "Məbləğ" [ref=e424]
+                    - columnheader "Tarix" [ref=e425]
+                - rowgroup
+          - generic [ref=e426]:
+            - generic [ref=e427]:
+              - heading "Yeni Məhsullar" [level=2] [ref=e428]
+              - button "Hamısına bax" [ref=e429]
+            - generic [ref=e430]:
+              - generic [ref=e431] [cursor=pointer]:
+                - img [ref=e433]
+                - generic [ref=e437]:
+                  - heading "QA_TEST_Product Samsung TV 55" [level=4] [ref=e438]
+                  - generic [ref=e439]:
+                    - generic [ref=e440]: Elektronika
+                    - generic [ref=e442]: 999.99 AZN
+              - generic [ref=e443] [cursor=pointer]:
+                - img [ref=e445]
+                - generic [ref=e449]:
+                  - heading "Samsung Galaxy s25 ultra" [level=4] [ref=e450]
+                  - generic [ref=e451]:
+                    - generic [ref=e452]: Smartfonlar
+                    - generic [ref=e454]: 2499.99 AZN
+              - generic [ref=e455] [cursor=pointer]:
+                - img [ref=e457]
+                - generic [ref=e461]:
+                  - heading "Samsung Galaxy S24 Ultra" [level=4] [ref=e462]
+                  - generic [ref=e463]:
+                    - generic [ref=e464]: Smartfonlar
+                    - generic [ref=e466]: 2299.99 AZN
+              - generic [ref=e467] [cursor=pointer]:
+                - img [ref=e469]
+                - generic [ref=e473]:
+                  - heading "Lenovo ThinkPad X1 Carbon" [level=4] [ref=e474]
+                  - generic [ref=e475]:
+                    - generic [ref=e476]: Kompyuterlər
+                    - generic [ref=e478]: 2899.99 AZN
+              - generic [ref=e479] [cursor=pointer]:
+                - img [ref=e481]
+                - generic [ref=e485]:
+                  - heading "MacBook Pro 16" [level=4] [ref=e486]
+                  - generic [ref=e487]:
+                    - generic [ref=e488]: Kompyuterlər
+                    - generic [ref=e490]: 3499.99 AZN

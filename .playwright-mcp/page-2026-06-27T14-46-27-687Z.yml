@@ -1,0 +1,238 @@
+- generic [ref=e31]:
+  - complementary [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e34]:
+        - img [ref=e36]
+        - generic [ref=e39]: İnventar
+      - navigation [ref=e40]:
+        - button "İdarə Paneli" [ref=e41]:
+          - img [ref=e42]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e47]:
+          - img [ref=e48]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [active] [ref=e51]:
+          - img [ref=e52]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e55]:
+          - img [ref=e56]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e61]:
+          - img [ref=e62]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e65]:
+          - img [ref=e66]
+          - text: Endirimlər
+    - generic [ref=e70]:
+      - button "Açıq" [ref=e71]:
+        - img [ref=e72]
+        - text: Açıq
+      - button "Tünd" [ref=e78]:
+        - img [ref=e79]
+        - text: Tünd
+  - generic [ref=e81]:
+    - banner [ref=e82]:
+      - generic [ref=e83]:
+        - generic [ref=e84]:
+          - img [ref=e85]
+          - textbox "Axtar..." [ref=e88]
+        - button [ref=e89]:
+          - img [ref=e90]
+        - generic [ref=e94]:
+          - generic [ref=e96]: A
+          - generic [ref=e97]:
+            - paragraph [ref=e98]: Administrator
+            - paragraph [ref=e99]: Agent
+          - button "Çıxış" [ref=e100]:
+            - img [ref=e101]
+    - main [ref=e104]:
+      - generic [ref=e1000]:
+        - generic [ref=e1002]:
+          - generic [ref=e1003]:
+            - generic [ref=e1004]:
+              - img [ref=e1005]
+              - text: Ana səhifə önizləməsi
+            - heading "Məşhur Məhsullar (Maksimum 4)" [level=1] [ref=e1008]
+            - paragraph [ref=e1009]: Ana səhifədə göstəriləcək məşhur məhsulları idarə edin
+          - generic [ref=e1011]:
+            - paragraph [ref=e1012]: Hazırkı məhsullar
+            - paragraph [ref=e1013]: 4 / 4 slot dolu
+        - button "Qaydalar Qaydaları göstər" [ref=e1015]:
+          - generic [ref=e1016]:
+            - img [ref=e1017]
+            - text: Qaydalar
+          - generic [ref=e1020]:
+            - text: Qaydaları göstər
+            - img [ref=e1021]
+        - generic [ref=e1023]:
+          - generic [ref=e1024]:
+            - heading "Hazırkı məhsullar" [level=2] [ref=e1025]
+            - generic [ref=e1026]: Ana səhifə önizləməsi
+          - generic [ref=e1027]:
+            - article [ref=e1028]:
+              - generic [ref=e1029]:
+                - img "Lenovo ThinkPad X1 Carbon" [ref=e1030]
+                - generic [ref=e1032]: "1"
+                - button "Çıxar" [ref=e1033]:
+                  - img [ref=e1034]
+              - generic [ref=e1037]:
+                - button "Lenovo ThinkPad X1 Carbon" [ref=e1038]:
+                  - generic [ref=e1039]: Lenovo ThinkPad X1 Carbon
+                  - img [ref=e1040]
+                - paragraph [ref=e1044]: Lenovo ThinkPad X1 Carbon Gen 11 Intel Core i7
+            - article [ref=e1045]:
+              - generic [ref=e1046]:
+                - img "Samsung Galaxy S24 Ultra" [ref=e1047]
+                - generic [ref=e1049]: "2"
+                - button "Çıxar" [ref=e1050]:
+                  - img [ref=e1051]
+              - generic [ref=e1054]:
+                - button "Samsung Galaxy S24 Ultra" [ref=e1055]:
+                  - generic [ref=e1056]: Samsung Galaxy S24 Ultra
+                  - img [ref=e1057]
+                - paragraph [ref=e1061]: Samsung Galaxy S24 Ultra 512GB Phantom Black
+            - article [ref=e1062]:
+              - generic [ref=e1063]:
+                - img "Samsung Galaxy s25 ultra" [ref=e1064]
+                - generic [ref=e1066]: "3"
+                - button "Çıxar" [ref=e1067]:
+                  - img [ref=e1068]
+              - generic [ref=e1071]:
+                - button "Samsung Galaxy s25 ultra" [ref=e1072]:
+                  - generic [ref=e1073]: Samsung Galaxy s25 ultra
+                  - img [ref=e1074]
+                - paragraph [ref=e1078]: Apple iPhone 15 Pro Max 256GB Titanium Blue
+            - article [ref=e1079]:
+              - generic [ref=e1080]:
+                - img "MacBook Pro 16" [ref=e1081]
+                - generic [ref=e1083]: "4"
+                - button "Çıxar" [ref=e1084]:
+                  - img [ref=e1085]
+              - generic [ref=e1088]:
+                - button "MacBook Pro 16" [ref=e1089]:
+                  - generic [ref=e1090]: MacBook Pro 16
+                  - img [ref=e1091]
+                - paragraph [ref=e1095]: Apple MacBook Pro 16-inch M3 Pro 512GB
+        - generic [ref=e1096]:
+          - generic [ref=e1097]:
+            - generic [ref=e1098]:
+              - heading "Bütün məhsullar" [level=2] [ref=e1099]
+              - paragraph [ref=e1100]: Slota təyin et
+            - generic [ref=e1101]:
+              - img
+              - textbox "Məhsulları axtar..." [ref=e1102]
+          - list [ref=e1103]:
+            - listitem [ref=e1104]:
+              - generic [ref=e1105]:
+                - generic [ref=e1106]:
+                  - img [ref=e1109]
+                  - generic [ref=e1112]:
+                    - button "QA_TEST_Product Samsung TV 55" [ref=e1114]
+                    - paragraph [ref=e1115]: QA_TEST_SKU_001
+                    - generic [ref=e1116]:
+                      - generic [ref=e1117]: Şəkil yoxdur
+                      - generic [ref=e1118]: Təsvir yoxdur
+                - group "Sıra seçimi" [ref=e1120]:
+                  - button "1" [ref=e1121]
+                  - button "2" [ref=e1122]
+                  - button "3" [ref=e1123]
+                  - button "4" [ref=e1124]
+            - listitem [ref=e1125]:
+              - generic [ref=e1126]:
+                - generic [ref=e1127]:
+                  - img "Samsung Galaxy s25 ultra" [ref=e1129]
+                  - generic [ref=e1130]:
+                    - generic [ref=e1131]:
+                      - button "Samsung Galaxy s25 ultra" [ref=e1132]
+                      - generic [ref=e1133]:
+                        - img [ref=e1134]
+                        - text: Təyin edilib · 3
+                    - paragraph [ref=e1137]: IPHONE15PM256
+                    - generic [ref=e1139]: Təsvir yoxdur
+                - generic [ref=e1140]:
+                  - group "Sıra seçimi" [ref=e1141]:
+                    - button "1" [ref=e1142]
+                    - button "2" [ref=e1143]
+                    - button "3" [ref=e1144]
+                    - button "4" [ref=e1145]
+                  - button "Çıxar" [ref=e1146]:
+                    - img [ref=e1147]
+                    - text: Çıxar
+            - listitem [ref=e1150]:
+              - generic [ref=e1151]:
+                - generic [ref=e1152]:
+                  - img "Samsung Galaxy S24 Ultra" [ref=e1154]
+                  - generic [ref=e1155]:
+                    - generic [ref=e1156]:
+                      - button "Samsung Galaxy S24 Ultra" [ref=e1157]
+                      - generic [ref=e1158]:
+                        - img [ref=e1159]
+                        - text: Təyin edilib · 2
+                    - paragraph [ref=e1162]: SGS24U512
+                    - generic [ref=e1164]: Təsvir yoxdur
+                - generic [ref=e1165]:
+                  - group "Sıra seçimi" [ref=e1166]:
+                    - button "1" [ref=e1167]
+                    - button "2" [ref=e1168]
+                    - button "3" [ref=e1169]
+                    - button "4" [ref=e1170]
+                  - button "Çıxar" [ref=e1171]:
+                    - img [ref=e1172]
+                    - text: Çıxar
+            - listitem [ref=e1175]:
+              - generic [ref=e1176]:
+                - generic [ref=e1177]:
+                  - img "Lenovo ThinkPad X1 Carbon" [ref=e1179]
+                  - generic [ref=e1180]:
+                    - generic [ref=e1181]:
+                      - button "Lenovo ThinkPad X1 Carbon" [ref=e1182]
+                      - generic [ref=e1183]:
+                        - img [ref=e1184]
+                        - text: Təyin edilib · 1
+                    - paragraph [ref=e1187]: LENOVOX1C
+                    - generic [ref=e1189]: Təsvir yoxdur
+                - generic [ref=e1190]:
+                  - group "Sıra seçimi" [ref=e1191]:
+                    - button "1" [ref=e1192]
+                    - button "2" [ref=e1193]
+                    - button "3" [ref=e1194]
+                    - button "4" [ref=e1195]
+                  - button "Çıxar" [ref=e1196]:
+                    - img [ref=e1197]
+                    - text: Çıxar
+            - listitem [ref=e1200]:
+              - generic [ref=e1201]:
+                - generic [ref=e1202]:
+                  - img "MacBook Pro 16" [ref=e1204]
+                  - generic [ref=e1205]:
+                    - generic [ref=e1206]:
+                      - button "MacBook Pro 16" [ref=e1207]
+                      - generic [ref=e1208]:
+                        - img [ref=e1209]
+                        - text: Təyin edilib · 4
+                    - paragraph [ref=e1212]: MACBOOK16
+                    - generic [ref=e1214]: Təsvir yoxdur
+                - generic [ref=e1215]:
+                  - group "Sıra seçimi" [ref=e1216]:
+                    - button "1" [ref=e1217]
+                    - button "2" [ref=e1218]
+                    - button "3" [ref=e1219]
+                    - button "4" [ref=e1220]
+                  - button "Çıxar" [ref=e1221]:
+                    - img [ref=e1222]
+                    - text: Çıxar
+          - generic [ref=e1226]:
+            - generic [ref=e1227]:
+              - generic [ref=e1228]: Göstərilir
+              - combobox [ref=e1229]:
+                - option "10" [selected]
+                - option "25"
+                - option "50"
+                - option "100"
+            - generic [ref=e1230]: Göstərilir 1 - 5 cəmi 5 qeyd
+            - generic [ref=e1231]:
+              - button [disabled] [ref=e1232]:
+                - img [ref=e1233]
+              - button "1" [ref=e1235]
+              - button [disabled] [ref=e1236]:
+                - img [ref=e1237]

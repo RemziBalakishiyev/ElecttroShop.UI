@@ -1,0 +1,173 @@
+- generic [ref=e3]:
+  - complementary [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - img [ref=e8]
+        - generic [ref=e11]: İnventar
+      - navigation [ref=e12]:
+        - button "İdarə Paneli" [ref=e13]:
+          - img [ref=e14]
+          - text: İdarə Paneli
+        - button "Məhsullar" [ref=e19]:
+          - img [ref=e20]
+          - text: Məhsullar
+        - button "Məşhur Məhsullar" [ref=e23]:
+          - img [ref=e24]
+          - text: Məşhur Məhsullar
+        - button "Kateqoriyalar" [ref=e27]:
+          - img [ref=e28]
+          - text: Kateqoriyalar
+        - button "Brendlər" [ref=e33]:
+          - img [ref=e34]
+          - text: Brendlər
+        - button "Endirimlər" [ref=e37]:
+          - img [ref=e38]
+          - text: Endirimlər
+        - button "Satışlar" [ref=e42]:
+          - img [ref=e43]
+          - text: Satışlar
+    - generic [ref=e46]:
+      - button "Açıq" [ref=e47]:
+        - img [ref=e48]
+        - text: Açıq
+      - button "Tünd" [ref=e54]:
+        - img [ref=e55]
+        - text: Tünd
+  - generic [ref=e57]:
+    - banner [ref=e58]:
+      - generic [ref=e59]:
+        - generic [ref=e60]:
+          - img [ref=e61]
+          - textbox "Axtar..." [ref=e64]
+        - button [ref=e65]:
+          - img [ref=e66]
+        - generic [ref=e70]:
+          - generic [ref=e72]: A
+          - generic [ref=e73]:
+            - paragraph [ref=e74]: Administrator
+            - paragraph [ref=e75]: Agent
+          - button "Çıxış" [ref=e76]:
+            - img [ref=e77]
+    - main [ref=e80]:
+      - generic [ref=e81]:
+        - generic [ref=e83]:
+          - heading "Satışlar" [level=1] [ref=e84]
+          - paragraph [ref=e85]: Satış əməliyyatlarını idarə edin
+        - generic [ref=e86]:
+          - generic [ref=e87]:
+            - generic [ref=e88]:
+              - img [ref=e89]
+              - textbox "Məhsul adı, kodu və ya kateqoriyaya görə axtar..." [ref=e92]
+            - generic [ref=e95]:
+              - combobox [ref=e96]:
+                - option "Bütün kateqoriyalar" [selected]
+              - img
+            - generic [ref=e99]:
+              - combobox [ref=e100]:
+                - option "Bütün növlər" [selected]
+                - option "Mövcud məhsul"
+                - option "Manuel giriş"
+              - img
+            - button "Satış əlavə et" [ref=e101]:
+              - img [ref=e103]
+              - generic [ref=e104]: Satış əlavə et
+          - generic [ref=e105]:
+            - generic [ref=e107]:
+              - generic [ref=e108]: Tarixdən
+              - generic [ref=e109]:
+                - textbox [ref=e110]:
+                  - /placeholder: dd/mm/yyyy
+                - img
+            - generic [ref=e112]:
+              - generic [ref=e113]: Tarixə qədər
+              - generic [ref=e114]:
+                - textbox [ref=e115]:
+                  - /placeholder: dd/mm/yyyy
+                - img
+            - generic [ref=e117]:
+              - generic [ref=e118]: Min mənfəət
+              - spinbutton "Min mənfəət" [ref=e119]
+            - generic [ref=e121]:
+              - generic [ref=e122]: Maks mənfəət
+              - spinbutton "Maks mənfəət" [ref=e123]
+        - table [ref=e126]:
+          - rowgroup [ref=e127]:
+            - row [ref=e128]:
+              - columnheader [ref=e129]
+              - columnheader [ref=e131]
+              - columnheader [ref=e133]
+              - columnheader [ref=e135]
+              - columnheader [ref=e137]
+              - columnheader [ref=e139]
+              - columnheader [ref=e141]
+              - columnheader [ref=e143]
+              - columnheader [ref=e145]
+              - columnheader [ref=e147]
+              - columnheader [ref=e149]
+              - columnheader [ref=e151]
+          - rowgroup [ref=e153]:
+            - row [ref=e154]:
+              - cell [ref=e155]
+              - cell [ref=e157]
+              - cell [ref=e159]
+              - cell [ref=e161]
+              - cell [ref=e163]
+              - cell [ref=e165]
+              - cell [ref=e167]
+              - cell [ref=e169]
+              - cell [ref=e171]
+              - cell [ref=e173]
+              - cell [ref=e175]
+              - cell [ref=e177]
+            - row [ref=e179]:
+              - cell [ref=e180]
+              - cell [ref=e182]
+              - cell [ref=e184]
+              - cell [ref=e186]
+              - cell [ref=e188]
+              - cell [ref=e190]
+              - cell [ref=e192]
+              - cell [ref=e194]
+              - cell [ref=e196]
+              - cell [ref=e198]
+              - cell [ref=e200]
+              - cell [ref=e202]
+            - row [ref=e204]:
+              - cell [ref=e205]
+              - cell [ref=e207]
+              - cell [ref=e209]
+              - cell [ref=e211]
+              - cell [ref=e213]
+              - cell [ref=e215]
+              - cell [ref=e217]
+              - cell [ref=e219]
+              - cell [ref=e221]
+              - cell [ref=e223]
+              - cell [ref=e225]
+              - cell [ref=e227]
+            - row [ref=e229]:
+              - cell [ref=e230]
+              - cell [ref=e232]
+              - cell [ref=e234]
+              - cell [ref=e236]
+              - cell [ref=e238]
+              - cell [ref=e240]
+              - cell [ref=e242]
+              - cell [ref=e244]
+              - cell [ref=e246]
+              - cell [ref=e248]
+              - cell [ref=e250]
+              - cell [ref=e252]
+            - row [ref=e254]:
+              - cell [ref=e255]
+              - cell [ref=e257]
+              - cell [ref=e259]
+              - cell [ref=e261]
+              - cell [ref=e263]
+              - cell [ref=e265]
+              - cell [ref=e267]
+              - cell [ref=e269]
+              - cell [ref=e271]
+              - cell [ref=e273]
+              - cell [ref=e275]
+              - cell [ref=e277]

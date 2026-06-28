@@ -1,0 +1,181 @@
+- generic [ref=e2]:
+  - generic [ref=e35]:
+    - complementary [ref=e36]:
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - img [ref=e40]
+          - generic [ref=e43]: İnventar
+        - navigation [ref=e44]:
+          - button "İdarə Paneli" [ref=e45]:
+            - img [ref=e46]
+            - text: İdarə Paneli
+          - button "Məhsullar" [ref=e51]:
+            - img [ref=e52]
+            - text: Məhsullar
+          - button "Məşhur Məhsullar" [ref=e55]:
+            - img [ref=e56]
+            - text: Məşhur Məhsullar
+          - button "Kateqoriyalar" [ref=e59]:
+            - img [ref=e60]
+            - text: Kateqoriyalar
+          - button "Brendlər" [ref=e65]:
+            - img [ref=e66]
+            - text: Brendlər
+          - button "Endirimlər" [ref=e69]:
+            - img [ref=e70]
+            - text: Endirimlər
+      - generic [ref=e74]:
+        - button "Açıq" [ref=e75]:
+          - img [ref=e76]
+          - text: Açıq
+        - button "Tünd" [ref=e82]:
+          - img [ref=e83]
+          - text: Tünd
+    - generic [ref=e85]:
+      - banner [ref=e86]:
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - img [ref=e89]
+            - textbox "Axtar..." [ref=e92]
+          - button [ref=e93]:
+            - img [ref=e94]
+          - generic [ref=e98]:
+            - generic [ref=e100]: A
+            - generic [ref=e101]:
+              - paragraph [ref=e102]: Administrator
+              - paragraph [ref=e103]: Agent
+            - button "Çıxış" [ref=e104]:
+              - img [ref=e105]
+      - main [ref=e108]:
+        - generic [ref=e264]:
+          - generic [ref=e266]:
+            - heading "Məhsullar" [level=1] [ref=e267]
+            - paragraph [ref=e268]: Məhsul inventarınızı idarə edin
+          - generic [ref=e269]:
+            - generic [ref=e270]:
+              - img [ref=e271]
+              - textbox "Məhsulları axtar..." [ref=e274]: Samsung
+            - generic [ref=e275]:
+              - button "Məşhur Məhsullar" [ref=e276]:
+                - img [ref=e278]
+                - generic [ref=e281]: Məşhur Məhsullar
+              - button "Məhsul əlavə et" [ref=e282]:
+                - img [ref=e284]
+                - generic [ref=e285]: Məhsul əlavə et
+              - button "Filtr" [ref=e286]:
+                - img [ref=e288]
+                - generic [ref=e290]: Filtr
+          - generic [ref=e291]:
+            - table [ref=e293]:
+              - rowgroup [ref=e294]:
+                - row "Məhsul Adı Şəkil Qiymət Kateqoriya Brend Stok Status Statuslar Əməliyyatlar" [ref=e642]:
+                  - columnheader [ref=e296]:
+                    - checkbox [ref=e816]
+                  - columnheader "Məhsul Adı" [ref=e644]:
+                    - generic [ref=e299]:
+                      - text: Məhsul Adı
+                      - img [ref=e817]
+                  - columnheader "Şəkil" [ref=e647]:
+                    - generic [ref=e303]: Şəkil
+                  - columnheader "Qiymət" [ref=e648]:
+                    - generic [ref=e305]: Qiymət
+                  - columnheader "Kateqoriya" [ref=e649]:
+                    - generic [ref=e307]: Kateqoriya
+                  - columnheader "Brend" [ref=e650]:
+                    - generic [ref=e309]: Brend
+                  - columnheader "Stok" [ref=e651]:
+                    - generic [ref=e311]: Stok
+                  - columnheader "Status" [ref=e652]:
+                    - generic [ref=e313]: Status
+                  - columnheader "Statuslar" [ref=e653]:
+                    - generic [ref=e315]: Statuslar
+                  - columnheader "Əməliyyatlar" [ref=e654]:
+                    - generic [ref=e317]: Əməliyyatlar
+              - rowgroup [ref=e318]:
+                - row "Samsung Galaxy s25 ultra IPHONE15PM256 Samsung Galaxy s25 ultra 2499.99 AZN 1924.99 AZN -23% Smartfonlar Samsung 50 Aktiv Banner Məşhur (3)" [ref=e819]:
+                  - cell [ref=e820]:
+                    - checkbox [ref=e821]
+                  - cell "Samsung Galaxy s25 ultra IPHONE15PM256" [ref=e822]:
+                    - generic [ref=e823]:
+                      - button "Samsung Galaxy s25 ultra" [ref=e824]
+                      - generic [ref=e825]: IPHONE15PM256
+                  - cell "Samsung Galaxy s25 ultra" [ref=e826]:
+                    - img "Samsung Galaxy s25 ultra" [ref=e827] [cursor=pointer]
+                  - cell "2499.99 AZN 1924.99 AZN -23%" [ref=e828]:
+                    - generic [ref=e829]:
+                      - generic [ref=e830]: 2499.99 AZN
+                      - generic [ref=e831]: 1924.99 AZN
+                      - generic [ref=e832]: "-23%"
+                  - cell "Smartfonlar" [ref=e833]
+                  - cell "Samsung" [ref=e834]
+                  - cell "50" [ref=e835]
+                  - cell "Aktiv" [ref=e836]:
+                    - generic [ref=e837]: Aktiv
+                  - cell "Banner Məşhur (3)" [ref=e838]:
+                    - generic [ref=e839]:
+                      - generic [ref=e840]:
+                        - img [ref=e841]
+                        - text: Banner
+                      - generic [ref=e845]:
+                        - img [ref=e846]
+                        - text: Məşhur (3)
+                  - cell [ref=e849]:
+                    - generic [ref=e850]:
+                      - button "Detallara bax" [ref=e851]:
+                        - img [ref=e852]
+                      - button "Düzəliş et" [ref=e855]:
+                        - img [ref=e856]
+                      - button "Sil" [ref=e859]:
+                        - img [ref=e860]
+                - row "Samsung Galaxy S24 Ultra SGS24U512 Samsung Galaxy S24 Ultra 2299.99 AZN Smartfonlar Samsung 30 Aktiv Featured (1) Məşhur (2)" [ref=e863]:
+                  - cell [ref=e864]:
+                    - checkbox [ref=e865]
+                  - cell "Samsung Galaxy S24 Ultra SGS24U512" [ref=e866]:
+                    - generic [ref=e867]:
+                      - button "Samsung Galaxy S24 Ultra" [ref=e868]
+                      - generic [ref=e869]: SGS24U512
+                  - cell "Samsung Galaxy S24 Ultra" [ref=e870]:
+                    - img "Samsung Galaxy S24 Ultra" [ref=e871] [cursor=pointer]
+                  - cell "2299.99 AZN" [ref=e872]:
+                    - generic [ref=e874]: 2299.99 AZN
+                  - cell "Smartfonlar" [ref=e875]
+                  - cell "Samsung" [ref=e876]
+                  - cell "30" [ref=e877]
+                  - cell "Aktiv" [ref=e878]:
+                    - generic [ref=e879]: Aktiv
+                  - cell "Featured (1) Məşhur (2)" [ref=e880]:
+                    - generic [ref=e881]:
+                      - generic [ref=e882]:
+                        - img [ref=e883]
+                        - text: Featured (1)
+                      - generic [ref=e885]:
+                        - img [ref=e886]
+                        - text: Məşhur (2)
+                  - cell [ref=e889]:
+                    - generic [ref=e890]:
+                      - button "Detallara bax" [ref=e891]:
+                        - img [ref=e892]
+                      - button "Düzəliş et" [ref=e895]:
+                        - img [ref=e896]
+                      - button "Sil" [ref=e899]:
+                        - img [ref=e900]
+            - generic [ref=e903]:
+              - generic [ref=e904]:
+                - generic [ref=e905]: Göstərilir
+                - combobox [ref=e906]:
+                  - option "10" [selected]
+                  - option "25"
+                  - option "50"
+                  - option "100"
+              - generic [ref=e907]: Göstərilir 1 - 2 cəmi 2 qeyd
+              - generic [ref=e908]:
+                - button [disabled] [ref=e909]:
+                  - img [ref=e910]
+                - button "1" [ref=e912]
+                - button [disabled] [ref=e913]:
+                  - img [ref=e914]
+  - alert [ref=e917]:
+    - img [ref=e918]
+    - paragraph [ref=e920]: Filtrlər tətbiq edildi
+    - button "Bağla" [ref=e921]:
+      - img [ref=e922]

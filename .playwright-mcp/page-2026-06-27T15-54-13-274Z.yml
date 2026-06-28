@@ -1,0 +1,28 @@
+- generic [ref=e7]:
+  - generic [ref=e8]:
+    - generic [ref=e10]: I
+    - heading "Inventory" [level=1] [ref=e11]
+  - generic [ref=e12]:
+    - heading "Welcome 👋" [level=2] [ref=e13]
+    - paragraph [ref=e14]: Please login here
+  - generic [ref=e15]:
+    - generic [ref=e17]:
+      - generic [ref=e18]: Email Address
+      - textbox "Email Address" [active] [invalid] [ref=e19]:
+        - /placeholder: example@mail.com
+        - text: notanemail
+      - alert [ref=e31]: Email formatı düzgün deyil
+    - generic [ref=e21]:
+      - generic [ref=e22]: Password
+      - textbox "Password" [invalid] [ref=e23]:
+        - /placeholder: Enter your password
+        - text: short
+      - alert [ref=e32]: Şifrə ən azı 6 simvol olmalıdır
+    - generic [ref=e24]:
+      - generic [ref=e25] [cursor=pointer]:
+        - checkbox "Remember Me" [ref=e26]
+        - generic [ref=e27]: Remember Me
+      - link "Forgot Password?" [ref=e28] [cursor=pointer]:
+        - /url: /forgot-password
+    - button "Login" [ref=e29]:
+      - generic [ref=e30]: Login

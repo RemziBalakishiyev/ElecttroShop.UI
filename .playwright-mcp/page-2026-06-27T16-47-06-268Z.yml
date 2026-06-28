@@ -1,0 +1,143 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "CYBER" [ref=e7] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=e8]:
+        - link "Ana Səhifə" [ref=e9] [cursor=pointer]:
+          - /url: /
+        - link "Məhsullar" [ref=e10] [cursor=pointer]:
+          - /url: /products
+        - link "Haqqımızda" [ref=e11] [cursor=pointer]:
+          - /url: /about
+        - link "Əlaqə" [ref=e12] [cursor=pointer]:
+          - /url: /contact
+      - generic [ref=e14]:
+        - img [ref=e15]
+        - searchbox "Axtarış" [ref=e19]
+      - generic [ref=e20]:
+        - link [ref=e21] [cursor=pointer]:
+          - /url: /wishlist
+          - img [ref=e22]
+        - link "1" [ref=e24] [cursor=pointer]:
+          - /url: /cart
+          - img [ref=e25]
+          - generic [ref=e29]: "1"
+        - link [ref=e30] [cursor=pointer]:
+          - /url: /login
+          - img [ref=e31]
+  - main [ref=e34]:
+    - generic [ref=e35]:
+      - heading "Alış-veriş səbəti" [level=1] [ref=e36]
+      - generic [ref=e37]:
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - img "Samsung Galaxy s25 ultra" [ref=e42]
+            - generic [ref=e43]:
+              - generic [ref=e44]:
+                - link "Samsung Galaxy s25 ultra" [ref=e45] [cursor=pointer]:
+                  - /url: /products/fc419330-c73e-4b74-911c-e129d19be064
+                  - heading "Samsung Galaxy s25 ultra" [level=3] [ref=e46]
+                - paragraph [ref=e47]: Apple iPhone 15 Pro Max 256GB Titanium Blue
+                - generic [ref=e48]:
+                  - generic [ref=e49]: AZN1924.9923
+                  - generic [ref=e50]: AZN2499.99
+                  - generic [ref=e51]: "-23%"
+              - generic [ref=e52]:
+                - generic [ref=e53]:
+                  - generic [ref=e54]:
+                    - button [ref=e55]:
+                      - img [ref=e56]
+                    - generic [ref=e57]: "1"
+                    - button [ref=e58]:
+                      - img [ref=e59]
+                  - button [ref=e60]:
+                    - img [ref=e61]
+                - paragraph [ref=e65]: AZN1924.99
+          - button "Səbəti təmizlə" [ref=e67]
+        - generic [ref=e69]:
+          - heading "Sifariş xülasəsi" [level=2] [ref=e70]
+          - generic [ref=e71]:
+            - generic [ref=e72]:
+              - generic [ref=e73]: Alt cəmi
+              - generic [ref=e74]: 1924.99 AZN
+            - generic [ref=e75]:
+              - generic [ref=e76]: Çatdırılma
+              - generic [ref=e77]: Pulsuz
+            - generic [ref=e78]:
+              - generic [ref=e79]: ƏDV
+              - generic [ref=e80]: 192.50 AZN
+            - generic [ref=e81]:
+              - generic [ref=e82]: Cəmi
+              - generic [ref=e83]: 2117.49 AZN
+          - link "Sifarişi tamamla" [ref=e84] [cursor=pointer]:
+            - /url: /checkout
+            - button "Sifarişi tamamla" [ref=e85]
+          - link "Alış-verişə davam et" [ref=e86] [cursor=pointer]:
+            - /url: /products
+            - button "Alış-verişə davam et" [ref=e87]
+  - contentinfo [ref=e88]:
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - link "CYBER" [ref=e92] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e93]: Elektronika məhsullarının satışı ilə məşğul olan modern onlayn mağaza. Ən yeni texnologiyalar və keyfiyyətli xidmət.
+        - generic [ref=e94]:
+          - heading "Xidmətlər" [level=3] [ref=e95]
+          - list [ref=e96]:
+            - listitem [ref=e97]:
+              - link "Bonus proqramı" [ref=e98] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e99]:
+              - link "Hədiyyə kartları" [ref=e100] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e101]:
+              - link "Kredit və ödəniş" [ref=e102] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e103]:
+              - link "Xidmət müqavilələri" [ref=e104] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e105]:
+              - link "Nağdsız hesab" [ref=e106] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e107]:
+              - link "Ödəniş" [ref=e108] [cursor=pointer]:
+                - /url: /cart
+        - generic [ref=e109]:
+          - heading "Alıcıya kömək" [level=3] [ref=e110]
+          - list [ref=e111]:
+            - listitem [ref=e112]:
+              - link "Sifariş tap" [ref=e113] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e114]:
+              - link "Çatdırılma şərtləri" [ref=e115] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e116]:
+              - link "Məhsul dəyişdirmə və qaytarma" [ref=e117] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e118]:
+              - link "Zəmanət" [ref=e119] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e120]:
+              - link "Tez-tez verilən suallar" [ref=e121] [cursor=pointer]:
+                - /url: /cart
+            - listitem [ref=e122]:
+              - link "Sayt istifadə şərtləri" [ref=e123] [cursor=pointer]:
+                - /url: /cart
+        - generic [ref=e124]:
+          - heading "Bizi izləyin" [level=3] [ref=e125]
+          - generic [ref=e126]:
+            - link [ref=e127] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e128]
+            - link [ref=e130] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e131]
+            - link [ref=e133] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e134]
+            - link [ref=e137] [cursor=pointer]:
+              - /url: "#"
+              - img [ref=e138]
+      - generic [ref=e142]: © 2026 Cyber. Bütün hüquqlar qorunur.
