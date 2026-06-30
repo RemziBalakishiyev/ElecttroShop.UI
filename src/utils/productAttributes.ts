@@ -54,6 +54,24 @@ export interface EffectiveAttribute {
   source: "category" | "inline";
 }
 
+export function mapCategoryAttributesToInline(
+  categoryAttributes: CategoryAttribute[]
+): InlineProductAttribute[] {
+  return categoryAttributes.map((attr, index) => ({
+    name: attr.name,
+    displayName: attr.displayName,
+    attributeType: attr.attributeType,
+    isRequired: attr.isRequired,
+    displayOrder: attr.displayOrder ?? index,
+    values: (attr.values || []).map((v, valueIndex) => ({
+      value: v.value,
+      displayValue: v.displayValue,
+      displayOrder: v.displayOrder ?? valueIndex,
+      colorCode: v.colorCode ?? undefined,
+    })),
+  }));
+}
+
 export function buildEffectiveAttributes(
   categoryAttributes: CategoryAttribute[],
   inlineAttributes: InlineProductAttribute[]
@@ -161,10 +179,17 @@ export function validateInlineAttributes(
     }
     seenTypes.add(typeKey);
 
+    const validValues = (attr.values || []).filter((v) => v.value?.trim());
+    if (validValues.length === 0) {
+      return {
+        valid: false,
+        message: `"${attr.displayName || type}" atributu üçün ən azı bir dəyər daxil edilməlidir.`,
+      };
+    }
+
     const seenValues = new Set<string>();
-    for (const val of attr.values || []) {
-      const v = val.value?.trim();
-      if (!v) continue;
+    for (const val of validValues) {
+      const v = val.value.trim();
       if (seenValues.has(v)) {
         return {
           valid: false,

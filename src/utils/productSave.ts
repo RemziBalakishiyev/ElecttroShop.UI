@@ -144,7 +144,7 @@ export async function buildCreateProductPayload(
     stock: Number(formData.amount),
     vatRate: 0.18,
     ...(imageIds.length > 0 && { imageIds }),
-    ...(preparedInline.length > 0 && { inlineAttributes: preparedInline }),
+    inlineAttributes: preparedInline,
     ...(processedVariants.length > 0 && { variants: processedVariants }),
   };
 }
@@ -186,7 +186,7 @@ export async function buildUpdateProductPayload(
     vatRate: 0.18,
     rowVersion: formData.rowVersion,
     ...(imageIds.length > 0 && { imageIds }),
-    ...(preparedInline.length > 0 && { inlineAttributes: preparedInline }),
+    inlineAttributes: preparedInline,
     variants: processedVariants,
   };
 }

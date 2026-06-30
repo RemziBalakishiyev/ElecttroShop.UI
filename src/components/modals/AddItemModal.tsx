@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { X, ImagePlus, Package, Layers } from "lucide-react";
+import { X, ImagePlus, Package, Layers, Wand2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
+import { ImageEnhancementModal } from "./ImageEnhancementModal";
 import { Button } from "../commons/Button";
 import { Input } from "../commons/Input";
 import { Select } from "../commons/Select";
@@ -25,6 +26,7 @@ import { validateProductFormForSave } from "../../utils/productSave";
 import {
   buildAttributeTypeRegistry,
   buildEffectiveAttributes,
+  mapCategoryAttributesToInline,
   type FormVariantRow,
 } from "../../utils/productAttributes";
 import { useToast } from "../../core/providers/ToastContext";
@@ -193,6 +195,7 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
   const [submitting, setSubmitting] = useState(false);
   const [categoryChangeOpen, setCategoryChangeOpen] = useState(false);
   const [pendingCategoryId, setPendingCategoryId] = useState<string | null>(null);
+  const [enhancingImageIndex, setEnhancingImageIndex] = useState<number | null>(null);
   const formInitKeyRef = useRef<string | null>(null);
   const attributeRegistryRef = useRef(buildAttributeTypeRegistry([], []));
 
@@ -250,7 +253,9 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
           resolvedProduct.brandName,
           brandsLookup
         ),
-        inlineAttributes: [],
+        inlineAttributes: mapCategoryAttributesToInline(
+          resolvedProduct.categoryAttributes ?? []
+        ),
         variants: mapProductVariantsToForm(resolvedProduct.variants),
         rowVersion: resolvedProduct.rowVersion,
         originalCategoryId: categoryId,
@@ -409,8 +414,21 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
 
   if (isFormLoading) {
     return (
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-        <div className="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center gap-3">
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-2xl shadow-2xl p-10 flex flex-col items-center gap-3 relative"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute top-3 right-3 p-1.5 rounded-lg text-neutral-400 hover:text-neutral-600 hover:bg-neutral-100 transition-colors"
+          >
+            <X size={16} />
+          </button>
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary-600" />
           <p className="text-sm text-neutral-500">Məhsul məlumatları yüklənir...</p>
         </div>
@@ -420,8 +438,14 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-        <div className="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl my-6 flex flex-col max-h-[92vh] overflow-hidden">
+      <div
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
+        onClick={onClose}
+      >
+        <div
+          className="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl my-6 flex flex-col max-h-[92vh] overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
           <div className="flex items-start justify-between px-6 py-5 border-b border-neutral-100 bg-gradient-to-r from-white to-neutral-50/80 shrink-0">
             <div className="flex items-start gap-3">
               <div className="p-2.5 bg-primary-50 rounded-xl border border-primary-100">
@@ -496,6 +520,16 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
                           alt={`Preview ${idx + 1}`}
                           className="w-full h-full object-contain p-1"
                         />
+                        {/* AI enhance button */}
+                        <button
+                          type="button"
+                          onClick={() => setEnhancingImageIndex(idx)}
+                          className="absolute bottom-1.5 left-1.5 p-1 bg-violet-600 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="AI ilə yaxşılaşdır"
+                        >
+                          <Wand2 size={12} />
+                        </button>
+                        {/* Remove button */}
                         <button
                           type="button"
                           onClick={() => {
@@ -675,6 +709,21 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
           setPendingCategoryId(null);
         }}
       />
+
+      {/* AI Image Enhancement Modal */}
+      {enhancingImageIndex !== null && formData.images[enhancingImageIndex] && (
+        <ImageEnhancementModal
+          open
+          file={formData.images[enhancingImageIndex]}
+          onApply={(enhancedFile) => {
+            const updated = [...formData.images];
+            updated[enhancingImageIndex] = enhancedFile;
+            setFormData((prev) => ({ ...prev, images: updated }));
+            setEnhancingImageIndex(null);
+          }}
+          onCancel={() => setEnhancingImageIndex(null)}
+        />
+      )}
     </>
   );
 };

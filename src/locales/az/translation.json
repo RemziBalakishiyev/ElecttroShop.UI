@@ -11,7 +11,7 @@
         "request": "Sorğu",
         "on_hand": "Əldə olan",
         "grn_report": "GRN Hesabatı",
-        "inventory": "İnventar",
+        "inventory": "Smartal",
         "light": "Açıq",
         "dark": "Tünd"
     },
@@ -288,7 +288,7 @@
         "request": "Sorğu",
         "on_hand": "Əldə olan",
         "grn_report": "GRN Hesabatı",
-        "inventory": "İnventar",
+        "inventory": "Smartal",
         "sales": "Satışlar",
         "light": "Açıq",
         "dark": "Tünd"

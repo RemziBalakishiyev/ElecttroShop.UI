@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
     ArrowLeft, Calendar, Box, Info,
     Edit, Trash2, Package, Layers, Hash, CheckCircle, XCircle,
-    Star, Image as ImageIcon, Copy, AlertTriangle, Tags, TrendingUp
+    Star, Image as ImageIcon, Copy, AlertTriangle, Tags, TrendingUp,
+    MoreHorizontal, ChevronDown
 } from "lucide-react";
 import type { CategoryAttribute } from "../core/api/categories.api";
 
@@ -76,6 +77,20 @@ export const ProductDetailsPage = () => {
     const [isFeatured, setIsFeatured] = useState(false);
     const [isPopular, setIsPopular] = useState(false);
 
+    // Dropdown state
+    const [isMoreActionsOpen, setIsMoreActionsOpen] = useState(false);
+    const moreActionsRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (moreActionsRef.current && !moreActionsRef.current.contains(e.target as Node)) {
+                setIsMoreActionsOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ["product", id],
         queryFn: () => productsApi.getProductById(id!),
@@ -119,6 +134,7 @@ export const ProductDetailsPage = () => {
             toast.success(t('products.update_success'));
             queryClient.invalidateQueries({ queryKey: ["product", id] });
             queryClient.invalidateQueries({ queryKey: ["products"] });
+            queryClient.invalidateQueries({ queryKey: ["category-attributes"] });
             setIsEditModalOpen(false);
         },
         onError: (error: unknown) => {
@@ -294,491 +310,539 @@ export const ProductDetailsPage = () => {
         : null;
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-white to-neutral-50">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-                {/* Header Navigation - Enhanced */}
-                <nav className="flex items-center justify-between bg-white rounded-xl shadow-sm border border-neutral-200 px-6 py-4">
-                    <div className="flex items-center gap-3 text-sm">
+        <div className="min-h-screen bg-neutral-50">
+
+            {/* ── Sticky Action Bar ─────────────────────────────────────── */}
+            <div className="sticky top-0 z-30 bg-white/90 backdrop-blur-sm border-b border-neutral-200 shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between gap-4">
+                    {/* Breadcrumb */}
+                    <div className="flex items-center gap-2 min-w-0 text-sm">
                         <button
                             onClick={() => navigate("/products")}
-                            className="flex items-center gap-2 text-neutral-600 hover:text-primary-600 transition-colors font-medium"
+                            className="flex items-center gap-1.5 text-neutral-500 hover:text-primary-600 transition-colors font-medium shrink-0"
                         >
-                            <ArrowLeft size={18} />
+                            <ArrowLeft size={16} />
                             <span>{t('product_details.back')}</span>
                         </button>
                         <span className="text-neutral-300">/</span>
-                        <span className="font-semibold text-neutral-900 truncate max-w-[250px]">{product.name}</span>
+                        <span className="font-semibold text-neutral-800 truncate">{product.name}</span>
                     </div>
 
-                    <div className="flex items-center gap-2 flex-wrap">
-                        {/* Primary Action: Edit */}
+                    {/* Action buttons */}
+                    <div className="flex items-center gap-2 shrink-0">
+                        {/* Primary: Edit */}
                         <Button
                             variant="primary"
                             onClick={() => setIsEditModalOpen(true)}
-                            className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
+                            className="gap-2 text-sm"
                         >
-                            <Edit size={16} />
+                            <Edit size={14} />
                             {t('product_details.edit')}
                         </Button>
 
-                        {/* Secondary Actions */}
-                        {isFeatured ? (
-                            <Button
-                                variant="outline"
-                                onClick={() => id && removeFeaturedMutation.mutate(id)}
-                                className="flex items-center gap-2 border-yellow-200 text-yellow-700 hover:bg-yellow-50"
-                                loading={removeFeaturedMutation.isPending}
+                        {/* Secondary: dropdown for all other actions */}
+                        <div className="relative" ref={moreActionsRef}>
+                            <button
+                                onClick={() => setIsMoreActionsOpen(v => !v)}
+                                className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-neutral-700 bg-white border border-neutral-300 rounded-lg hover:bg-neutral-50 hover:border-neutral-400 transition-colors"
                             >
-                                <Star size={16} className="fill-yellow-400 text-yellow-400" />
-                                {t('products.remove_featured')}
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outline"
-                                onClick={() => setIsFeaturedModalOpen(true)}
-                                className="flex items-center gap-2 hover:border-yellow-300 hover:text-yellow-700"
-                            >
-                                <Star size={16} />
-                                {t('products.set_featured')}
-                            </Button>
-                        )}
+                                <MoreHorizontal size={15} />
+                                <span className="hidden sm:inline">Əməliyyatlar</span>
+                                <ChevronDown size={13} className={`transition-transform ${isMoreActionsOpen ? 'rotate-180' : ''}`} />
+                            </button>
 
-                        {isPopular ? (
-                            <Button
-                                variant="outline"
-                                onClick={() => id && removePopularMutation.mutate(id)}
-                                className="flex items-center gap-2 border-purple-200 text-purple-700 hover:bg-purple-50"
-                                loading={removePopularMutation.isPending}
-                            >
-                                <TrendingUp size={16} />
-                                {t('products.remove_popular')}
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outline"
-                                onClick={() => setIsPopularModalOpen(true)}
-                                className="flex items-center gap-2 hover:border-purple-300 hover:text-purple-700"
-                            >
-                                <TrendingUp size={16} />
-                                {t('products.set_popular')}
-                            </Button>
-                        )}
+                            {isMoreActionsOpen && (
+                                <div className="absolute right-0 top-full mt-1.5 w-56 bg-white border border-neutral-200 rounded-xl shadow-xl z-50 overflow-hidden">
+                                    <div className="py-1">
+                                        {/* Featured */}
+                                        {isFeatured ? (
+                                            <button
+                                                onClick={() => { id && removeFeaturedMutation.mutate(id); setIsMoreActionsOpen(false); }}
+                                                disabled={removeFeaturedMutation.isPending}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-yellow-700 hover:bg-yellow-50 transition-colors disabled:opacity-50"
+                                            >
+                                                <Star size={15} className="fill-yellow-400 text-yellow-400 shrink-0" />
+                                                <span>{t('products.remove_featured')}</span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => { setIsFeaturedModalOpen(true); setIsMoreActionsOpen(false); }}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                                            >
+                                                <Star size={15} className="shrink-0" />
+                                                <span>{t('products.set_featured')}</span>
+                                            </button>
+                                        )}
 
-                        {isBanner ? (
-                            <Button
-                                variant="outline"
-                                onClick={() => id && removeBannerMutation.mutate(id)}
-                                className="flex items-center gap-2 border-blue-200 text-blue-700 hover:bg-blue-50"
-                                loading={removeBannerMutation.isPending}
-                            >
-                                <ImageIcon size={16} />
-                                {t('products.remove_banner')}
-                            </Button>
-                        ) : (
-                            <Button
-                                variant="outline"
-                                onClick={() => id && setBannerMutation.mutate(id)}
-                                className="flex items-center gap-2 hover:border-blue-300 hover:text-blue-700"
-                                loading={setBannerMutation.isPending}
-                            >
-                                <ImageIcon size={16} />
-                                {t('products.set_banner')}
-                            </Button>
-                        )}
+                                        {/* Popular */}
+                                        {isPopular ? (
+                                            <button
+                                                onClick={() => { id && removePopularMutation.mutate(id); setIsMoreActionsOpen(false); }}
+                                                disabled={removePopularMutation.isPending}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-purple-700 hover:bg-purple-50 transition-colors disabled:opacity-50"
+                                            >
+                                                <TrendingUp size={15} className="shrink-0" />
+                                                <span>{t('products.remove_popular')}</span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => { setIsPopularModalOpen(true); setIsMoreActionsOpen(false); }}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                                            >
+                                                <TrendingUp size={15} className="shrink-0" />
+                                                <span>{t('products.set_popular')}</span>
+                                            </button>
+                                        )}
 
-                        {/* Destructive Action: Delete */}
-                        <Button
-                            variant="danger"
-                            onClick={() => setIsDeleteModalOpen(true)}
-                            className="flex items-center gap-2 shadow-md hover:shadow-lg transition-shadow"
-                        >
-                            <Trash2 size={16} />
-                            {t('product_details.delete')}
-                        </Button>
-                    </div>
-                </nav>
+                                        {/* Banner */}
+                                        {isBanner ? (
+                                            <button
+                                                onClick={() => { id && removeBannerMutation.mutate(id); setIsMoreActionsOpen(false); }}
+                                                disabled={removeBannerMutation.isPending}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-blue-700 hover:bg-blue-50 transition-colors disabled:opacity-50"
+                                            >
+                                                <ImageIcon size={15} className="shrink-0" />
+                                                <span>{t('products.remove_banner')}</span>
+                                            </button>
+                                        ) : (
+                                            <button
+                                                onClick={() => { id && setBannerMutation.mutate(id); setIsMoreActionsOpen(false); }}
+                                                className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-neutral-700 hover:bg-neutral-50 transition-colors"
+                                            >
+                                                <ImageIcon size={15} className="shrink-0" />
+                                                <span>{t('products.set_banner')}</span>
+                                            </button>
+                                        )}
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                {/* Left Column: Image */}
-                <div className="lg:col-span-5 space-y-4">
-                    {/* Main Product Image with Hover Zoom - Enhanced */}
-                    <div className="bg-white rounded-xl border-2 border-neutral-200 shadow-lg p-8 flex items-center justify-center min-h-[450px] relative overflow-hidden group hover:border-primary-300 transition-all duration-300">
-                        {/* Gradient Background */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-primary-50/30 via-transparent to-blue-50/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
-                        {fullImageUrl ? (
-                            <>
-                                <ImageWithFallback
-                                    src={fullImageUrl}
-                                    alt={product.name}
-                                    className="relative z-10 w-full h-full object-contain max-h-[500px] transition-all duration-300 group-hover:scale-110 cursor-zoom-in drop-shadow-lg"
-                                    fallback={
-                                        <div className="relative z-10 flex flex-col items-center text-neutral-300">
-                                            <div className="p-6 bg-neutral-100 rounded-full mb-3">
-                                                <Package size={48} strokeWidth={1.5} />
-                                            </div>
-                                            <span className="text-sm text-neutral-400 font-medium">{t('product_details.no_image')}</span>
-                                        </div>
-                                    }
-                                />
-                                {/* Primary Image Indicator - Enhanced */}
-                                {product.images && product.images.some((img: any) => img.isPrimary) && (
-                                    <div className="absolute top-4 right-4 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs px-3 py-1.5 rounded-full font-semibold z-20 shadow-lg flex items-center gap-1.5">
-                                        <Star size={12} className="fill-white" />
-                                        Primary
-                                    </div>
-                                )}
-                            </>
-                        ) : (
-                            <div className="relative z-10 flex flex-col items-center text-neutral-300">
-                                <div className="p-6 bg-neutral-100 rounded-full mb-3">
-                                    <Package size={48} strokeWidth={1.5} />
-                                </div>
-                                <span className="text-sm text-neutral-400 font-medium">{t('product_details.no_image')}</span>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Additional Images Gallery - Enhanced */}
-                    {product.images && product.images.length > 0 && (
-                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-5">
-                            <div className="flex items-center justify-between mb-4">
-                                <h3 className="text-base font-semibold text-neutral-800 flex items-center gap-2">
-                                    <ImageIcon size={18} className="text-primary-600" />
-                                    Additional Images
-                                </h3>
-                                <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-1 rounded-full">
-                                    {product.images.length} {product.images.length === 1 ? 'image' : 'images'}
-                                </span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-3">
-                                {product.images.map((image: any) => {
-                                    // Use imageUrl if available, otherwise construct from imageId
-                                    let imgUrl: string | null = null;
-                                    
-                                    if (image.imageUrl) {
-                                        imgUrl = image.imageUrl.startsWith("http") 
-                                            ? image.imageUrl 
-                                            : image.imageUrl.startsWith("/api/")
-                                            ? `${API_CONFIG.BASE_URL}${image.imageUrl}`
-                                            : `${API_CONFIG.BASE_URL}/api/images/${image.imageUrl}`;
-                                    } else if (image.imageId) {
-                                        imgUrl = `${API_CONFIG.BASE_URL}/api/images/${image.imageId}`;
-                                    }
-                                    
-                                    return (
-                                        <div key={image.id} className="relative group">
-                                            {imgUrl ? (
-                                                <div className={`relative overflow-hidden rounded-lg border-2 transition-all duration-300 ${
-                                                    image.isPrimary 
-                                                        ? 'border-primary-500 ring-2 ring-primary-200 shadow-md' 
-                                                        : 'border-neutral-200 hover:border-primary-400 hover:shadow-md'
-                                                }`}>
-                                                    <ImageWithFallback
-                                                        src={imgUrl}
-                                                        alt={product.name}
-                                                        className="w-full h-28 object-cover transition-transform duration-300 group-hover:scale-110"
-                                                        fallback={
-                                                            <div className="w-full h-28 bg-gradient-to-br from-neutral-100 to-neutral-200 flex items-center justify-center text-neutral-400 text-xs">
-                                                                No Image
-                                                            </div>
-                                                        }
-                                                    />
-                                                    {image.isPrimary && (
-                                                        <div className="absolute top-2 right-2 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs px-2 py-1 rounded-full font-semibold shadow-lg flex items-center gap-1">
-                                                            <Star size={10} className="fill-white" />
-                                                            Primary
-                                                        </div>
-                                                    )}
-                                                    {!image.isPrimary && id && (
-                                                        <button
-                                                            onClick={() => {
-                                                                setPrimaryImageMutation.mutate({
-                                                                    productId: id,
-                                                                    imageId: image.imageId,
-                                                                });
-                                                            }}
-                                                            disabled={setPrimaryImageMutation.isPending}
-                                                            className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-2 text-white text-xs font-medium"
-                                                        >
-                                                            {setPrimaryImageMutation.isPending 
-                                                                ? t('common.loading') || 'Yüklənir...'
-                                                                : t('product_details.set_primary') || 'Set as Primary'
-                                                            }
-                                                        </button>
-                                                    )}
-                                                </div>
-                                            ) : (
-                                                <div className="w-full h-28 bg-gradient-to-br from-neutral-100 to-neutral-200 rounded-lg border-2 border-neutral-200 flex items-center justify-center text-neutral-400 text-xs">
-                                                    No Image
-                                                </div>
-                                            )}
-                                        </div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Right Column: Details - Enhanced */}
-                <div className="lg:col-span-7 space-y-5">
-                    {/* Primary Information Card - Enhanced */}
-                    <div className="bg-white rounded-xl border border-neutral-200 shadow-lg p-6 space-y-5">
-                        {/* Product Name & Status */}
-                        <div className="space-y-3">
-                            <div className="flex items-start justify-between gap-4">
-                                <div className="flex-1">
-                                    <div className="flex items-center gap-3 mb-3">
-                                        <h1 className="text-4xl font-bold text-neutral-900 tracking-tight">{product.name}</h1>
-                                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold shadow-sm ${
-                                            product.isActive
-                                                ? "bg-gradient-to-r from-green-500 to-green-600 text-white"
-                                                : "bg-neutral-200 text-neutral-700"
-                                        }`}>
-                                            {product.isActive ? <CheckCircle size={14} /> : <XCircle size={14} />}
-                                            {product.isActive ? t('products.active') : t('products.inactive')}
-                                        </span>
-                                    </div>
-                                    {/* Product ID with Copy - Enhanced */}
-                                    <div className="flex items-center gap-2 text-sm text-neutral-600 bg-neutral-50 rounded-lg px-3 py-2 border border-neutral-200 w-fit">
-                                        <Hash size={14} className="text-neutral-400" />
-                                        <span className="font-mono font-medium">{product.sku}</span>
+                                        {/* Divider + Delete */}
+                                        <div className="h-px bg-neutral-100 mx-2 my-1" />
                                         <button
-                                            onClick={() => {
-                                                navigator.clipboard.writeText(product.sku);
-                                                toast.success('SKU kopyalandı');
-                                            }}
-                                            className="p-1 hover:bg-white rounded transition-colors text-neutral-400 hover:text-primary-600"
-                                            title="SKU-nu kopyala"
+                                            onClick={() => { setIsDeleteModalOpen(true); setIsMoreActionsOpen(false); }}
+                                            className="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors"
                                         >
-                                            <Copy size={14} />
+                                            <Trash2 size={15} className="shrink-0" />
+                                            <span>{t('product_details.delete')}</span>
                                         </button>
                                     </div>
                                 </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* ── Page Content ─────────────────────────────────────────── */}
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-7">
+
+                    {/* ── Left: Image Column ─────────────────────────────── */}
+                    <div className="lg:col-span-5 flex flex-col gap-4">
+
+                        {/* Main image card */}
+                        <div className="relative bg-white rounded-2xl border border-neutral-200 shadow-lg overflow-hidden group">
+                            <div className="absolute inset-0 bg-gradient-to-br from-primary-50/40 via-transparent to-indigo-50/30 pointer-events-none" />
+
+                            <div className="relative flex items-center justify-center min-h-[400px] p-10">
+                                {fullImageUrl ? (
+                                    <ImageWithFallback
+                                        src={fullImageUrl}
+                                        alt={product.name}
+                                        className="max-w-full max-h-[360px] object-contain transition-transform duration-500 group-hover:scale-105 drop-shadow-xl cursor-zoom-in"
+                                        fallback={
+                                            <div className="flex flex-col items-center gap-3">
+                                                <div className="p-8 bg-neutral-100 rounded-full">
+                                                    <Package size={52} strokeWidth={1.2} className="text-neutral-300" />
+                                                </div>
+                                                <span className="text-sm text-neutral-400 font-medium">{t('product_details.no_image')}</span>
+                                            </div>
+                                        }
+                                    />
+                                ) : (
+                                    <div className="flex flex-col items-center gap-3">
+                                        <div className="p-8 bg-neutral-100 rounded-full">
+                                            <Package size={52} strokeWidth={1.2} className="text-neutral-300" />
+                                        </div>
+                                        <span className="text-sm text-neutral-400 font-medium">{t('product_details.no_image')}</span>
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Price - Strong Visual with Gradient */}
-                            <div className="pt-2">
+                            {/* Overlay status badges (top-left) */}
+                            <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
+                                {isFeatured && (
+                                    <span className="inline-flex items-center gap-1.5 bg-yellow-400 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-md">
+                                        <Star size={10} className="fill-white" /> Featured
+                                    </span>
+                                )}
+                                {isPopular && (
+                                    <span className="inline-flex items-center gap-1.5 bg-purple-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-md">
+                                        <TrendingUp size={10} /> Məşhur
+                                    </span>
+                                )}
+                                {isBanner && (
+                                    <span className="inline-flex items-center gap-1.5 bg-primary-500 text-white text-[11px] font-bold px-2.5 py-1 rounded-full shadow-md">
+                                        <ImageIcon size={10} /> Banner
+                                    </span>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Gallery strip */}
+                        {product.images && product.images.length > 0 && (
+                            <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-4">
+                                <div className="flex items-center justify-between mb-3">
+                                    <h3 className="text-sm font-semibold text-neutral-700 flex items-center gap-1.5">
+                                        <ImageIcon size={14} className="text-primary-500" />
+                                        Şəkillər
+                                    </h3>
+                                    <span className="text-xs text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full font-medium">
+                                        {product.images.length}
+                                    </span>
+                                </div>
+                                <div className="grid grid-cols-4 gap-2">
+                                    {product.images.map((image: any) => {
+                                        let imgUrl: string | null = null;
+                                        if (image.imageUrl) {
+                                            imgUrl = image.imageUrl.startsWith("http")
+                                                ? image.imageUrl
+                                                : image.imageUrl.startsWith("/api/")
+                                                ? `${API_CONFIG.BASE_URL}${image.imageUrl}`
+                                                : `${API_CONFIG.BASE_URL}/api/images/${image.imageUrl}`;
+                                        } else if (image.imageId) {
+                                            imgUrl = `${API_CONFIG.BASE_URL}/api/images/${image.imageId}`;
+                                        }
+                                        return (
+                                            <div key={image.id} className="relative group/thumb">
+                                                <div className={`relative overflow-hidden rounded-lg border-2 transition-all ${
+                                                    image.isPrimary
+                                                        ? 'border-primary-400 ring-2 ring-primary-100 shadow-sm'
+                                                        : 'border-neutral-200 hover:border-primary-300 hover:shadow-sm'
+                                                }`}>
+                                                    {imgUrl ? (
+                                                        <ImageWithFallback
+                                                            src={imgUrl}
+                                                            alt={product.name}
+                                                            className="w-full h-[72px] object-cover transition-transform duration-300 group-hover/thumb:scale-110"
+                                                            fallback={
+                                                                <div className="w-full h-[72px] bg-neutral-100 flex items-center justify-center">
+                                                                    <Package size={16} className="text-neutral-300" />
+                                                                </div>
+                                                            }
+                                                        />
+                                                    ) : (
+                                                        <div className="w-full h-[72px] bg-neutral-100 flex items-center justify-center">
+                                                            <Package size={16} className="text-neutral-300" />
+                                                        </div>
+                                                    )}
+                                                    {image.isPrimary && (
+                                                        <div className="absolute top-1 right-1 w-4 h-4 bg-primary-500 rounded-full flex items-center justify-center shadow">
+                                                            <Star size={8} className="fill-white text-white" />
+                                                        </div>
+                                                    )}
+                                                    {!image.isPrimary && id && imgUrl && (
+                                                        <button
+                                                            onClick={() => setPrimaryImageMutation.mutate({ productId: id, imageId: image.imageId })}
+                                                            disabled={setPrimaryImageMutation.isPending}
+                                                            className="absolute inset-0 bg-black/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-semibold"
+                                                        >
+                                                            {setPrimaryImageMutation.isPending ? '...' : 'Primary'}
+                                                        </button>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* ── Right: Details Column ──────────────────────────── */}
+                    <div className="lg:col-span-7 flex flex-col gap-5">
+
+                        {/* Product header card with gradient */}
+                        <div className="bg-white rounded-2xl border border-neutral-200 shadow-lg overflow-hidden">
+                            {/* Gradient header band */}
+                            <div className="bg-gradient-to-r from-primary-600 to-indigo-600 px-6 pt-5 pb-6">
+                                <div className="flex items-start justify-between gap-3 mb-3">
+                                    <h1 className="text-2xl font-bold text-white leading-tight">{product.name}</h1>
+                                    <span className={`shrink-0 inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold shadow ${
+                                        product.isActive
+                                            ? 'bg-green-400/90 text-white'
+                                            : 'bg-white/20 text-white/80 border border-white/30'
+                                    }`}>
+                                        {product.isActive ? <CheckCircle size={12} /> : <XCircle size={12} />}
+                                        {product.isActive ? t('products.active') : t('products.inactive')}
+                                    </span>
+                                </div>
+
+                                {/* SKU */}
+                                <div className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors rounded-lg px-3 py-1.5 cursor-default">
+                                    <Hash size={13} className="text-white/60" />
+                                    <span className="font-mono text-sm text-white/90 font-medium">{product.sku}</span>
+                                    <button
+                                        onClick={() => { navigator.clipboard.writeText(product.sku); toast.success('SKU kopyalandı'); }}
+                                        className="text-white/60 hover:text-white transition-colors"
+                                        title="SKU-nu kopyala"
+                                    >
+                                        <Copy size={13} />
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Price row */}
+                            <div className="px-6 py-5 border-b border-neutral-100">
                                 {product.finalPrice && product.finalDiscountPercent ? (
-                                    <div className="space-y-2">
-                                        <div className="flex items-baseline gap-2">
-                                            <span className="text-2xl line-through text-neutral-400">
-                                                {product.price}
-                                            </span>
-                                            <span className="text-lg line-through text-neutral-400">{product.currency}</span>
-                                        </div>
-                                        <div className="flex items-baseline gap-2">
-                                            <span className="text-5xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">
+                                    <div className="flex items-end gap-4 flex-wrap">
+                                        <div className="flex items-baseline gap-1.5">
+                                            <span className="text-4xl font-black text-neutral-900 tracking-tight">
                                                 {product.finalPrice.toFixed(2)}
                                             </span>
-                                            <span className="text-2xl font-bold text-primary-600">{product.currency}</span>
+                                            <span className="text-xl font-bold text-neutral-500">{product.currency}</span>
                                         </div>
-                                        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg text-xs font-bold shadow-md">
-                                            <span>-{product.finalDiscountPercent}%</span>
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-base line-through text-neutral-400">
+                                                {product.price} {product.currency}
+                                            </span>
+                                            <span className="bg-red-500 text-white text-xs font-black px-2 py-0.5 rounded-full shadow-sm">
+                                                -{product.finalDiscountPercent}%
+                                            </span>
                                         </div>
                                     </div>
                                 ) : (
-                                    <div className="flex items-baseline gap-2">
-                                        <span className="text-5xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent">
-                                            {product.price}
-                                        </span>
-                                        <span className="text-2xl font-bold text-primary-600">{product.currency}</span>
+                                    <div className="flex items-baseline gap-1.5">
+                                        <span className="text-4xl font-black text-neutral-900 tracking-tight">{product.price}</span>
+                                        <span className="text-xl font-bold text-neutral-500">{product.currency}</span>
                                     </div>
                                 )}
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Metadata Cards - Enhanced with Icons and Gradients */}
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-gradient-to-br from-white to-blue-50/30 rounded-xl p-4 border border-blue-100 shadow-sm hover:shadow-md transition-all hover:border-blue-200 group">
-                            <div className="flex items-center gap-2.5 mb-2">
-                                <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
-                                    <Layers size={16} className="text-white" />
+                            {/* Current status chips (only when active) */}
+                            {(isFeatured || isPopular || isBanner) && (
+                                <div className="px-6 py-3 bg-neutral-50 flex items-center gap-2 flex-wrap">
+                                    {isFeatured && (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-yellow-50 text-yellow-700 border border-yellow-200">
+                                            <Star size={11} className="fill-yellow-500 text-yellow-500" /> Featured
+                                        </span>
+                                    )}
+                                    {isPopular && (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-50 text-purple-700 border border-purple-200">
+                                            <TrendingUp size={11} /> Məşhur
+                                        </span>
+                                    )}
+                                    {isBanner && (
+                                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                                            <ImageIcon size={11} /> Banner
+                                        </span>
+                                    )}
                                 </div>
-                                <span className="text-xs font-semibold text-neutral-600 uppercase tracking-wide">{t('products.category')}</span>
-                            </div>
-                            <p className="text-base font-bold text-neutral-900">{product.categoryName}</p>
-                        </div>
-
-                        <div className="bg-gradient-to-br from-white to-purple-50/30 rounded-xl p-4 border border-purple-100 shadow-sm hover:shadow-md transition-all hover:border-purple-200 group">
-                            <div className="flex items-center gap-2.5 mb-2">
-                                <div className="p-2 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
-                                    <Box size={16} className="text-white" />
-                                </div>
-                                <span className="text-xs font-semibold text-neutral-600 uppercase tracking-wide">{t('products.brand')}</span>
-                            </div>
-                            <p className="text-base font-bold text-neutral-900">{product.brandName}</p>
+                            )}
                         </div>
 
-                        <div className={`rounded-xl p-4 border shadow-sm hover:shadow-md transition-all group ${
-                            product.stock < 10 
-                                ? 'bg-gradient-to-br from-orange-50 to-red-50/30 border-orange-200 hover:border-orange-300' 
-                                : 'bg-gradient-to-br from-white to-green-50/30 border-green-100 hover:border-green-200'
-                        }`}>
-                            <div className="flex items-center gap-2.5 mb-2">
-                                <div className={`p-2 rounded-lg shadow-sm group-hover:shadow-md transition-shadow ${
-                                    product.stock < 10
-                                        ? 'bg-gradient-to-br from-orange-500 to-orange-600'
-                                        : 'bg-gradient-to-br from-green-500 to-green-600'
-                                }`}>
-                                    <Package size={16} className="text-white" />
+                        {/* Metadata 2×2 grid */}
+                        <div className="grid grid-cols-2 gap-3">
+                            {/* Category */}
+                            <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm hover:shadow-md hover:border-blue-200 transition-all">
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                    <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center shadow-sm shrink-0">
+                                        <Layers size={15} className="text-white" />
+                                    </div>
+                                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">{t('products.category')}</span>
                                 </div>
-                                <span className="text-xs font-semibold text-neutral-600 uppercase tracking-wide">{t('products.stock')}</span>
+                                <p className="text-base font-bold text-neutral-900 pl-0.5">{product.categoryName}</p>
                             </div>
-                            <div className="flex items-center gap-2">
-                                <p className={`text-base font-bold ${product.stock < 10 ? 'text-orange-700' : 'text-neutral-900'}`}>
+
+                            {/* Brand */}
+                            <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm hover:shadow-md hover:border-purple-200 transition-all">
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                    <div className="w-8 h-8 bg-purple-500 rounded-lg flex items-center justify-center shadow-sm shrink-0">
+                                        <Box size={15} className="text-white" />
+                                    </div>
+                                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">{t('products.brand')}</span>
+                                </div>
+                                <p className="text-base font-bold text-neutral-900 pl-0.5">{product.brandName}</p>
+                            </div>
+
+                            {/* Stock */}
+                            <div className={`rounded-xl border p-4 shadow-sm hover:shadow-md transition-all ${
+                                product.stock < 10
+                                    ? 'bg-orange-50 border-orange-200 hover:border-orange-300'
+                                    : 'bg-white border-neutral-200 hover:border-green-200'
+                            }`}>
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                    <div className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-sm shrink-0 ${
+                                        product.stock < 10 ? 'bg-orange-500' : 'bg-green-500'
+                                    }`}>
+                                        <Package size={15} className="text-white" />
+                                    </div>
+                                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">{t('products.stock')}</span>
+                                    {product.stock < 10 && <AlertTriangle size={13} className="text-orange-500 ml-auto" />}
+                                </div>
+                                <p className={`text-base font-bold pl-0.5 ${product.stock < 10 ? 'text-orange-700' : 'text-neutral-900'}`}>
                                     {product.stock} {t('product_details.units')}
                                 </p>
-                                {product.stock < 10 && (
-                                    <AlertTriangle size={14} className="text-orange-500" />
+                            </div>
+
+                            {/* Date */}
+                            <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm hover:shadow-md hover:border-slate-300 transition-all">
+                                <div className="flex items-center gap-2.5 mb-2.5">
+                                    <div className="w-8 h-8 bg-slate-500 rounded-lg flex items-center justify-center shadow-sm shrink-0">
+                                        <Calendar size={15} className="text-white" />
+                                    </div>
+                                    <span className="text-[11px] font-bold text-neutral-400 uppercase tracking-wider">{t('product_details.added')}</span>
+                                </div>
+                                <p className="text-base font-bold text-neutral-900 pl-0.5">
+                                    {new Date(product.createdAt).toLocaleDateString('az-AZ', {
+                                        year: 'numeric', month: 'long', day: 'numeric'
+                                    })}
+                                </p>
+                            </div>
+                        </div>
+
+                        {/* Category Attributes — always visible */}
+                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md overflow-hidden">
+                            {/* Section header */}
+                            <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100 bg-neutral-50/60">
+                                <h3 className="text-sm font-bold text-neutral-800 flex items-center gap-2">
+                                    <div className="w-7 h-7 bg-violet-100 rounded-lg flex items-center justify-center">
+                                        <Tags size={14} className="text-violet-600" />
+                                    </div>
+                                    Kateqoriya atributları
+                                </h3>
+                                {categoryAttributes.length > 0 && (
+                                    <span className="text-xs font-semibold text-violet-600 bg-violet-50 border border-violet-100 px-2.5 py-1 rounded-full">
+                                        {categoryAttributes.length} atribut
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="p-5">
+                                {categoryAttributes.length === 0 ? (
+                                    /* Empty state */
+                                    <div className="flex flex-col items-center justify-center py-6 text-center">
+                                        <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center mb-2">
+                                            <Tags size={18} className="text-neutral-400" />
+                                        </div>
+                                        <p className="text-sm font-medium text-neutral-500">Atribut tapılmadı</p>
+                                        <p className="text-xs text-neutral-400 mt-1">
+                                            "Düzəliş et" → "Inline atributlar" bölməsindən əlavə edin
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                        {categoryAttributes.map((attr) => (
+                                            <div
+                                                key={attr.id}
+                                                className="rounded-xl border border-neutral-100 bg-neutral-50/80 p-4 space-y-3"
+                                            >
+                                                {/* Attribute header */}
+                                                <div className="flex items-start justify-between gap-2">
+                                                    <div>
+                                                        <p className="text-sm font-bold text-neutral-800 leading-tight">
+                                                            {attr.displayName}
+                                                        </p>
+                                                        <p className="text-[11px] font-mono text-neutral-400 mt-0.5">
+                                                            {attr.attributeType}
+                                                        </p>
+                                                    </div>
+                                                    {attr.isRequired && (
+                                                        <span className="shrink-0 text-[10px] font-bold text-red-500 bg-red-50 border border-red-100 px-1.5 py-0.5 rounded uppercase tracking-wide">
+                                                            Tələb
+                                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {/* Values */}
+                                                {attr.values.length > 0 ? (
+                                                    <div className="flex flex-wrap gap-1.5">
+                                                        {attr.values.map((val) => (
+                                                            <span
+                                                                key={val.id ?? val.value}
+                                                                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-white border border-neutral-200 text-neutral-700 shadow-sm"
+                                                                style={val.colorCode
+                                                                    ? { borderColor: val.colorCode, backgroundColor: `${val.colorCode}18` }
+                                                                    : undefined}
+                                                            >
+                                                                {val.colorCode && (
+                                                                    <span
+                                                                        className="w-2.5 h-2.5 rounded-full shrink-0 border border-white shadow-sm"
+                                                                        style={{ backgroundColor: val.colorCode }}
+                                                                    />
+                                                                )}
+                                                                {val.displayValue || val.value}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                ) : (
+                                                    <p className="text-xs text-neutral-400 italic">Dəyər yoxdur</p>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div>
                                 )}
                             </div>
                         </div>
 
-                        <div className="bg-gradient-to-br from-white to-neutral-50 rounded-xl p-4 border border-neutral-200 shadow-sm hover:shadow-md transition-all hover:border-neutral-300 group">
-                            <div className="flex items-center gap-2.5 mb-2">
-                                <div className="p-2 bg-gradient-to-br from-neutral-500 to-neutral-600 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
-                                    <Calendar size={16} className="text-white" />
-                                </div>
-                                <span className="text-xs font-semibold text-neutral-600 uppercase tracking-wide">{t('product_details.added')}</span>
-                            </div>
-                            <p className="text-base font-bold text-neutral-900">
-                                {new Date(product.createdAt).toLocaleDateString('az-AZ', { 
-                                    year: 'numeric', 
-                                    month: 'long', 
-                                    day: 'numeric' 
-                                })}
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Category Attributes */}
-                    {categoryAttributes.length > 0 && (
-                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-6">
-                            <h3 className="text-base font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                                <div className="p-1.5 bg-violet-100 rounded-lg">
-                                    <Tags size={16} className="text-violet-600" />
-                                </div>
-                                Kateqoriya atributları
-                            </h3>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {categoryAttributes.map((attr) => (
-                                    <div
-                                        key={attr.id}
-                                        className="rounded-lg border border-neutral-100 bg-neutral-50/60 p-4"
-                                    >
-                                        <div className="flex items-center gap-2 mb-2">
-                                            <span className="text-sm font-semibold text-neutral-800">
-                                                {attr.displayName}
-                                            </span>
-                                            {attr.isRequired && (
-                                                <span className="text-[10px] font-medium text-red-500 uppercase">
-                                                    Tələb olunur
+                        {/* Variants */}
+                        {product.variants && product.variants.length > 0 && (
+                            <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-5">
+                                <h3 className="text-sm font-bold text-neutral-800 mb-4 flex items-center gap-2">
+                                    <div className="w-7 h-7 bg-amber-100 rounded-lg flex items-center justify-center">
+                                        <Layers size={14} className="text-amber-600" />
+                                    </div>
+                                    Variantlar
+                                    <span className="ml-1 text-xs font-medium text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
+                                        {product.variants.length}
+                                    </span>
+                                </h3>
+                                <div className="space-y-2">
+                                    {product.variants.map((variant: ProductVariant, idx: number) => (
+                                        <div key={variant.id} className="rounded-lg border border-neutral-200 p-3.5 bg-neutral-50/60">
+                                            <div className="flex items-center justify-between mb-2.5">
+                                                <span className="text-sm font-semibold text-neutral-700">
+                                                    Variant {idx + 1}
                                                 </span>
+                                                <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${
+                                                    variant.isActive
+                                                        ? 'bg-green-50 text-green-700 border border-green-200'
+                                                        : 'bg-neutral-100 text-neutral-500 border border-neutral-200'
+                                                }`}>
+                                                    {variant.isActive ? 'Aktiv' : 'Deaktiv'}
+                                                </span>
+                                            </div>
+                                            {Object.keys(variant.attributes ?? {}).length > 0 ? (
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {Object.entries(variant.attributes).map(([key, value]) => (
+                                                        <span key={key} className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs bg-white border border-neutral-200">
+                                                            <span className="text-neutral-400">{key}:</span>
+                                                            <span className="font-semibold text-neutral-800">{String(value)}</span>
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            ) : (
+                                                <p className="text-xs text-neutral-400">Atribut təyin edilməyib</p>
                                             )}
                                         </div>
-                                        <div className="flex flex-wrap gap-2">
-                                            {attr.values.map((val) => (
-                                                <span
-                                                    key={val.id ?? val.value}
-                                                    className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-white border border-neutral-200 text-neutral-700"
-                                                    style={
-                                                        val.colorCode
-                                                            ? {
-                                                                  borderColor: val.colorCode,
-                                                                  backgroundColor: `${val.colorCode}18`,
-                                                              }
-                                                            : undefined
-                                                    }
-                                                >
-                                                    {val.displayValue || val.value}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    )}
-
-                    {/* Product Variants */}
-                    {product.variants && product.variants.length > 0 && (
-                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-6">
-                            <h3 className="text-base font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                                <div className="p-1.5 bg-amber-100 rounded-lg">
-                                    <Layers size={16} className="text-amber-600" />
+                                    ))}
                                 </div>
-                                Variantlar
-                                <span className="text-xs font-medium text-neutral-500 bg-neutral-100 px-2 py-0.5 rounded-full">
-                                    {product.variants.length}
-                                </span>
-                            </h3>
-                            <div className="space-y-3">
-                                {product.variants.map((variant: ProductVariant, idx: number) => (
-                                    <div
-                                        key={variant.id}
-                                        className="rounded-lg border border-neutral-200 p-4 bg-neutral-50/40"
-                                    >
-                                        <div className="flex items-center justify-between mb-3">
-                                            <span className="text-sm font-semibold text-neutral-800">
-                                                Variant {idx + 1}
-                                            </span>
-                                            <span
-                                                className={`inline-flex px-2 py-0.5 rounded-full text-xs font-medium ${
-                                                    variant.isActive
-                                                        ? "bg-green-50 text-green-700 border border-green-100"
-                                                        : "bg-neutral-100 text-neutral-500 border border-neutral-200"
-                                                }`}
-                                            >
-                                                {variant.isActive ? "Aktiv" : "Deaktiv"}
-                                            </span>
-                                        </div>
-                                        {Object.keys(variant.attributes ?? {}).length > 0 ? (
-                                            <div className="flex flex-wrap gap-2">
-                                                {Object.entries(variant.attributes).map(
-                                                    ([key, value]) => (
-                                                        <span
-                                                            key={key}
-                                                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs bg-white border border-neutral-200"
-                                                        >
-                                                            <span className="text-neutral-500">{key}:</span>
-                                                            <span className="font-medium text-neutral-800">
-                                                                {String(value)}
-                                                            </span>
-                                                        </span>
-                                                    )
-                                                )}
-                                            </div>
-                                        ) : (
-                                            <p className="text-xs text-neutral-400">
-                                                Atribut təyin edilməyib
-                                            </p>
-                                        )}
-                                    </div>
-                                ))}
                             </div>
-                        </div>
-                    )}
+                        )}
 
-                    {/* Description - Enhanced Readability */}
-                    {product.description && (
-                        <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-6">
-                            <h3 className="text-base font-semibold text-neutral-800 mb-4 flex items-center gap-2">
-                                <div className="p-1.5 bg-primary-100 rounded-lg">
-                                    <Info size={16} className="text-primary-600" />
-                                </div>
-                                {t('product_details.description')}
-                            </h3>
-                            <div className="prose prose-sm max-w-none">
-                                <p className="text-sm text-neutral-700 leading-relaxed whitespace-pre-wrap">
+                        {/* Description */}
+                        {product.description && (
+                            <div className="bg-white rounded-xl border border-neutral-200 shadow-md p-5">
+                                <h3 className="text-sm font-bold text-neutral-800 mb-3 flex items-center gap-2">
+                                    <div className="w-7 h-7 bg-primary-100 rounded-lg flex items-center justify-center">
+                                        <Info size={14} className="text-primary-600" />
+                                    </div>
+                                    {t('product_details.description')}
+                                </h3>
+                                <p className="text-sm text-neutral-600 leading-relaxed whitespace-pre-wrap">
                                     {product.description}
                                 </p>
                             </div>
-                        </div>
-                    )}
-                </div>
+                        )}
+                    </div>
                 </div>
             </div>
 
