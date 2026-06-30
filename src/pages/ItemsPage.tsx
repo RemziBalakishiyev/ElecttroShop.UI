@@ -228,6 +228,7 @@ export const ItemsPage = () => {
       if (productId) {
         queryClient.invalidateQueries({ queryKey: ["product", productId] });
       }
+      queryClient.invalidateQueries({ queryKey: ["category-attributes"] });
       handleAddItemClose();
     } catch (err: unknown) {
       const message = mapProductSaveErrorMessage(err);

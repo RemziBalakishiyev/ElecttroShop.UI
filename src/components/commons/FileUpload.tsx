@@ -32,10 +32,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [fileName, setFileName] = React.useState<string>("");
 
-  const handleClick = () => {
-    inputRef.current?.click();
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
 
@@ -67,7 +63,6 @@ export const FileUpload: React.FC<FileUploadProps> = ({
       )}
 
       <div
-        onClick={handleClick}
         className={cn(
           "relative border rounded-lg px-3 py-2 text-sm cursor-pointer transition-all hover:border-primary-400",
           "focus-within:ring-2 focus-within:ring-primary-400 focus-within:border-primary-400",
@@ -77,7 +72,7 @@ export const FileUpload: React.FC<FileUploadProps> = ({
           error && "border-error"
         )}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 pointer-events-none">
           <Paperclip size={16} className={theme === "light" ? "text-neutral-400" : "text-neutral-500"} />
           <span className={cn(
             "flex-1",

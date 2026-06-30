@@ -1,5 +1,5 @@
 import React from "react";
-import { Plus, Trash2, ListTree } from "lucide-react";
+import { Plus, Trash2, ListTree, Info } from "lucide-react";
 import { Button } from "../commons/Button";
 import { Input } from "../commons/Input";
 import { Select } from "../commons/Select";
@@ -61,39 +61,24 @@ export const ProductInlineAttributesSection: React.FC<
   const addFromCategory = (categoryAttrId: string) => {
     const attr = categoryAttributes.find((a) => a.id === categoryAttrId);
     if (!attr) return;
-    const canonical = registerCanonicalAttributeType(
-      registry,
-      attr.attributeType
-    );
+    const canonical = registerCanonicalAttributeType(registry, attr.attributeType);
     if (
       inlineAttributes.some(
         (a) => attributeTypeKey(a.attributeType) === attributeTypeKey(canonical)
       )
-    ) {
-      return;
-    }
+    ) return;
     onChange([
       ...inlineAttributes,
-      {
-        ...newInlineAttribute(attr),
-        attributeType: canonical,
-        displayOrder: inlineAttributes.length,
-      },
+      { ...newInlineAttribute(attr), attributeType: canonical, displayOrder: inlineAttributes.length },
     ]);
   };
 
-  const updateAttr = (
-    index: number,
-    patch: Partial<InlineProductAttribute>
-  ) => {
+  const updateAttr = (index: number, patch: Partial<InlineProductAttribute>) => {
     const next = [...inlineAttributes];
     const current = { ...next[index], ...patch };
 
     if (patch.attributeType !== undefined) {
-      const canonical = registerCanonicalAttributeType(
-        registry,
-        patch.attributeType
-      );
+      const canonical = registerCanonicalAttributeType(registry, patch.attributeType);
       const key = attributeTypeKey(canonical);
       const duplicate = inlineAttributes.some(
         (a, i) => i !== index && attributeTypeKey(a.attributeType) === key
@@ -126,10 +111,7 @@ export const ProductInlineAttributesSection: React.FC<
   const addValue = (attrIndex: number) => {
     const attr = inlineAttributes[attrIndex];
     updateAttr(attrIndex, {
-      values: [
-        ...attr.values,
-        { value: "", displayOrder: attr.values.length },
-      ],
+      values: [...attr.values, { value: "", displayOrder: attr.values.length }],
     });
   };
 
@@ -141,174 +123,222 @@ export const ProductInlineAttributesSection: React.FC<
   };
 
   return (
-    <section className="rounded-xl border border-neutral-200 p-4 space-y-3">
-      <div className="flex flex-wrap items-center justify-between gap-2">
+    <section className="space-y-3">
+      {/* Section header */}
+      <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-2">
-          <ListTree size={16} className="text-neutral-500" />
-          <span className="text-sm font-semibold text-neutral-800">
-            Inline atributlar
-          </span>
-          <span className="text-xs text-neutral-500">(optional)</span>
+          <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
+            <ListTree size={14} className="text-indigo-600" />
+          </div>
+          <span className="text-sm font-semibold text-neutral-800">Inline atributlar</span>
+          <span className="text-xs text-neutral-400 font-normal">(optional)</span>
+          <div
+            className="group relative"
+            title="Atribut metadata (displayValue, rəng kodu) ilə birlikdə saxlanır. Yalnız variant göndərsəniz, backend variant açarlarından schema yaradır."
+          >
+            <Info size={13} className="text-neutral-400 cursor-help" />
+          </div>
         </div>
-        <div className="flex flex-wrap gap-2">
+
+        <div className="flex items-center gap-2">
           {availableCategoryAttrs.length > 0 && (
             <Select
               options={[
-                { label: "Kateqoriyadan əlavə et…", value: "" },
+                { label: "Kateqoriyadan seç…", value: "" },
                 ...availableCategoryAttrs.map((a) => ({
                   label: a.displayName,
                   value: a.id,
                 })),
               ]}
               value=""
-              onChange={(e) => {
-                if (e.target.value) addFromCategory(e.target.value);
-              }}
-              className="min-w-[180px]"
+              onChange={(e) => { if (e.target.value) addFromCategory(e.target.value); }}
+              className="text-sm min-w-[170px]"
             />
           )}
           <Button
             type="button"
             variant="outline"
-            icon={<Plus size={16} />}
             onClick={() =>
               onChange([
                 ...inlineAttributes,
-                {
-                  ...newInlineAttribute(),
-                  displayOrder: inlineAttributes.length,
-                },
+                { ...newInlineAttribute(), displayOrder: inlineAttributes.length },
               ])
             }
+            className="gap-1.5 text-sm px-3 py-1.5"
           >
+            <Plus size={14} />
             Yeni atribut
           </Button>
         </div>
       </div>
 
-      <p className="text-xs text-neutral-500">
-        Tam admin rejimi: atribut metadata (displayValue, rəng kodu) ilə birlikdə
-        saxlanır. Yalnız variant göndərsəniz, backend variant açarlarından schema
-        yaradır.
-      </p>
-
+      {/* Empty state */}
       {inlineAttributes.length === 0 ? (
-        <p className="text-sm text-neutral-400 text-center py-4 bg-neutral-50 rounded-lg border border-dashed border-neutral-200">
-          Inline atribut yoxdur. Kateqoriya atributlarından seçin və ya yenisini
-          əlavə edin.
-        </p>
+        <div className="flex flex-col items-center justify-center py-8 bg-neutral-50 rounded-xl border border-dashed border-neutral-200">
+          <div className="w-10 h-10 bg-neutral-100 rounded-full flex items-center justify-center mb-2">
+            <ListTree size={18} className="text-neutral-400" />
+          </div>
+          <p className="text-sm text-neutral-500 font-medium">Atribut yoxdur</p>
+          <p className="text-xs text-neutral-400 mt-0.5">Kateqoriyadan seçin və ya yenisini əlavə edin</p>
+        </div>
       ) : (
-        <div className="space-y-4">
+        <div className="space-y-3">
           {inlineAttributes.map((attr, attrIndex) => (
+            /* KEY uses only attrIndex — NOT attr.attributeType.
+               Including attributeType in the key caused remount on every keystroke → focus loss. */
             <div
-              key={`inline-${attrIndex}-${attr.attributeType}`}
-              className="p-4 bg-neutral-50/80 border border-neutral-200 rounded-xl space-y-3"
+              key={`attr-${attrIndex}`}
+              className="bg-white border border-neutral-200 rounded-xl overflow-hidden shadow-sm"
             >
-              <div className="flex items-start justify-between gap-2">
-                <h4 className="text-sm font-semibold text-neutral-800">
-                  Atribut {attrIndex + 1}
-                </h4>
+              {/* Card header */}
+              <div className="flex items-center justify-between px-4 py-3 bg-neutral-50 border-b border-neutral-100">
+                <div className="flex items-center gap-2">
+                  <span className="w-5 h-5 bg-indigo-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {attrIndex + 1}
+                  </span>
+                  <span className="text-sm font-semibold text-neutral-700">
+                    {attr.displayName || attr.attributeType || `Atribut ${attrIndex + 1}`}
+                  </span>
+                  {attr.isRequired && (
+                    <span className="text-[10px] font-bold text-red-500 bg-red-50 border border-red-100 px-1.5 py-0.5 rounded uppercase tracking-wide">
+                      Tələb
+                    </span>
+                  )}
+                </div>
                 <button
                   type="button"
                   onClick={() => removeAttr(attrIndex)}
-                  className="p-1.5 rounded-lg text-red-500 hover:bg-red-50"
+                  className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50 transition-colors"
                   aria-label="Atributu sil"
                 >
-                  <Trash2 size={16} />
+                  <Trash2 size={15} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <Input
-                  label="attributeType (canonical açar)"
-                  required
-                  value={attr.attributeType}
-                  onChange={(e) =>
-                    updateAttr(attrIndex, { attributeType: e.target.value })
-                  }
-                  placeholder="RAM, Color…"
-                />
-                <Input
-                  label="displayName"
-                  required
-                  value={attr.displayName}
-                  onChange={(e) =>
-                    updateAttr(attrIndex, {
-                      displayName: e.target.value,
-                      name: e.target.value,
-                    })
-                  }
-                />
-              </div>
-
-              <Checkbox
-                label="Tələb olunur (isRequired)"
-                checked={attr.isRequired}
-                onChange={(checked) =>
-                  updateAttr(attrIndex, { isRequired: checked })
-                }
-              />
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-neutral-600">
-                    Value-lar (case-sensitive: 16GB ≠ 16gb)
-                  </span>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    icon={<Plus size={14} />}
-                    onClick={() => addValue(attrIndex)}
-                  >
-                    Value
-                  </Button>
+              {/* Card body */}
+              <div className="px-4 py-4 space-y-4">
+                {/* attributeType + displayName */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <Input
+                    label="attributeType (canonical açar)"
+                    required
+                    value={attr.attributeType}
+                    onChange={(e) =>
+                      updateAttr(attrIndex, { attributeType: e.target.value })
+                    }
+                    placeholder="RAM, Color, Size…"
+                  />
+                  <Input
+                    label="displayName"
+                    required
+                    value={attr.displayName}
+                    onChange={(e) =>
+                      updateAttr(attrIndex, {
+                        displayName: e.target.value,
+                        name: e.target.value,
+                      })
+                    }
+                    placeholder="Yaddaş, Rəng, Ölçü…"
+                  />
                 </div>
-                {attr.values.map((val, valueIndex) => (
-                  <div
-                    key={valueIndex}
-                    className="grid grid-cols-1 sm:grid-cols-4 gap-2 items-end"
-                  >
-                    <Input
-                      label="value"
-                      required
-                      value={val.value}
-                      onChange={(e) =>
-                        updateValue(attrIndex, valueIndex, {
-                          value: e.target.value,
-                        })
-                      }
-                    />
-                    <Input
-                      label="displayValue"
-                      value={val.displayValue || ""}
-                      onChange={(e) =>
-                        updateValue(attrIndex, valueIndex, {
-                          displayValue: e.target.value,
-                        })
-                      }
-                    />
-                    <Input
-                      label="colorCode"
-                      value={val.colorCode || ""}
-                      onChange={(e) =>
-                        updateValue(attrIndex, valueIndex, {
-                          colorCode: e.target.value,
-                        })
-                      }
-                      placeholder="#000000"
-                    />
-                    <div className="flex gap-2 pb-1">
-                      <button
-                        type="button"
-                        onClick={() => removeValue(attrIndex, valueIndex)}
-                        className="p-2 text-red-500 hover:bg-red-50 rounded-lg"
-                        aria-label="Value sil"
-                      >
-                        <Trash2 size={16} />
-                      </button>
-                    </div>
+
+                <Checkbox
+                  label="Tələb olunur (isRequired)"
+                  checked={attr.isRequired}
+                  onChange={(checked) => updateAttr(attrIndex, { isRequired: checked })}
+                />
+
+                {/* Values */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-neutral-500 uppercase tracking-wide">
+                      Dəyərlər
+                      <span className="ml-1 font-normal text-neutral-400 normal-case">(case-sensitive: 16GB ≠ 16gb)</span>
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => addValue(attrIndex)}
+                      className="inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:text-indigo-700 hover:bg-indigo-50 px-2 py-1 rounded-lg transition-colors"
+                    >
+                      <Plus size={12} />
+                      Dəyər əlavə et
+                    </button>
                   </div>
-                ))}
+
+                  {attr.values.length === 0 ? (
+                    <p className="text-xs text-neutral-400 italic">Hələ dəyər yoxdur</p>
+                  ) : (
+                    <div className="space-y-2">
+                      {/* Column headers */}
+                      <div className="grid grid-cols-12 gap-2 px-1">
+                        <span className="col-span-4 text-[10px] font-semibold text-neutral-400 uppercase tracking-wide">value *</span>
+                        <span className="col-span-4 text-[10px] font-semibold text-neutral-400 uppercase tracking-wide">displayValue</span>
+                        <span className="col-span-3 text-[10px] font-semibold text-neutral-400 uppercase tracking-wide">colorCode</span>
+                      </div>
+
+                      {attr.values.map((val, valueIndex) => (
+                        <div
+                          key={valueIndex}
+                          className="grid grid-cols-12 gap-2 items-center bg-neutral-50 rounded-lg px-2 py-2 border border-neutral-100"
+                        >
+                          <div className="col-span-4">
+                            <input
+                              type="text"
+                              required
+                              value={val.value}
+                              onChange={(e) =>
+                                updateValue(attrIndex, valueIndex, { value: e.target.value })
+                              }
+                              placeholder="16GB"
+                              className="w-full px-2.5 py-1.5 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-colors"
+                            />
+                          </div>
+                          <div className="col-span-4">
+                            <input
+                              type="text"
+                              value={val.displayValue || ""}
+                              onChange={(e) =>
+                                updateValue(attrIndex, valueIndex, { displayValue: e.target.value })
+                              }
+                              placeholder="16 GB"
+                              className="w-full px-2.5 py-1.5 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-colors"
+                            />
+                          </div>
+                          <div className="col-span-3 flex items-center gap-1.5">
+                            {val.colorCode ? (
+                              <div
+                                className="w-5 h-5 rounded-full border border-neutral-300 shrink-0 shadow-sm"
+                                style={{ backgroundColor: val.colorCode }}
+                              />
+                            ) : (
+                              <div className="w-5 h-5 rounded-full border border-dashed border-neutral-300 shrink-0 bg-white" />
+                            )}
+                            <input
+                              type="text"
+                              value={val.colorCode || ""}
+                              onChange={(e) =>
+                                updateValue(attrIndex, valueIndex, { colorCode: e.target.value })
+                              }
+                              placeholder="#3B82F6"
+                              className="w-full px-2 py-1.5 text-sm border border-neutral-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-400 transition-colors font-mono"
+                            />
+                          </div>
+                          <div className="col-span-1 flex justify-center">
+                            <button
+                              type="button"
+                              onClick={() => removeValue(attrIndex, valueIndex)}
+                              disabled={attr.values.length === 1}
+                              className="p-1.5 text-neutral-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+                              aria-label="Dəyəri sil"
+                            >
+                              <Trash2 size={14} />
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
