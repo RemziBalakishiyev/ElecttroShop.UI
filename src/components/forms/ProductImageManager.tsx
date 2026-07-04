@@ -8,7 +8,7 @@ import { useToast } from '../../core/providers/ToastContext';
 import { useTranslation } from 'react-i18next';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../core/context/ThemeContext';
-import { API_CONFIG } from '../../core/config/api.config';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 interface ProductImageManagerProps {
   productId: string;
@@ -90,11 +90,6 @@ export const ProductImageManager: React.FC<ProductImageManagerProps> = ({
     }
   };
 
-  const getImageUrl = (imageUrl: string) => {
-    if (imageUrl.startsWith('http')) return imageUrl;
-    return `${API_CONFIG.BASE_URL}${imageUrl}`;
-  };
-
   return (
     <div className={cn(
       "space-y-4 p-6 rounded-lg border",
@@ -155,7 +150,7 @@ export const ProductImageManager: React.FC<ProductImageManagerProps> = ({
               )}
             >
               <img
-                src={getImageUrl(img.imageUrl)}
+                src={resolveImageUrl(img.imageUrl) ?? ''}
                 alt={`Image ${index + 1}`}
                 className="w-full h-32 object-cover"
                 onError={(e) => {

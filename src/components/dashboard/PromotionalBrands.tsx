@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { brandsApi } from "../../core/api/brands.api";
-import { API_CONFIG } from "../../core/config/api.config";
+import { resolveImageUrl } from "../../utils/imageUrl";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../core/context/ThemeContext";
 import { cn } from "../../utils/cn";
@@ -50,9 +50,7 @@ export const PromotionalBrands = () => {
                 
                 if (!featuredProduct) return null;
 
-                const imageUrl = featuredProduct.imageId
-                    ? `${API_CONFIG.BASE_URL}/images/${featuredProduct.imageId}`
-                    : null;
+                const imageUrl = resolveImageUrl(featuredProduct.imageId);
 
                 return (
                     <div

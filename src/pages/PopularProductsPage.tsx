@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "../components/commons/Pagination";
 import { productsApi } from "../core/api/products.api";
 import type { PopularProduct, Product } from "../core/api/products.api";
-import { API_CONFIG } from "../core/config/api.config";
+import { resolveImageUrl } from "../utils/imageUrl";
 import { useToast } from "../core/providers/ToastContext";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
@@ -28,13 +28,6 @@ import { cn } from "../utils/cn";
 
 const MAX_POPULAR = 4;
 const ORDERS = [1, 2, 3, 4] as const;
-
-function resolveImageUrl(imageUrl: string | null | undefined): string | null {
-  if (!imageUrl) return null;
-  if (imageUrl.startsWith("http")) return imageUrl;
-  if (imageUrl.startsWith("/api/")) return `${API_CONFIG.BASE_URL}${imageUrl}`;
-  return `${API_CONFIG.BASE_URL}/api/images/${imageUrl}`;
-}
 
 function buildPopularSlots(products: PopularProduct[]): (PopularProduct | null)[] {
   const slots: (PopularProduct | null)[] = Array(MAX_POPULAR).fill(null);
