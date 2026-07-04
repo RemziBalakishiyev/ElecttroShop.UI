@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useTranslation } from "react-i18next";
 import { useTheme } from "../../core/context/ThemeContext";
 import { cn } from "../../utils/cn";
 import {
@@ -15,6 +16,7 @@ import { dashboardApi } from "../../core/api/dashboard.api";
 import { Calendar } from "lucide-react";
 
 export const DashboardChart = () => {
+    const { t } = useTranslation();
     const { theme } = useTheme();
     const [period, setPeriod] = useState<"daily" | "weekly" | "monthly">("monthly");
 
@@ -48,13 +50,16 @@ export const DashboardChart = () => {
         )}>
             <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-2">
-                    <div className="p-2 bg-primary-50 text-primary-600 rounded-lg">
+                    <div className={cn(
+                      "p-2 rounded-lg",
+                      theme === "light" ? "bg-primary-50 text-primary-600" : "bg-primary-500/10 text-primary-400"
+                    )}>
                         <Calendar size={20} />
                     </div>
                     <h2 className={cn(
                       "text-lg font-bold",
                       theme === "light" ? "text-neutral-900" : "text-white"
-                    )}>Revenue Overview</h2>
+                    )}>{t('dashboard.revenue_overview')}</h2>
                 </div>
 
                 <div className={cn(
@@ -76,7 +81,7 @@ export const DashboardChart = () => {
                                 : "text-neutral-400 hover:text-white"
                             )}
                         >
-                            {p.charAt(0).toUpperCase() + p.slice(1)}
+                            {t(`dashboard.period_${p}`)}
                         </button>
                     ))}
                 </div>
@@ -92,39 +97,45 @@ export const DashboardChart = () => {
                         <AreaChart data={data} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                             <defs>
                                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="5%" stopColor="#4f46e5" stopOpacity={0.2} />
-                                    <stop offset="95%" stopColor="#4f46e5" stopOpacity={0} />
+                                    <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3} />
+                                    <stop offset="95%" stopColor="#3B82F6" stopOpacity={0} />
                                 </linearGradient>
                             </defs>
-                            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+                            <CartesianGrid
+                                strokeDasharray="3 3"
+                                vertical={false}
+                                stroke={theme === "light" ? "#f3f4f6" : "#334155"}
+                            />
                             <XAxis
                                 dataKey="date"
                                 tickFormatter={formatXAxis}
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fill: "#6b7280", fontSize: 12 }}
+                                tick={{ fill: theme === "light" ? "#6b7280" : "#94a3b8", fontSize: 12 }}
                                 dy={10}
                             />
                             <YAxis
                                 tickFormatter={(value) => `${value / 1000}k`}
                                 axisLine={false}
                                 tickLine={false}
-                                tick={{ fill: "#6b7280", fontSize: 12 }}
+                                tick={{ fill: theme === "light" ? "#6b7280" : "#94a3b8", fontSize: 12 }}
                             />
                             <Tooltip
                                 contentStyle={{
-                                    backgroundColor: "#fff",
+                                    backgroundColor: theme === "light" ? "#fff" : "#1e293b",
                                     borderRadius: "8px",
-                                    border: "1px solid #e5e7eb",
+                                    border: theme === "light" ? "1px solid #e5e7eb" : "1px solid #334155",
                                     boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                                    color: theme === "light" ? "#0f172a" : "#f1f5f9",
                                 }}
-                                formatter={(value: number) => [formatCurrency(value), "Revenue"]}
+                                labelStyle={{ color: theme === "light" ? "#0f172a" : "#f1f5f9" }}
+                                formatter={(value: number) => [formatCurrency(value), t('dashboard.revenue')]}
                                 labelFormatter={(label) => new Date(label).toLocaleDateString()}
                             />
                             <Area
                                 type="monotone"
                                 dataKey="value"
-                                stroke="#4f46e5"
+                                stroke="#3B82F6"
                                 strokeWidth={2}
                                 fillOpacity={1}
                                 fill="url(#colorRevenue)"
@@ -133,7 +144,7 @@ export const DashboardChart = () => {
                     </ResponsiveContainer>
                 ) : (
                     <div className="h-full flex items-center justify-center text-neutral-400">
-                        No data available for this period
+                        {t('dashboard.no_data_period')}
                     </div>
                 )}
             </div>
