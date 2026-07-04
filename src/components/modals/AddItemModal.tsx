@@ -19,10 +19,10 @@ import type {
 } from "../../core/api/products.api";
 import { ProductInlineAttributesSection } from "../forms/ProductInlineAttributesSection";
 import { ProductVariantMatrixSection } from "../forms/ProductVariantMatrixSection";
-import { API_CONFIG } from "../../core/config/api.config";
 import { useTranslation } from "react-i18next";
 import type { ProductFormSubmitData } from "../../utils/productSave";
 import { validateProductFormForSave } from "../../utils/productSave";
+import { resolveImageUrl } from "../../utils/imageUrl";
 import {
   buildAttributeTypeRegistry,
   buildEffectiveAttributes,
@@ -62,13 +62,6 @@ interface ProductFormState {
   originalCategoryId: string;
 }
 
-const buildProductImageUrl = (url: string | null | undefined): string | null => {
-  if (!url) return null;
-  if (url.startsWith("http")) return url;
-  if (url.startsWith("/api/")) return `${API_CONFIG.BASE_URL}${url}`;
-  return `${API_CONFIG.BASE_URL}/api/images/${url}`;
-};
-
 const getProductExistingImages = (product: Product): ExistingImagePreview[] => {
   const result: ExistingImagePreview[] = [];
   const seenIds = new Set<string>();
@@ -78,7 +71,7 @@ const getProductExistingImages = (product: Product): ExistingImagePreview[] => {
     meta?: Pick<ExistingImagePreview, "id" | "imageId" | "isPrimary">
   ) => {
     if (meta?.imageId && seenIds.has(meta.imageId)) return;
-    const fullUrl = buildProductImageUrl(url);
+    const fullUrl = resolveImageUrl(url);
     if (!fullUrl) return;
     if (meta?.imageId) seenIds.add(meta.imageId);
     result.push({ ...meta, url: fullUrl });

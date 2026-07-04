@@ -49,7 +49,7 @@ import {
   mapProductSaveErrorMessage,
 } from "../utils/productAttributes";
 import { Button } from "../components/commons/Button";
-import { API_CONFIG } from "../core/config/api.config";
+import { resolveImageUrl } from "../utils/imageUrl";
 import { AddItemModal } from "../components/modals/AddItemModal";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { Modal } from "../components/commons/Modal";
@@ -299,15 +299,7 @@ export const ProductDetailsPage = () => {
         );
     }
 
-    // Use primaryImageUrl if available, fallback to imageUrl
-    const imageUrl = product.primaryImageUrl || product.imageUrl;
-    const fullImageUrl = imageUrl
-        ? (imageUrl.startsWith("http") 
-            ? imageUrl 
-            : imageUrl.startsWith("/api/")
-            ? `${API_CONFIG.BASE_URL}${imageUrl}`
-            : `${API_CONFIG.BASE_URL}/api/images/${imageUrl}`)
-        : null;
+    const fullImageUrl = resolveImageUrl(product.primaryImageUrl || product.imageUrl);
 
     return (
         <div className="min-h-screen bg-neutral-50">
@@ -501,16 +493,7 @@ export const ProductDetailsPage = () => {
                                 </div>
                                 <div className="grid grid-cols-4 gap-2">
                                     {product.images.map((image: any) => {
-                                        let imgUrl: string | null = null;
-                                        if (image.imageUrl) {
-                                            imgUrl = image.imageUrl.startsWith("http")
-                                                ? image.imageUrl
-                                                : image.imageUrl.startsWith("/api/")
-                                                ? `${API_CONFIG.BASE_URL}${image.imageUrl}`
-                                                : `${API_CONFIG.BASE_URL}/api/images/${image.imageUrl}`;
-                                        } else if (image.imageId) {
-                                            imgUrl = `${API_CONFIG.BASE_URL}/api/images/${image.imageId}`;
-                                        }
+                                        const imgUrl = resolveImageUrl(image.imageUrl || image.imageId);
                                         return (
                                             <div key={image.id} className="relative group/thumb">
                                                 <div className={`relative overflow-hidden rounded-lg border-2 transition-all ${

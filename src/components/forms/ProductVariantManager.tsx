@@ -12,7 +12,7 @@ import type { CategoryAttribute } from '../../core/api/categories.api';
 import { useToast } from '../../core/providers/ToastContext';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../core/context/ThemeContext';
-import { API_CONFIG } from '../../core/config/api.config';
+import { resolveImageUrl } from '../../utils/imageUrl';
 
 interface ProductVariantManagerProps {
   productId: string;
@@ -254,11 +254,6 @@ export const ProductVariantManager: React.FC<ProductVariantManagerProps> = ({
     }
   };
 
-  const getImageUrl = (imageUrl: string | null) => {
-    if (!imageUrl) return null;
-    if (imageUrl.startsWith('http')) return imageUrl;
-    return `${API_CONFIG.BASE_URL}${imageUrl}`;
-  };
 
   return (
     <div className={cn(
@@ -317,7 +312,7 @@ export const ProductVariantManager: React.FC<ProductVariantManagerProps> = ({
             {editingVariant.imageUrl && !editingVariant.imageFile && (
               <div className="mt-2 relative w-32 h-32 rounded border border-neutral-200 overflow-hidden">
                 <img
-                  src={getImageUrl(editingVariant.imageUrl) || ''}
+                  src={resolveImageUrl(editingVariant.imageUrl) || ''}
                   alt="Variant"
                   className="w-full h-full object-cover"
                 />
@@ -463,7 +458,7 @@ export const ProductVariantManager: React.FC<ProductVariantManagerProps> = ({
                 <div className="flex items-center gap-4 flex-1">
                   {variant.imageUrl && (
                     <img
-                      src={getImageUrl(variant.imageUrl) || ''}
+                      src={resolveImageUrl(variant.imageUrl) || ''}
                       alt="Variant"
                       className="w-16 h-16 rounded object-cover"
                       onError={(e) => {

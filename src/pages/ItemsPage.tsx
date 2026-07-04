@@ -25,7 +25,7 @@ import {
 } from "../utils/productAttributes";
 import { unwrapApiData } from "../utils/apiResponse";
 import { useToast } from "../core/providers/ToastContext";
-import { API_CONFIG } from "../core/config/api.config";
+import { resolveImageUrl } from "../utils/imageUrl";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
@@ -263,20 +263,7 @@ export const ItemsPage = () => {
       key: "image",
       label: t('products.image'),
       render: (item: Product) => {
-        // Use primaryImageUrl if available, fallback to imageUrl
-        const imageUrl = item.primaryImageUrl || item.imageUrl;
-        const fullImageUrl = imageUrl
-          ? (imageUrl.startsWith("http") 
-              ? imageUrl 
-              : imageUrl.startsWith("/api/")
-              ? `${API_CONFIG.BASE_URL}${imageUrl}`
-              : `${API_CONFIG.BASE_URL}/api/images/${imageUrl}`)
-          : null;
-        
-        // Debug log (remove in production)
-        if (item.primaryImageUrl) {
-          console.log(`Product ${item.name}: primaryImageUrl=${item.primaryImageUrl}, fullImageUrl=${fullImageUrl}`);
-        }
+        const fullImageUrl = resolveImageUrl(item.primaryImageUrl || item.imageUrl);
 
         return fullImageUrl ? (
           <ImageWithFallback
