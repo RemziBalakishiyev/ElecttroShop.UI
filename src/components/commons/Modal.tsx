@@ -30,12 +30,14 @@ export const Modal: React.FC<ModalProps> = ({
         requestAnimationFrame(() => setVisible(true));
       });
     }
+    let cleanup: (() => void) | undefined;
     if (!open && prevOpen.current) {
       setVisible(false);
       const t = setTimeout(() => setMounted(false), 200);
-      return () => clearTimeout(t);
+      cleanup = () => clearTimeout(t);
     }
     prevOpen.current = open;
+    return cleanup;
   }, [open]);
 
   // Close on Escape key

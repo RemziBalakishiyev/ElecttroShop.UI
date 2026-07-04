@@ -49,6 +49,31 @@ export interface DashboardDto {
     recentOrders: OrderSummaryDto[];
 }
 
+// --- New Statistics Types (GET /api/dashboard/statistics) ---
+
+export interface SalesStatisticsResponse {
+    totalSaleAmount: number;
+    totalProductCost: number;
+    totalExpenses: number;
+    totalProfit: number;
+    soldProductQuantity: number;
+    salesCount: number;
+}
+
+export interface ProductSummaryStatisticsResponse {
+    totalProductCount: number;
+    totalProductCostValue: number;
+    totalProductSaleValue: number;
+    totalInventoryCostValue: number;
+    totalInventorySaleValue: number;
+}
+
+export interface DashboardStatisticsResponse {
+    dailySales: SalesStatisticsResponse;
+    monthlySales: SalesStatisticsResponse;
+    productSummary: ProductSummaryStatisticsResponse;
+}
+
 // --- API Functions ---
 
 export const dashboardApi = {
@@ -61,6 +86,11 @@ export const dashboardApi = {
         const response = await apiClient.get<ChartDataPoint[]>("/Dashboard/chart", {
             params: { period, periodCount },
         });
+        return response.data;
+    },
+
+    getStatistics: async () => {
+        const response = await apiClient.get<DashboardStatisticsResponse>("/Dashboard/statistics");
         return response.data;
     },
 };

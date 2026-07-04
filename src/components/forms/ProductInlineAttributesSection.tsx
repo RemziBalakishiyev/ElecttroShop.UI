@@ -1,5 +1,5 @@
-import React from "react";
-import { Plus, Trash2, ListTree, Info } from "lucide-react";
+import React, { useState } from "react";
+import { Plus, Trash2, ListTree, Info, FileText, X } from "lucide-react";
 import { Button } from "../commons/Button";
 import { Input } from "../commons/Input";
 import { Select } from "../commons/Select";
@@ -11,6 +11,7 @@ import {
   registerCanonicalAttributeType,
   type AttributeTypeRegistry,
 } from "../../utils/productAttributes";
+import { parseProductSpecText } from "../../utils/parseProductSpec";
 
 interface ProductInlineAttributesSectionProps {
   inlineAttributes: InlineProductAttribute[];
@@ -50,6 +51,28 @@ const newInlineAttribute = (
 export const ProductInlineAttributesSection: React.FC<
   ProductInlineAttributesSectionProps
 > = ({ inlineAttributes, onChange, categoryAttributes, registry }) => {
+  const [showImport, setShowImport] = useState(false);
+  const [importText, setImportText] = useState("");
+
+  const handleImport = () => {
+    const parsed = parseProductSpecText(importText);
+    if (parsed.length === 0) return;
+
+    const existingKeys = new Set(
+      inlineAttributes.map((a) => attributeTypeKey(a.attributeType))
+    );
+    const newAttrs = parsed.filter(
+      (a) => !existingKeys.has(attributeTypeKey(a.attributeType))
+    );
+    const baseOrder = inlineAttributes.length;
+    onChange([
+      ...inlineAttributes,
+      ...newAttrs.map((a, i) => ({ ...a, displayOrder: baseOrder + i })),
+    ]);
+    setImportText("");
+    setShowImport(false);
+  };
+
   const usedTypeKeys = new Set(
     inlineAttributes.map((a) => attributeTypeKey(a.attributeType || ""))
   );
@@ -158,6 +181,15 @@ export const ProductInlineAttributesSection: React.FC<
           <Button
             type="button"
             variant="outline"
+            onClick={() => setShowImport((v) => !v)}
+            className="gap-1.5 text-sm px-3 py-1.5"
+          >
+            <FileText size={14} />
+            Mətndən import
+          </Button>
+          <Button
+            type="button"
+            variant="outline"
             onClick={() =>
               onChange([
                 ...inlineAttributes,
@@ -171,6 +203,43 @@ export const ProductInlineAttributesSection: React.FC<
           </Button>
         </div>
       </div>
+
+      {/* Import panel */}
+      {showImport && (
+        <div className="rounded-xl border border-indigo-200 bg-indigo-50 p-4 space-y-3">
+          <div className="flex items-center justify-between">
+            <p className="text-sm font-semibold text-indigo-700">Spesifikasiya mətni yapışdırın</p>
+            <button
+              type="button"
+              onClick={() => { setShowImport(false); setImportText(""); }}
+              className="p-1 rounded-lg text-indigo-400 hover:text-indigo-700 hover:bg-indigo-100 transition-colors"
+            >
+              <X size={14} />
+            </button>
+          </div>
+          <textarea
+            value={importText}
+            onChange={(e) => setImportText(e.target.value)}
+            rows={8}
+            placeholder={"Texniki Xüsusiyyətlər\n\n* Model: BR-7010\n* Yuma tutumu: 7.0 kq\n🔻\nƏsas üstünlükləri\n\n* 7 kq yuma tutumu\n* A+++ enerji səmərəliliyi"}
+            className="w-full px-3 py-2.5 text-sm border border-indigo-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-y font-mono"
+          />
+          <div className="flex items-center justify-between">
+            <p className="text-xs text-indigo-500">
+              Mövcud atributlarla üst-üstə düşənlər atlanacaq.
+            </p>
+            <Button
+              type="button"
+              onClick={handleImport}
+              disabled={!importText.trim()}
+              className="gap-1.5 text-sm px-4 py-1.5"
+            >
+              <Plus size={14} />
+              İmport et
+            </Button>
+          </div>
+        </div>
+      )}
 
       {/* Empty state */}
       {inlineAttributes.length === 0 ? (

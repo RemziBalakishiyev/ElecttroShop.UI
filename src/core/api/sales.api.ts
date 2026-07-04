@@ -4,6 +4,22 @@ import type { PagedApiResponse } from "./products.api";
 
 export type SaleSource = "ExistingProduct" | "ManualEntry";
 
+export type ExpenseType = "Installation" | "Delivery" | "Service" | "Commission" | "Other";
+
+export interface SaleExpenseDto {
+    id: string;
+    expenseType: ExpenseType;
+    description: string | null;
+    amount: number;
+    createdAt: string;
+}
+
+export interface SaleExpenseRequestDto {
+    expenseType: ExpenseType;
+    description?: string | null;
+    amount: number;
+}
+
 export interface SaleListItemDto {
     id: string;
     productId: string | null;
@@ -16,6 +32,7 @@ export interface SaleListItemDto {
     quantity: number;
     totalCost: number;
     totalSaleAmount: number;
+    totalExpenses: number;
     profit: number;
     saleSource: SaleSource;
     soldAt: string;
@@ -24,6 +41,8 @@ export interface SaleListItemDto {
 }
 
 export interface SaleDetailDto extends SaleListItemDto {
+    totalExpenses: number;
+    expenses: SaleExpenseDto[];
     updatedAt: string | null;
     createdBy: string | null;
     updatedBy: string | null;
@@ -40,6 +59,7 @@ export interface CreateSaleCommand {
     quantity: number;
     soldAt?: string | null;
     note?: string | null;
+    expenses?: SaleExpenseRequestDto[];
 }
 
 export interface UpdateSaleCommand {
@@ -52,6 +72,7 @@ export interface UpdateSaleCommand {
     quantity: number;
     soldAt?: string | null;
     note?: string | null;
+    expenses?: SaleExpenseRequestDto[] | null;
 }
 
 export interface SaleListParams {
@@ -65,6 +86,8 @@ export interface SaleListParams {
     dateTo?: string;
     minProfit?: number;
     maxProfit?: number;
+    minExpense?: number;
+    maxExpense?: number;
 }
 
 export const salesApi = {
