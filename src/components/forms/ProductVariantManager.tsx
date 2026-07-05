@@ -12,7 +12,7 @@ import type { CategoryAttribute } from '../../core/api/categories.api';
 import { useToast } from '../../core/providers/ToastContext';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../core/context/ThemeContext';
-import { resolveImageUrl } from '../../utils/imageUrl';
+import { getImageUrl } from '../../utils/imageUrl';
 
 interface ProductVariantManagerProps {
   productId: string;
@@ -312,7 +312,7 @@ export const ProductVariantManager: React.FC<ProductVariantManagerProps> = ({
             {editingVariant.imageUrl && !editingVariant.imageFile && (
               <div className="mt-2 relative w-32 h-32 rounded border border-neutral-200 overflow-hidden">
                 <img
-                  src={resolveImageUrl(editingVariant.imageUrl) || ''}
+                  src={getImageUrl(editingVariant.imageUrl)}
                   alt="Variant"
                   className="w-full h-full object-cover"
                 />
@@ -458,7 +458,7 @@ export const ProductVariantManager: React.FC<ProductVariantManagerProps> = ({
                 <div className="flex items-center gap-4 flex-1">
                   {variant.imageUrl && (
                     <img
-                      src={resolveImageUrl(variant.imageUrl) || ''}
+                      src={getImageUrl(variant.imageUrl)}
                       alt="Variant"
                       className="w-16 h-16 rounded object-cover"
                       onError={(e) => {

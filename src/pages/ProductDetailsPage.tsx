@@ -49,7 +49,7 @@ import {
   mapProductSaveErrorMessage,
 } from "../utils/productAttributes";
 import { Button } from "../components/commons/Button";
-import { resolveImageUrl } from "../utils/imageUrl";
+import { getImageUrl, resolveProductImage } from "../utils/imageUrl";
 import { AddItemModal } from "../components/modals/AddItemModal";
 import { ConfirmationModal } from "../components/commons/ConfirmationModal";
 import { Modal } from "../components/commons/Modal";
@@ -299,7 +299,8 @@ export const ProductDetailsPage = () => {
         );
     }
 
-    const fullImageUrl = resolveImageUrl(product.primaryImageUrl || product.imageUrl);
+    const productImageRef = resolveProductImage(product);
+    const fullImageUrl = productImageRef ? getImageUrl(productImageRef) : null;
 
     return (
         <div className="min-h-screen bg-neutral-50">
@@ -493,7 +494,7 @@ export const ProductDetailsPage = () => {
                                 </div>
                                 <div className="grid grid-cols-4 gap-2">
                                     {product.images.map((image: any) => {
-                                        const imgUrl = resolveImageUrl(image.imageUrl || image.imageId);
+                                        const imgUrl = getImageUrl(image.imageUrl || image.imageId);
                                         return (
                                             <div key={image.id} className="relative group/thumb">
                                                 <div className={`relative overflow-hidden rounded-lg border-2 transition-all ${

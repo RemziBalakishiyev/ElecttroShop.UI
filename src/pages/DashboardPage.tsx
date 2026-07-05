@@ -7,7 +7,7 @@ import {
     type LucideIcon
 } from "lucide-react";
 import { dashboardApi } from "../core/api/dashboard.api";
-import { resolveImageUrl } from "../utils/imageUrl";
+import { getImageUrl, resolveProductImage } from "../utils/imageUrl";
 import { DashboardChart } from "../components/dashboard/DashboardChart";
 import { PromotionalBrands } from "../components/dashboard/PromotionalBrands";
 import { useTranslation } from "react-i18next";
@@ -460,7 +460,7 @@ export const DashboardPage = () => {
                         : "bg-neutral-800 border-neutral-700 divide-neutral-700"
                     )}>
                         {recentProducts.map((product) => {
-                            const productImageUrl = resolveImageUrl(product.imageUrl);
+                            const productImageRef = resolveProductImage(product);
                             return (
                             <div key={product.id} className={cn(
                               "flex items-center gap-4 p-4 group cursor-pointer transition-colors",
@@ -472,9 +472,9 @@ export const DashboardPage = () => {
                                     ? "bg-neutral-50 border-neutral-100"
                                     : "bg-neutral-900 border-neutral-700"
                                 )}>
-                                    {productImageUrl ? (
+                                    {productImageRef ? (
                                         <img
-                                            src={productImageUrl}
+                                            src={getImageUrl(productImageRef)}
                                             alt={product.name}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform"
                                         />

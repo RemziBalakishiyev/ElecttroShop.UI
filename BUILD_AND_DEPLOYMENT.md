@@ -112,7 +112,31 @@ Output: dist/
 
 **Repo-da CI/CD pipeline konfiqurasiyası yoxdur** (GitHub Actions, Dockerfile və s. tapılmadı).
 
-### Tövsiyə olunan deployment addımları
+### Render Static Site (aktiv deployment)
+
+Admin panel Render-də Static Site kimi deploy olunur:
+
+| Parametr | Dəyər |
+|----------|-------|
+| Branch | `main` |
+| Build Command | `npm install && npm run build` |
+| Publish Directory | `dist` |
+
+**Environment Variables (Render dashboard-da):**
+
+```
+VITE_API_BASE_URL=https://api.smartal.net/api
+VITE_ASSET_BASE_URL=https://api.smartal.net
+```
+
+- `VITE_API_BASE_URL` — bütün `/api/...` çağırışları üçün (`apiClient.ts`, `api.config.ts`).
+- `VITE_ASSET_BASE_URL` — product image URL-ləri üçün (`src/utils/imageUrl.ts`). Backend Cloudinary-dən tam URL qaytardıqda bu dəyər istifadə olunmur (Cloudinary URL-i olduğu kimi göstərilir); yalnız köhnə/local storage `/api/images/{id}` tipli relative path-lər üçün lazımdır.
+
+**Qeyd:** `src/core/config/api.config.ts`-də bu iki env var üçün hardcoded fallback URL saxlanılmır — əgər production-da environment variable set edilməyibsə, build zamanı `VITE_API_BASE_URL` üçün throw baş verir (bax: yuxarıdakı fayl). Bu, səhv/köhnə backend URL-in sükutla bundle-a düşməsinin qarşısını alır.
+
+SPA fallback routing (aşağıda göstərilən) Render Static Site konfiqurasiyasında da `Rewrite Rule: /* → /index.html` kimi əlavə edilməlidir.
+
+### Tövsiyə olunan deployment addımları (generic hosting)
 
 #### Static hosting (generic)
 
@@ -146,7 +170,7 @@ VITE_API_BASE_URL=https://api.production.com npm run build
 
 | Mövzu | Təsvir | Action |
 |-------|--------|--------|
-| API URL | Hardcoded localhost | Environment variable |
+| API URL | `VITE_API_BASE_URL` / `VITE_ASSET_BASE_URL` env var ilə idarə olunur, hardcoded fallback yoxdur | ✅ Həll edilib |
 | Console logs | apiClient response log | Remove/disable |
 | HTTPS | Backend HTTPS tələb | SSL sertifikat |
 | CORS | Production domain whitelist | Backend config |

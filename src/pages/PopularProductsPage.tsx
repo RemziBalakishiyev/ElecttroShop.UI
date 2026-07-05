@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { Pagination } from "../components/commons/Pagination";
 import { productsApi } from "../core/api/products.api";
 import type { PopularProduct, Product } from "../core/api/products.api";
-import { resolveImageUrl } from "../utils/imageUrl";
+import { getImageUrl, resolveProductImage } from "../utils/imageUrl";
 import { useToast } from "../core/providers/ToastContext";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
@@ -326,7 +326,8 @@ export const PopularProductsPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
             {popularSlots.map((product, index) => {
               const order = index + 1;
-              const imageUrl = product ? resolveImageUrl(product.imageUrl) : null;
+              const imageRef = product ? resolveProductImage(product) : null;
+              const imageUrl = imageRef ? getImageUrl(imageRef) : null;
               const isRemoving = isMutating && product && pendingProductId === product.id;
 
               return (
@@ -492,9 +493,10 @@ export const PopularProductsPage = () => {
             <ul className="divide-y divide-neutral-100 dark:divide-neutral-700">
               {(productsData?.value ?? []).map((product: Product) => {
                 const popularEntry = popularByProductId.get(product.id);
-                const imageUrl = resolveImageUrl(product.primaryImageUrl || product.imageUrl);
+                const imageRef = resolveProductImage(product);
+                const imageUrl = imageRef ? getImageUrl(imageRef) : null;
                 const hasDescription = !!product.description?.trim();
-                const hasImage = !!imageUrl;
+                const hasImage = !!imageRef;
                 const isPending = isMutating && pendingProductId === product.id;
                 const warnings = [
                   !product.isActive && t("products.inactive"),

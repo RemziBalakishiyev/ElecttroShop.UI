@@ -8,7 +8,7 @@ import { useToast } from '../../core/providers/ToastContext';
 import { useTranslation } from 'react-i18next';
 import { cn } from '../../utils/cn';
 import { useTheme } from '../../core/context/ThemeContext';
-import { resolveImageUrl } from '../../utils/imageUrl';
+import { getImageUrl } from '../../utils/imageUrl';
 
 interface ProductImageManagerProps {
   productId: string;
@@ -150,11 +150,11 @@ export const ProductImageManager: React.FC<ProductImageManagerProps> = ({
               )}
             >
               <img
-                src={resolveImageUrl(img.imageUrl) ?? ''}
+                src={getImageUrl(img.imageUrl)}
                 alt={`Image ${index + 1}`}
                 className="w-full h-32 object-cover"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://via.placeholder.com/200?text=No+Image';
+                  (e.target as HTMLImageElement).src = '/placeholder.png';
                 }}
               />
 
