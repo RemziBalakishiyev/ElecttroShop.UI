@@ -2,63 +2,57 @@
 
 ## Environment faylları
 
-**Repo-da `.env` faylı yoxdur** (`.env`, `.env.local`, `.env.development` və s. tapılmadı).
+Repo-da 3 env faylı var: `.env` (default/local), `.env.development`, `.env.example`. `.env.production` yoxdur — Render-də deploy zamanı environment variable-lar birbaşa Render dashboard-da təyin olunur (bax: `BUILD_AND_DEPLOYMENT.md`).
 
-README-də `.env` nümunəsi göstərilir, lakin faktiki implementasiya **hardcoded config** istifadə edir.
-
----
+| Fayl | İstifadə | Git-ə commit olunur? |
+|------|----------|----------------------|
+| `.env` | Local dev default | Bəli (real secret deyil, local backend URL-idir) |
+| `.env.development` | `npm run dev` zamanı | Bəli |
+| `.env.example` | Şablon — production dəyərləri nümunəsi | Bəli |
 
 ## API konfiqurasiyası
 
 **Fayl:** `src/core/config/api.config.ts`
 
 ```typescript
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string | undefined;
+const ASSET_BASE_URL = import.meta.env.VITE_ASSET_BASE_URL as string | undefined;
+
+if (!API_BASE_URL && import.meta.env.PROD) {
+  throw new Error("VITE_API_BASE_URL is required in production");
+}
+
+export const apiBaseUrl = API_BASE_URL ?? "";
+
+const origin =
+  ASSET_BASE_URL ?? (API_BASE_URL ? API_BASE_URL.replace(/\/api\/?$/, "") : "");
+
 export const API_CONFIG = {
-  BASE_URL: "https://localhost:44312",
-  API_PREFIX: "/api",
-  ENDPOINTS: {
-    AUTH: {
-      LOGIN: "/auth/login",
-      REFRESH_TOKEN: "/auth/refresh-token",
-    },
-  },
+  BASE_URL: origin,
 } as const;
 
-export const getApiUrl = (endpoint: string): string => {
-  return `${API_CONFIG.BASE_URL}${API_CONFIG.API_PREFIX}${endpoint}`;
-};
+export const getApiUrl = (endpoint: string): string => `${apiBaseUrl}${endpoint}`;
 ```
 
-| Parametr | Dəyər | Təsvir |
+| Parametr | Mənbə | Təsvir |
 |----------|-------|--------|
-| `BASE_URL` | `https://localhost:44312` | Backend server URL |
-| `API_PREFIX` | `/api` | API route prefix |
-| Full base | `https://localhost:44312/api` | Axios baseURL |
+| `apiBaseUrl` | `VITE_API_BASE_URL` | Axios baseURL (`/api` daxil) — `apiClient.ts` bunu istifadə edir |
+| `API_CONFIG.BASE_URL` | `VITE_ASSET_BASE_URL`, yoxdursa `VITE_API_BASE_URL`-dən `/api` çıxarılaraq derive olunur | Asset/image origin — `src/utils/imageUrl.ts` bunu istifadə edir |
 
-**Problem:** Environment-ə görə dəyişmir. Production/staging/dev üçün ayrı URL **konfiqurasiya olunmayıb**.
+**Qəsdən hardcoded fallback yoxdur.** Production-da `VITE_API_BASE_URL` yoxdursa, modul import zamanı throw edir — səhv/köhnə URL-in sükutla bundle-a düşməsinin qarşısını almaq üçün. Development-də isə `.env`/`.env.development` həmişə commit olunub, ona görə əməli olaraq fallback-a ehtiyac yoxdur.
 
 ---
 
-## Tövsiyə olunan environment variables
+## Faktiki environment variables
 
 ```env
-# .env.development
-VITE_API_BASE_URL=https://localhost:44312
-VITE_API_PREFIX=/api
+# .env, .env.development (local dev — real .NET backend portu)
+VITE_API_BASE_URL=https://localhost:44312/api
+VITE_ASSET_BASE_URL=https://localhost:44312
 
-# .env.production
-VITE_API_BASE_URL=https://api.tvstore.az
-VITE_API_PREFIX=/api
-```
-
-### Vite-də istifadə
-
-```typescript
-// api.config.ts (tövsiyə)
-export const API_CONFIG = {
-  BASE_URL: import.meta.env.VITE_API_BASE_URL || "https://localhost:44312",
-  API_PREFIX: import.meta.env.VITE_API_PREFIX || "/api",
-};
+# .env.example (production şablonu)
+VITE_API_BASE_URL=https://api.smartal.net/api
+VITE_ASSET_BASE_URL=https://api.smartal.net
 ```
 
 **Qeyd:** Vite yalnız `VITE_` prefix-li variable-ları client-ə expose edir.
@@ -162,11 +156,11 @@ defaultOptions: {
 
 | Aspekt | Development | Production |
 |--------|-------------|------------|
-| API URL | Hardcoded localhost | **Eyni** (problem!) |
+| API URL | `.env`/`.env.development` → `https://localhost:44312` | Render env vars → `https://api.smartal.net` |
 | Source maps | Vite default (enabled) | Generated |
 | Console logs | API response log active | **Risk** — silinməlidir |
 | Build output | — | `dist/` folder |
-| Environment vars | Yoxdur | Yoxdur |
+| Environment vars | `.env`, `.env.development` (commit olunub) | Render dashboard-da təyin olunur |
 
 ---
 
@@ -180,9 +174,9 @@ Standart Node/Vite ignore (node_modules, dist, .env variants). `.env` faylları 
 
 ## Konfiqurasiya checklist (production üçün)
 
-- [ ] `.env.development` / `.env.production` yarat
-- [ ] `API_CONFIG.BASE_URL`-i env variable-a keçir
+- [x] `.env.development` / `.env.example` yaradılıb
+- [x] `API_CONFIG.BASE_URL` və `apiBaseUrl` env variable-dan oxunur, hardcoded fallback yoxdur
 - [ ] HTTPS sertifikat (localhost dev üçün)
 - [ ] Proxy setup (dev CORS problemi üçün)
 - [ ] Production console.log-ları sil/disable et
-- [ ] CI/CD environment secrets konfiqurasiya et
+- [x] Render dashboard-da `VITE_API_BASE_URL` / `VITE_ASSET_BASE_URL` environment variable konfiqurasiya olunub (bax: `BUILD_AND_DEPLOYMENT.md`)

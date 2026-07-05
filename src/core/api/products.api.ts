@@ -25,6 +25,9 @@ export interface Product {
     imageId: string | null;
     imageUrl: string | null;
     primaryImageUrl?: string | null;
+    mainImageUrl?: string | null;
+    thumbnailUrl?: string | null;
+    imagePath?: string | null;
     images?: ProductImage[];
     isBanner?: boolean;
     isFeatured?: boolean;
@@ -54,6 +57,8 @@ export interface ProductImage {
     id: string;
     imageId: string;
     imageUrl: string;
+    url?: string;
+    imagePath?: string;
     displayOrder: number;
     isPrimary: boolean;
 }

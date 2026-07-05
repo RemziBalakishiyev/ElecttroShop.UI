@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { brandsApi } from "../../core/api/brands.api";
-import { resolveImageUrl } from "../../utils/imageUrl";
+import { getImageUrl, resolveProductImage } from "../../utils/imageUrl";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../../core/context/ThemeContext";
 import { cn } from "../../utils/cn";
@@ -50,7 +50,7 @@ export const PromotionalBrands = () => {
                 
                 if (!featuredProduct) return null;
 
-                const imageUrl = resolveImageUrl(featuredProduct.imageId);
+                const imageRef = resolveProductImage(featuredProduct);
 
                 return (
                     <div
@@ -71,13 +71,13 @@ export const PromotionalBrands = () => {
                                     ? "bg-neutral-100"
                                     : "bg-neutral-900"
                             )}>
-                                {imageUrl ? (
+                                {imageRef ? (
                                     <img
-                                        src={imageUrl}
+                                        src={getImageUrl(imageRef)}
                                         alt={featuredProduct.name}
                                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).src = "https://via.placeholder.com/96?text=No+Img";
+                                            (e.target as HTMLImageElement).src = "/placeholder.png";
                                         }}
                                     />
                                 ) : (

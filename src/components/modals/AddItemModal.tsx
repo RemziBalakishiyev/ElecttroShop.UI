@@ -22,7 +22,7 @@ import { ProductVariantMatrixSection } from "../forms/ProductVariantMatrixSectio
 import { useTranslation } from "react-i18next";
 import type { ProductFormSubmitData } from "../../utils/productSave";
 import { validateProductFormForSave } from "../../utils/productSave";
-import { resolveImageUrl } from "../../utils/imageUrl";
+import { getImageUrl } from "../../utils/imageUrl";
 import {
   buildAttributeTypeRegistry,
   buildEffectiveAttributes,
@@ -70,11 +70,10 @@ const getProductExistingImages = (product: Product): ExistingImagePreview[] => {
     url: string | null | undefined,
     meta?: Pick<ExistingImagePreview, "id" | "imageId" | "isPrimary">
   ) => {
+    if (!url?.trim()) return;
     if (meta?.imageId && seenIds.has(meta.imageId)) return;
-    const fullUrl = resolveImageUrl(url);
-    if (!fullUrl) return;
     if (meta?.imageId) seenIds.add(meta.imageId);
-    result.push({ ...meta, url: fullUrl });
+    result.push({ ...meta, url: getImageUrl(url) });
   };
 
   if (product.images?.length) {

@@ -25,7 +25,7 @@ import {
 } from "../utils/productAttributes";
 import { unwrapApiData } from "../utils/apiResponse";
 import { useToast } from "../core/providers/ToastContext";
-import { resolveImageUrl } from "../utils/imageUrl";
+import { getImageUrl, resolveProductImage } from "../utils/imageUrl";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
@@ -263,7 +263,8 @@ export const ItemsPage = () => {
       key: "image",
       label: t('products.image'),
       render: (item: Product) => {
-        const fullImageUrl = resolveImageUrl(item.primaryImageUrl || item.imageUrl);
+        const imageRef = resolveProductImage(item);
+        const fullImageUrl = imageRef ? getImageUrl(imageRef) : null;
 
         return fullImageUrl ? (
           <ImageWithFallback
