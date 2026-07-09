@@ -9,6 +9,7 @@ import {
   Box,
   TrendingUp,
   Receipt,
+  BarChart3,
   X,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -35,6 +36,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
     { label: t('sidebar.brands'), icon: <Tag size={18} />, path: "/brands" },
     { label: t('sidebar.discounts'), icon: <Percent size={18} />, path: "/discounts" },
     { label: t('sidebar.sales'), icon: <Receipt size={18} />, path: "/sales" },
+    { label: t('sidebar.reports'), icon: <BarChart3 size={18} />, path: "/reports" },
   ];
 
   const handleNavigate = (path: string) => {
