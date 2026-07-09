@@ -38,7 +38,7 @@ const ImageWithFallback: React.FC<{
     );
 };
 import { productsApi } from "../core/api/products.api";
-import type { Product, ProductVariant, UpdateProductRequest } from "../core/api/products.api";
+import type { Product, ProductImage, ProductVariant, UpdateProductRequest } from "../core/api/products.api";
 import { categoriesApi } from "../core/api/categories.api";
 import {
   buildUpdateProductPayload,
@@ -67,6 +67,7 @@ export const ProductDetailsPage = () => {
     // State for modals
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [imageToDelete, setImageToDelete] = useState<ProductImage | null>(null);
     const [isFeaturedModalOpen, setIsFeaturedModalOpen] = useState(false);
     const [featuredDisplayOrder, setFeaturedDisplayOrder] = useState(1);
     const [isPopularModalOpen, setIsPopularModalOpen] = useState(false);
@@ -158,6 +159,23 @@ export const ProductDetailsPage = () => {
         onError: (error: any) => {
             const errorMessage = error?.error?.message || error?.message || t('products.primary_image_error') || 'Əsas şəkil dəyişdirilə bilmədi';
             toast.error(errorMessage);
+        },
+    });
+
+    // Delete image mutation
+    const deleteImageMutation = useMutation({
+        mutationFn: ({ productId, imageId }: { productId: string; imageId: string }) =>
+            productsApi.deleteProductImage(productId, imageId),
+        onSuccess: () => {
+            toast.success(t('products.image_delete_success'));
+            queryClient.invalidateQueries({ queryKey: ["product", id] });
+            queryClient.invalidateQueries({ queryKey: ["products"] });
+            setImageToDelete(null);
+        },
+        onError: (error: any) => {
+            const errorMessage = error?.error?.message || error?.message || t('products.image_delete_error');
+            toast.error(errorMessage);
+            setImageToDelete(null);
         },
     });
 
@@ -492,7 +510,7 @@ export const ProductDetailsPage = () => {
                                         {product.images.length}
                                     </span>
                                 </div>
-                                <div className="grid grid-cols-4 gap-2">
+                                <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
                                     {product.images.map((image: any) => {
                                         const imgUrl = getImageUrl(image.imageUrl || image.imageId);
                                         return (
@@ -523,15 +541,26 @@ export const ProductDetailsPage = () => {
                                                             <Star size={8} className="fill-white text-white" />
                                                         </div>
                                                     )}
-                                                    {!image.isPrimary && id && imgUrl && (
+                                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center gap-1">
+                                                        {!image.isPrimary && id && imgUrl && (
+                                                            <button
+                                                                onClick={() => setPrimaryImageMutation.mutate({ productId: id, imageId: image.imageId })}
+                                                                disabled={setPrimaryImageMutation.isPending}
+                                                                className="text-white text-[10px] font-semibold px-1.5 py-0.5"
+                                                                title="Primary"
+                                                            >
+                                                                {setPrimaryImageMutation.isPending ? '...' : 'Primary'}
+                                                            </button>
+                                                        )}
                                                         <button
-                                                            onClick={() => setPrimaryImageMutation.mutate({ productId: id, imageId: image.imageId })}
-                                                            disabled={setPrimaryImageMutation.isPending}
-                                                            className="absolute inset-0 bg-black/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-white text-[10px] font-semibold"
+                                                            onClick={() => setImageToDelete(image)}
+                                                            disabled={deleteImageMutation.isPending}
+                                                            className="p-1 bg-red-500/90 hover:bg-red-600 text-white rounded-md transition-colors"
+                                                            title={t('products.image_delete_title')}
                                                         >
-                                                            {setPrimaryImageMutation.isPending ? '...' : 'Primary'}
+                                                            <Trash2 size={12} />
                                                         </button>
-                                                    )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         );
@@ -624,7 +653,7 @@ export const ProductDetailsPage = () => {
                         </div>
 
                         {/* Metadata 2×2 grid */}
-                        <div className="grid grid-cols-2 gap-3">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             {/* Category */}
                             <div className="bg-white rounded-xl border border-neutral-200 p-4 shadow-sm hover:shadow-md hover:border-blue-200 transition-all">
                                 <div className="flex items-center gap-2.5 mb-2.5">
@@ -849,6 +878,25 @@ export const ProductDetailsPage = () => {
                 onConfirm={() => deleteMutation.mutate(id!)}
                 onCancel={() => setIsDeleteModalOpen(false)}
                 isLoading={deleteMutation.isPending}
+            />
+
+            <ConfirmationModal
+                open={!!imageToDelete}
+                title={t('products.image_delete_title')}
+                message={
+                    t('products.image_delete_message') +
+                    (imageToDelete?.isPrimary ? ' ' + t('products.image_delete_primary_note') : '') +
+                    (product?.images?.length === 1 ? ' ' + t('products.image_delete_last_note') : '')
+                }
+                confirmLabel={t('products.image_delete_confirm')}
+                variant="danger"
+                onConfirm={() => {
+                    if (id && imageToDelete) {
+                        deleteImageMutation.mutate({ productId: id, imageId: imageToDelete.imageId });
+                    }
+                }}
+                onCancel={() => setImageToDelete(null)}
+                isLoading={deleteImageMutation.isPending}
             />
 
             {/* Featured Modal */}

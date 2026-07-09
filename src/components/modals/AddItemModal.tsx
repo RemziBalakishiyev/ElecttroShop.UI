@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
-import { X, ImagePlus, Package, Layers, Wand2 } from "lucide-react";
-import { useQuery } from "@tanstack/react-query";
+import { X, ImagePlus, Package, Layers, Wand2, Trash2 } from "lucide-react";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { ImageEnhancementModal } from "./ImageEnhancementModal";
 import { Button } from "../commons/Button";
 import { Input } from "../commons/Input";
@@ -159,6 +159,7 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const toast = useToast();
+  const queryClient = useQueryClient();
 
   const { data: categoriesLookup } = useQuery({
     queryKey: ["categories-lookup-all"],
@@ -188,8 +189,18 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
   const [categoryChangeOpen, setCategoryChangeOpen] = useState(false);
   const [pendingCategoryId, setPendingCategoryId] = useState<string | null>(null);
   const [enhancingImageIndex, setEnhancingImageIndex] = useState<number | null>(null);
+  const [imageToDelete, setImageToDelete] = useState<ExistingImagePreview | null>(null);
+  const [deletingImage, setDeletingImage] = useState(false);
   const formInitKeyRef = useRef<string | null>(null);
   const attributeRegistryRef = useRef(buildAttributeTypeRegistry([], []));
+
+  // Lock body scroll while the modal is open
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [open]);
 
   const { data: fetchedProductData, isLoading: isProductLoading } = useQuery({
     queryKey: ["product", initialData?.id],
@@ -399,6 +410,31 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
 
   const totalImages = existingImages.length + formData.images.length;
   const isEditMode = !!initialData;
+
+  const handleConfirmDeleteImage = async () => {
+    if (!initialData?.id || !imageToDelete?.imageId) {
+      setImageToDelete(null);
+      return;
+    }
+    setDeletingImage(true);
+    try {
+      await productsApi.deleteProductImage(initialData.id, imageToDelete.imageId);
+      setExistingImages((prev) =>
+        prev.filter((img) => img.imageId !== imageToDelete.imageId)
+      );
+      toast.success(t("products.image_delete_success"));
+      queryClient.invalidateQueries({ queryKey: ["product", initialData.id] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    } catch (error: any) {
+      const errorMessage =
+        error?.error?.message || error?.message || t("products.image_delete_error");
+      toast.error(errorMessage);
+    } finally {
+      setDeletingImage(false);
+      setImageToDelete(null);
+    }
+  };
+
   const isFormLoading =
     isEditMode && !!initialData?.id && (isProductLoading || !resolvedProduct);
 
@@ -431,11 +467,11 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
   return (
     <>
       <div
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto max-sm:p-0"
         onClick={onClose}
       >
         <div
-          className="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl my-6 flex flex-col max-h-[92vh] overflow-hidden"
+          className="bg-white rounded-2xl shadow-2xl relative w-full max-w-5xl my-6 flex flex-col max-h-[calc(100dvh-3rem)] overflow-hidden max-sm:my-0 max-sm:h-[100dvh] max-sm:max-h-[100dvh] max-sm:rounded-none"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-start justify-between px-6 py-5 border-b border-neutral-100 bg-gradient-to-r from-white to-neutral-50/80 shrink-0">
@@ -499,6 +535,16 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
                           <span className="absolute bottom-1 left-1 text-[10px] font-medium bg-primary-600 text-white px-1.5 py-0.5 rounded">
                             Əsas
                           </span>
+                        )}
+                        {isEditMode && initialData?.id && img.imageId && (
+                          <button
+                            type="button"
+                            onClick={() => setImageToDelete(img)}
+                            className="absolute top-1.5 right-1.5 p-1 bg-red-500 text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                            title={t("products.image_delete_title")}
+                          >
+                            <Trash2 size={12} />
+                          </button>
                         )}
                       </div>
                     ))}
@@ -700,6 +746,25 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({
           setCategoryChangeOpen(false);
           setPendingCategoryId(null);
         }}
+      />
+
+      <ConfirmationModal
+        open={!!imageToDelete}
+        title={t("products.image_delete_title")}
+        message={
+          t("products.image_delete_message") +
+          (imageToDelete?.isPrimary
+            ? " " + t("products.image_delete_primary_note")
+            : "") +
+          (existingImages.length === 1 && formData.images.length === 0
+            ? " " + t("products.image_delete_last_note")
+            : "")
+        }
+        confirmLabel={t("products.image_delete_confirm")}
+        variant="danger"
+        onConfirm={handleConfirmDeleteImage}
+        onCancel={() => setImageToDelete(null)}
+        isLoading={deletingImage}
       />
 
       {/* AI Image Enhancement Modal */}

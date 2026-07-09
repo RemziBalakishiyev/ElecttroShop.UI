@@ -46,7 +46,7 @@ export const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
     return (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-[60] p-4">
             <div className={cn(
-              "rounded-xl shadow-2xl p-6 relative w-full max-w-md animate-in zoom-in-95 duration-200",
+              "rounded-xl shadow-2xl p-6 relative w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto custom-scrollbar animate-in zoom-in-95 duration-200",
               theme === "light" ? "bg-white" : "bg-neutral-800"
             )}>
                 <button

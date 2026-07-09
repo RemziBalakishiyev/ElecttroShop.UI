@@ -643,9 +643,9 @@ export const SalesPage = () => {
                     isDark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"
                 )}
             >
-                <div className="flex items-center gap-3 flex-wrap">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:flex-wrap">
                     {/* Search */}
-                    <div className="relative flex-1 min-w-[200px]">
+                    <div className="relative w-full sm:flex-1 sm:min-w-[200px]">
                         <Search
                             size={18}
                             className={cn("absolute top-2.5 left-3", isDark ? "text-neutral-500" : "text-neutral-400")}
@@ -665,7 +665,7 @@ export const SalesPage = () => {
                     </div>
 
                     {/* Category filter */}
-                    <div className="w-44">
+                    <div className="w-full sm:w-44">
                         <Select
                             options={getCategoryOptions()}
                             value={filterCategoryId}
@@ -675,7 +675,7 @@ export const SalesPage = () => {
                     </div>
 
                     {/* Sale source filter */}
-                    <div className="w-44">
+                    <div className="w-full sm:w-44">
                         <Select
                             options={[
                                 { label: t("sales.source_existing"), value: "ExistingProduct" },
@@ -687,7 +687,7 @@ export const SalesPage = () => {
                         />
                     </div>
 
-                    <Button variant="primary" icon={<Plus size={18} />} onClick={handleAddNew}>
+                    <Button variant="primary" icon={<Plus size={18} />} onClick={handleAddNew} className="w-full sm:w-auto shrink-0">
                         {t("sales.add_sale")}
                     </Button>
                 </div>
@@ -757,14 +757,14 @@ export const SalesPage = () => {
 
                     {filtersOpen && (
                         <div className="flex items-end gap-3 flex-wrap mt-3">
-                            <div className="w-40">
+                            <div className="w-full sm:w-40">
                                 <DateInput
                                     label={t("sales.date_from")}
                                     value={filterDateFrom}
                                     onChange={(v) => { setFilterDateFrom(v); setPage(1); }}
                                 />
                             </div>
-                            <div className="w-40">
+                            <div className="w-full sm:w-40">
                                 <DateInput
                                     label={t("sales.date_to")}
                                     value={filterDateTo}
@@ -772,13 +772,13 @@ export const SalesPage = () => {
                                 />
                             </div>
                             <div className={cn(
-                                "flex items-center gap-2 p-2 rounded-lg border",
+                                "flex items-center gap-2 p-2 rounded-lg border w-full sm:w-auto",
                                 isDark ? "border-neutral-700" : "border-neutral-200"
                             )}>
                                 <span className={cn("text-xs font-medium whitespace-nowrap", isDark ? "text-neutral-400" : "text-neutral-500")}>
                                     {t("sales.profit")}
                                 </span>
-                                <div className="w-24">
+                                <div className="flex-1 sm:flex-none sm:w-24">
                                     <Input
                                         type="number"
                                         step="0.01"
@@ -788,7 +788,7 @@ export const SalesPage = () => {
                                     />
                                 </div>
                                 <span className={isDark ? "text-neutral-600" : "text-neutral-300"}>—</span>
-                                <div className="w-24">
+                                <div className="flex-1 sm:flex-none sm:w-24">
                                     <Input
                                         type="number"
                                         step="0.01"
@@ -799,13 +799,13 @@ export const SalesPage = () => {
                                 </div>
                             </div>
                             <div className={cn(
-                                "flex items-center gap-2 p-2 rounded-lg border",
+                                "flex items-center gap-2 p-2 rounded-lg border w-full sm:w-auto",
                                 isDark ? "border-neutral-700" : "border-neutral-200"
                             )}>
                                 <span className={cn("text-xs font-medium whitespace-nowrap", isDark ? "text-neutral-400" : "text-neutral-500")}>
                                     {t("sales.total_expenses")}
                                 </span>
-                                <div className="w-24">
+                                <div className="flex-1 sm:flex-none sm:w-24">
                                     <Input
                                         type="number"
                                         step="0.01"
@@ -816,7 +816,7 @@ export const SalesPage = () => {
                                     />
                                 </div>
                                 <span className={isDark ? "text-neutral-600" : "text-neutral-300"}>—</span>
-                                <div className="w-24">
+                                <div className="flex-1 sm:flex-none sm:w-24">
                                     <Input
                                         type="number"
                                         step="0.01"
@@ -839,7 +839,7 @@ export const SalesPage = () => {
                     isDark ? "bg-neutral-800 border-neutral-700" : "bg-white border-neutral-200"
                 )}
             >
-                <div className="overflow-x-auto custom-scrollbar">
+                <div className="hidden md:block overflow-x-auto custom-scrollbar">
                     <table className="w-full min-w-[1280px] text-sm">
                         <thead className={cn(
                             "border-b",
@@ -1024,6 +1024,145 @@ export const SalesPage = () => {
                         </tbody>
                     </table>
                 </div>
+
+                {/* Mobile card layout (<768px) */}
+                <div className="md:hidden">
+                    {isLoading ? (
+                        <div className={cn("divide-y", isDark ? "divide-neutral-800" : "divide-neutral-200")}>
+                            {Array.from({ length: 5 }).map((_, idx) => (
+                                <div key={idx} className="p-4 space-y-3">
+                                    <div className={cn("h-4 w-40 rounded animate-pulse", isDark ? "bg-neutral-700" : "bg-neutral-200")} />
+                                    <div className={cn("h-3 w-24 rounded animate-pulse", isDark ? "bg-neutral-700" : "bg-neutral-200")} />
+                                    <div className={cn("h-3 w-32 rounded animate-pulse", isDark ? "bg-neutral-700" : "bg-neutral-200")} />
+                                </div>
+                            ))}
+                        </div>
+                    ) : sortedRows.length === 0 ? (
+                        <div className="px-4 py-16 text-center">
+                            <div className="flex flex-col items-center gap-3">
+                                <div className={cn(
+                                    "w-14 h-14 rounded-full flex items-center justify-center",
+                                    isDark ? "bg-neutral-900" : "bg-neutral-100"
+                                )}>
+                                    <ReceiptText size={24} className={isDark ? "text-neutral-500" : "text-neutral-400"} />
+                                </div>
+                                <p className={cn("text-sm font-medium", isDark ? "text-neutral-300" : "text-neutral-600")}>
+                                    {t("sales.empty_state_title")}
+                                </p>
+                                <p className={cn("text-xs", isDark ? "text-neutral-500" : "text-neutral-400")}>
+                                    {t("sales.empty_state_subtitle")}
+                                </p>
+                                <Button variant="primary" icon={<Plus size={16} />} onClick={handleAddNew}>
+                                    {t("sales.add_sale")}
+                                </Button>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className={cn("divide-y", isDark ? "divide-neutral-800" : "divide-neutral-200")}>
+                            {sortedRows.map(item => (
+                                <div key={item.id} className="p-4 space-y-3">
+                                    {/* Header: name + actions */}
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="min-w-0 flex items-start gap-1.5">
+                                            <div className="min-w-0">
+                                                <div className={cn("text-sm font-semibold truncate", isDark ? "text-white" : "text-neutral-900")}>
+                                                    {item.productName}
+                                                </div>
+                                                {item.productCode && (
+                                                    <div className={cn("text-[11px] font-mono mt-0.5", isDark ? "text-neutral-500" : "text-neutral-400")}>
+                                                        {item.productCode}
+                                                    </div>
+                                                )}
+                                            </div>
+                                            {item.note && <NoteIndicator note={item.note} isDark={isDark} />}
+                                        </div>
+                                        <div className="flex items-center gap-1 shrink-0">
+                                            <button
+                                                className={cn(
+                                                    "p-2 rounded-lg transition-colors",
+                                                    isDark ? "hover:bg-neutral-700 text-neutral-400 hover:text-white" : "hover:bg-neutral-100 text-neutral-600 hover:text-neutral-900"
+                                                )}
+                                                onClick={() => handleEdit(item.id)}
+                                                title={t("common.edit")}
+                                            >
+                                                <Edit size={16} />
+                                            </button>
+                                            <button
+                                                className={cn(
+                                                    "p-2 rounded-lg transition-colors",
+                                                    isDark ? "hover:bg-red-900/20 text-red-400" : "hover:bg-red-50 text-red-600"
+                                                )}
+                                                onClick={() => handleDeleteClick(item)}
+                                                title={t("common.delete")}
+                                            >
+                                                <Trash2 size={16} />
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {/* Meta: source + category + date */}
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <SourceIndicator
+                                            source={item.saleSource}
+                                            isDark={isDark}
+                                            label={item.saleSource === "ExistingProduct" ? t("sales.source_existing") : t("sales.source_manual")}
+                                        />
+                                        <span className={cn("text-xs", isDark ? "text-neutral-500" : "text-neutral-400")}>•</span>
+                                        <span className={cn("text-sm", isDark ? "text-neutral-300" : "text-neutral-700")}>
+                                            {item.categoryName ?? "—"}
+                                        </span>
+                                        <span className={cn("text-xs", isDark ? "text-neutral-500" : "text-neutral-400")}>•</span>
+                                        <span className={cn("text-sm whitespace-nowrap", isDark ? "text-neutral-400" : "text-neutral-600")}>
+                                            {new Date(item.soldAt).toLocaleDateString()}
+                                        </span>
+                                    </div>
+
+                                    {/* Figures */}
+                                    <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className={cn("text-xs", isDark ? "text-neutral-400" : "text-neutral-500")}>{t("sales.sale_price")}</span>
+                                            <span className={cn("text-sm font-medium tabular-nums", isDark ? "text-white" : "text-neutral-900")}>
+                                                {formatMoney(item.salePrice)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className={cn("text-xs", isDark ? "text-neutral-400" : "text-neutral-500")}>{t("sales.quantity")}</span>
+                                            <span className={cn("text-sm tabular-nums", isDark ? "text-neutral-300" : "text-neutral-700")}>
+                                                {item.quantity}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className={cn("text-xs", isDark ? "text-neutral-400" : "text-neutral-500")}>{t("sales.total_sale_amount")}</span>
+                                            <span className={cn("text-sm font-medium tabular-nums", isDark ? "text-white" : "text-neutral-900")}>
+                                                {formatMoney(item.totalSaleAmount)}
+                                            </span>
+                                        </div>
+                                        <div className="flex items-center justify-between gap-2">
+                                            <span className={cn("text-xs", isDark ? "text-neutral-400" : "text-neutral-500")}>{t("sales.total_expenses")}</span>
+                                            <span className={cn("text-sm tabular-nums", isDark ? "text-neutral-300" : "text-neutral-700")}>
+                                                {formatMoney(item.totalExpenses ?? 0)}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* Profit */}
+                                    <div className={cn(
+                                        "flex items-center justify-between gap-2 pt-2 border-t",
+                                        isDark ? "border-neutral-800" : "border-neutral-100"
+                                    )}>
+                                        <span className={cn("text-xs font-medium", isDark ? "text-neutral-400" : "text-neutral-500")}>{t("sales.profit")}</span>
+                                        <ProfitBadge
+                                            profit={item.profit}
+                                            formatted={`${item.profit >= 0 ? "+" : ""}${formatMoney(item.profit)}`}
+                                            isDark={isDark}
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
                 {data && data.page !== undefined && (
                     <Pagination
                         currentPage={data.page}
@@ -1042,6 +1181,17 @@ export const SalesPage = () => {
                 onClose={closeModal}
                 title={editingSale ? t("sales.edit_sale") : t("sales.add_sale")}
                 width="max-w-2xl"
+                mobileFullScreen
+                footer={
+                    <div className="flex justify-end gap-3">
+                        <Button type="button" variant="outline" onClick={closeModal}>
+                            {t("common.cancel")}
+                        </Button>
+                        <Button type="submit" form="sales-form" variant="primary" loading={saveMutation.isPending}>
+                            {editingSale ? t("common.update") : t("common.create")}
+                        </Button>
+                    </div>
+                }
             >
                 {/* Tab switcher — only when creating */}
                 {!editingSale && (
@@ -1053,7 +1203,7 @@ export const SalesPage = () => {
                             type="button"
                             onClick={() => setCreateMode("existing")}
                             className={cn(
-                                "flex-1 py-2 rounded-md text-sm font-medium transition-all",
+                                "flex-1 py-2.5 rounded-md text-sm font-medium transition-all",
                                 createMode === "existing"
                                     ? "bg-primary-400 text-white shadow"
                                     : isDark ? "text-neutral-300 hover:text-white" : "text-neutral-600 hover:text-neutral-900"
@@ -1065,7 +1215,7 @@ export const SalesPage = () => {
                             type="button"
                             onClick={() => setCreateMode("manual")}
                             className={cn(
-                                "flex-1 py-2 rounded-md text-sm font-medium transition-all",
+                                "flex-1 py-2.5 rounded-md text-sm font-medium transition-all",
                                 createMode === "manual"
                                     ? "bg-primary-400 text-white shadow"
                                     : isDark ? "text-neutral-300 hover:text-white" : "text-neutral-600 hover:text-neutral-900"
@@ -1096,7 +1246,7 @@ export const SalesPage = () => {
                     </div>
                 )}
 
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form id="sales-form" onSubmit={handleSubmit} className="space-y-4">
                     {/* Existing product: product picker (create only) */}
                     {showExistingProductFields && !editingSale && (
                         <Select
@@ -1178,7 +1328,7 @@ export const SalesPage = () => {
                     )}
 
                     {/* Common editable fields */}
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <Input
                             label={t("sales.sale_price")}
                             type="number"
@@ -1217,7 +1367,7 @@ export const SalesPage = () => {
                         "rounded-lg border p-3 space-y-3",
                         isDark ? "border-neutral-600 bg-neutral-900/40" : "border-neutral-200 bg-neutral-50"
                     )}>
-                        <div className="flex items-center justify-between">
+                        <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                                 <span className={cn("text-sm font-medium", isDark ? "text-white" : "text-neutral-900")}>
                                     {t("sales.expenses")}
@@ -1231,6 +1381,7 @@ export const SalesPage = () => {
                                 variant="outline"
                                 icon={<Plus size={14} />}
                                 onClick={addExpenseRow}
+                                className="w-full sm:w-auto shrink-0"
                             >
                                 {t("sales.add_expense")}
                             </Button>
@@ -1243,8 +1394,8 @@ export const SalesPage = () => {
                         ) : (
                             <div className="space-y-2">
                                 {expenses.map((row, idx) => (
-                                    <div key={idx} className="flex items-start gap-2">
-                                        <div className="w-40 flex-shrink-0">
+                                    <div key={idx} className="flex flex-col gap-2 sm:flex-row sm:items-start">
+                                        <div className="w-full sm:w-40 sm:flex-shrink-0">
                                             <Select
                                                 options={EXPENSE_TYPES.map(type => ({
                                                     label: getExpenseTypeLabel(type),
@@ -1255,17 +1406,32 @@ export const SalesPage = () => {
                                                 placeholder={t("sales.expense_type")}
                                             />
                                         </div>
-                                        <div className="w-28 flex-shrink-0">
-                                            <Input
-                                                type="number"
-                                                step="0.01"
-                                                min="0"
-                                                placeholder={t("sales.expense_amount")}
-                                                value={row.amount}
-                                                onChange={(e) => updateExpenseRow(idx, "amount", e.target.value)}
-                                            />
+                                        <div className="flex items-start gap-2">
+                                            <div className="w-28 flex-1 sm:flex-none sm:flex-shrink-0">
+                                                <Input
+                                                    type="number"
+                                                    step="0.01"
+                                                    min="0"
+                                                    placeholder={t("sales.expense_amount")}
+                                                    value={row.amount}
+                                                    onChange={(e) => updateExpenseRow(idx, "amount", e.target.value)}
+                                                />
+                                            </div>
+                                            <button
+                                                type="button"
+                                                onClick={() => removeExpenseRow(idx)}
+                                                className={cn(
+                                                    "mt-1 p-1.5 rounded transition-colors flex-shrink-0 sm:hidden",
+                                                    isDark
+                                                        ? "hover:bg-red-900/20 text-red-400"
+                                                        : "hover:bg-red-50 text-red-500"
+                                                )}
+                                                title={t("sales.remove_expense")}
+                                            >
+                                                <X size={16} />
+                                            </button>
                                         </div>
-                                        <div className="flex-1">
+                                        <div className="w-full sm:flex-1">
                                             <Input
                                                 placeholder={t("sales.expense_description")}
                                                 value={row.description}
@@ -1277,7 +1443,7 @@ export const SalesPage = () => {
                                             type="button"
                                             onClick={() => removeExpenseRow(idx)}
                                             className={cn(
-                                                "mt-1 p-1.5 rounded transition-colors flex-shrink-0",
+                                                "mt-1 p-1.5 rounded transition-colors flex-shrink-0 hidden sm:block",
                                                 isDark
                                                     ? "hover:bg-red-900/20 text-red-400"
                                                     : "hover:bg-red-50 text-red-500"
@@ -1290,15 +1456,6 @@ export const SalesPage = () => {
                                 ))}
                             </div>
                         )}
-                    </div>
-
-                    <div className="flex justify-end gap-3 pt-2">
-                        <Button type="button" variant="outline" onClick={closeModal}>
-                            {t("common.cancel")}
-                        </Button>
-                        <Button type="submit" variant="primary" loading={saveMutation.isPending}>
-                            {editingSale ? t("common.update") : t("common.create")}
-                        </Button>
                     </div>
                 </form>
             </Modal>

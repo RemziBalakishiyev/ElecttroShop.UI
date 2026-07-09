@@ -385,12 +385,12 @@ export const DiscountsPage = () => {
 
       {/* Action Bar */}
       <div className={cn(
-        "flex items-center justify-between gap-4 p-4 rounded-lg border",
+        "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg border",
         theme === "light"
           ? "bg-white border-neutral-200"
           : "bg-neutral-800 border-neutral-700"
       )}>
-        <div className="relative flex-1 max-w-md">
+        <div className="relative w-full sm:flex-1 sm:max-w-md">
           <Search size={18} className={cn(
             "absolute top-2.5 left-3",
             theme === "light" ? "text-neutral-400" : "text-neutral-500"
@@ -412,8 +412,8 @@ export const DiscountsPage = () => {
           />
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="w-40">
+        <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+          <div className="w-full sm:w-40">
             <Select
               options={[
                 { label: t('discounts.filter_all_types'), value: "" },
@@ -429,7 +429,7 @@ export const DiscountsPage = () => {
               placeholder={t('discounts.filter_type')}
             />
           </div>
-          <div className="w-40">
+          <div className="w-full sm:w-40">
             <Select
               options={[
                 { label: t('discounts.filter_all_status'), value: "" },
@@ -448,6 +448,7 @@ export const DiscountsPage = () => {
             variant="primary"
             icon={<Plus size={18} />}
             onClick={handleAddNew}
+            className="w-full sm:w-auto shrink-0"
           >
             {t('discounts.add_discount')}
           </Button>
@@ -571,7 +572,7 @@ export const DiscountsPage = () => {
             required
           />
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <DateInput
               label={t('discounts.start_date')}
               value={formData.startDate}
