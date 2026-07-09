@@ -9,6 +9,7 @@ import { BrandsPage } from "./pages/BrandsPage";
 import { DiscountsPage } from "./pages/DiscountsPage";
 import { PopularProductsPage } from "./pages/PopularProductsPage";
 import { SalesPage } from "./pages/SalesPage";
+import { ReportsPage } from "./pages/ReportsPage";
 import { ProtectedRoute } from "./core/components/ProtectedRoute";
 import { PublicRoute } from "./core/components/PublicRoute";
 import {
@@ -143,6 +144,17 @@ export default function App() {
           <ProtectedRoute>
             <MainLayout>
               <SalesPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/reports"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <ReportsPage />
             </MainLayout>
           </ProtectedRoute>
         }
