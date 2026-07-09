@@ -309,6 +309,11 @@
     "sales": {
         "title": "Satışlar",
         "subtitle": "Satış əməliyyatlarını idarə edin",
+        "monthly_report": "Aylıq hesabat",
+        "export_excel": "Excel yüklə",
+        "export_pdf": "PDF yüklə",
+        "exporting": "Hazırlanır...",
+        "export_error": "Export zamanı xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.",
         "search_placeholder": "Məhsul adı, kodu və ya kateqoriyaya görə axtar...",
         "add_sale": "Satış əlavə et",
         "edit_sale": "Satışı düzəliş et",

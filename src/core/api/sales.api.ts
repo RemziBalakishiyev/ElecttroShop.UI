@@ -128,4 +128,18 @@ export const salesApi = {
         );
         return response.data;
     },
+
+    exportSalesExcel: async (year: number, month: number) => {
+        return apiClient.get<Blob>("/sales/export/excel", {
+            params: { year, month },
+            responseType: "blob",
+        });
+    },
+
+    exportSalesPdf: async (year: number, month: number) => {
+        return apiClient.get<Blob>("/sales/export/pdf", {
+            params: { year, month },
+            responseType: "blob",
+        });
+    },
 };
