@@ -89,7 +89,7 @@ export const FilterModal: React.FC<FilterModalProps> = ({
   return (
     <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
       <div className={cn(
-        "rounded-xl shadow-2xl p-6 relative w-full max-w-md",
+        "rounded-xl shadow-2xl p-6 relative w-full max-w-md max-h-[calc(100dvh-2rem)] overflow-y-auto custom-scrollbar",
         theme === "light" ? "bg-white" : "bg-neutral-800"
       )}>
         {/* Close Button */}

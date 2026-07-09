@@ -57,13 +57,13 @@ export const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className={cn(
-      "flex items-center justify-between px-4 py-3 border-t transition-colors",
+      "flex flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 py-3 border-t transition-colors",
       theme === "light"
         ? "border-neutral-200 bg-white"
         : "border-neutral-800 bg-neutral-900"
     )}>
       {/* Left: Items per page */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 order-1">
         <span className={cn(
           "text-sm",
           theme === "light" ? "text-neutral-600" : "text-neutral-400"
@@ -87,7 +87,7 @@ export const Pagination: React.FC<PaginationProps> = ({
 
       {/* Center: Info */}
       <div className={cn(
-        "text-sm",
+        "text-sm hidden sm:block order-3 sm:order-2 w-full sm:w-auto text-center",
         theme === "light" ? "text-neutral-600" : "text-neutral-400"
       )}>
         {t('common.showing')}{" "}
@@ -100,7 +100,7 @@ export const Pagination: React.FC<PaginationProps> = ({
       </div>
 
       {/* Right: Page numbers */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 order-2 sm:order-3 ml-auto sm:ml-0">
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}

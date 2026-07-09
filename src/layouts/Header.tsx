@@ -1,11 +1,15 @@
-import { Bell, Search, LogOut } from "lucide-react";
+import { Bell, Search, LogOut, Menu } from "lucide-react";
 import { useAuthContext } from "../core/context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
 
-export const Header = () => {
+interface HeaderProps {
+  onMenuClick: () => void;
+}
+
+export const Header = ({ onMenuClick }: HeaderProps) => {
   const { t } = useTranslation();
   const { user, logout } = useAuthContext();
   const navigate = useNavigate();
@@ -17,14 +21,26 @@ export const Header = () => {
   };
   return (
     <header className={cn(
-      "h-16 flex items-center justify-between border-b px-6 transition-colors duration-300",
+      "h-16 flex items-center justify-between border-b px-4 sm:px-6 gap-3 transition-colors duration-300",
       theme === "light"
         ? "border-neutral-200 bg-white"
         : "border-neutral-800 bg-neutral-900"
     )}>
+      {/* Left: mobile menu toggle */}
+      <button
+        onClick={onMenuClick}
+        className={cn(
+          "lg:hidden p-2 rounded-lg transition-colors shrink-0",
+          theme === "light" ? "text-neutral-600 hover:bg-neutral-100" : "text-neutral-300 hover:bg-neutral-800"
+        )}
+        aria-label={t('sidebar.inventory')}
+      >
+        <Menu size={22} />
+      </button>
+
       {/* Right: Search + Notification + Profile */}
-      <div className="flex items-center gap-4 ml-auto">
-        <div className="relative">
+      <div className="flex items-center gap-2 sm:gap-4 ml-auto min-w-0">
+        <div className="relative hidden md:block">
           <Search
             size={18}
             className={cn(
@@ -45,7 +61,7 @@ export const Header = () => {
         </div>
 
         <button className={cn(
-          "relative p-2 rounded-full transition-colors",
+          "relative p-2 rounded-full transition-colors shrink-0",
           theme === "light"
             ? "hover:bg-neutral-100"
             : "hover:bg-neutral-800"
@@ -55,7 +71,7 @@ export const Header = () => {
         </button>
 
         <div className={cn(
-          "flex items-center gap-3 pl-3 border-l",
+          "flex items-center gap-2 sm:gap-3 pl-2 sm:pl-3 border-l min-w-0",
           theme === "light" ? "border-neutral-200" : "border-neutral-800"
         )}>
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center flex-shrink-0" aria-hidden="true">
@@ -65,15 +81,15 @@ export const Header = () => {
                 : "U"}
             </span>
           </div>
-          <div className="text-sm">
+          <div className="text-sm hidden sm:block min-w-0">
             <p className={cn(
-              "font-semibold leading-tight",
+              "font-semibold leading-tight truncate",
               theme === "light" ? "text-neutral-900" : "text-white"
             )}>
               {user?.fullName || "User"}
             </p>
             <p className={cn(
-              "text-xs",
+              "text-xs truncate",
               theme === "light" ? "text-neutral-500" : "text-neutral-400"
             )}>
               {user?.role === 1 ? t('roles.admin') : t('roles.agent')}
@@ -82,7 +98,7 @@ export const Header = () => {
           <button
             onClick={handleLogout}
             className={cn(
-              "p-2 rounded-full transition-colors",
+              "p-2 rounded-full transition-colors shrink-0",
               theme === "light"
                 ? "hover:bg-neutral-100"
                 : "hover:bg-neutral-800"

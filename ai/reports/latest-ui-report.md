@@ -1,5 +1,28 @@
 # Master UI QA Report
 
+## [2026-07-09] Change QA — Product image delete (Admin)
+
+**Change under test:** Delete-image affordance wired into the Admin UI for `DELETE /api/Products/{productId}/images/{imageId}` (product details gallery strip + product edit modal). See `ai/handoff/frontend-sync-result.md`.
+
+**Automated Playwright QA: NOT RUN.** No Playwright MCP tool is connected in this session. Backend was confirmed reachable (`GET /api/Products` → 200), but there is no browser driver available, and exercising the happy path would hard-delete real Cloudinary assets from the live backend — not appropriate without explicit sign-off.
+
+**Static verification performed:**
+- `npm run build` (`tsc -b && vite build`) — PASS, 0 type errors.
+- API method already present and correctly typed (`productsApi.deleteProductImage`), called with `image.imageId` (not `image.id`) per backend note.
+- All new i18n keys present under `products.*` in `src/locales/az/translation.json`.
+- Query invalidation (`["product", id]` + `["products"]`) matches the existing `setPrimaryImageMutation` pattern so both surfaces refresh.
+
+**Manual QA steps to run (with dev server + admin JWT + a disposable product):**
+1. Open a product with ≥2 images → hover a non-primary thumbnail → click the trash button → confirm → expect success toast, thumbnail removed, count updates.
+2. Delete the primary image → confirm the dialog shows the "new primary auto-assigned" note → after refetch a new primary badge appears on another image.
+3. In the edit modal (AddItemModal) on the same product → delete a saved image → expect it disappears and the details-page gallery reflects it after close.
+4. Delete the last remaining image → confirm the "product left with no image" note → main image card falls back to the placeholder.
+5. Error path: delete an already-removed image / expired token → expect the error toast (and 401 → login redirect via the existing interceptor).
+
+**Verdict:** Implementation complete and type-safe; runtime QA pending a session with a browser driver / disposable data.
+
+---
+
 ## Executive Summary
 - **Overall verdict:** PARTIAL — Core flows work but multiple validation gaps and API mismatches exist
 - **Admin status:** PARTIAL — Login, navigation, lists, and detail pages work; forms lack required-field validation

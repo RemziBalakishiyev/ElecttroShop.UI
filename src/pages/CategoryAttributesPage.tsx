@@ -313,12 +313,12 @@ export const CategoryAttributesPage = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
           <button
             onClick={() => navigate("/categories")}
             className={cn(
-              "p-2 rounded-lg transition-colors",
+              "p-2 rounded-lg transition-colors shrink-0",
               theme === "light"
                 ? "hover:bg-neutral-100 text-neutral-600"
                 : "hover:bg-neutral-800 text-neutral-400"
@@ -326,15 +326,15 @@ export const CategoryAttributesPage = () => {
           >
             <ArrowLeft size={20} />
           </button>
-          <div>
+          <div className="min-w-0">
             <h1 className={cn(
-              "text-2xl font-bold",
+              "text-xl sm:text-2xl font-bold truncate",
               theme === "light" ? "text-neutral-900" : "text-white"
             )}>
               Kateqoriya Atributları
             </h1>
             <p className={cn(
-              "text-sm mt-1",
+              "text-sm mt-1 truncate",
               theme === "light" ? "text-neutral-600" : "text-neutral-400"
             )}>
               {category?.name || "Kateqoriya"}
@@ -345,6 +345,7 @@ export const CategoryAttributesPage = () => {
           variant="primary"
           icon={<Plus size={18} />}
           onClick={handleAddAttribute}
+          className="w-full sm:w-auto shrink-0"
         >
           Yeni Atribut Əlavə Et
         </Button>

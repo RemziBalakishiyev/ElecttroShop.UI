@@ -246,12 +246,12 @@ export const BrandsPage = () => {
 
       {/* Action Bar */}
       <div className={cn(
-        "flex items-center justify-between gap-4 p-4 rounded-lg border",
+        "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg border",
         theme === "light"
           ? "bg-white border-neutral-200"
           : "bg-neutral-800 border-neutral-700"
       )}>
-        <div className="relative flex-1 max-w-md">
+        <div className="relative w-full sm:flex-1 sm:max-w-md">
           <Search size={18} className={cn(
             "absolute top-2.5 left-3",
             theme === "light" ? "text-neutral-400" : "text-neutral-500"
@@ -277,6 +277,7 @@ export const BrandsPage = () => {
           variant="primary"
           icon={<Plus size={18} />}
           onClick={handleAddNew}
+          className="w-full sm:w-auto shrink-0"
         >
           {t('brands.add_brand')}
         </Button>

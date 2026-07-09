@@ -148,8 +148,8 @@ export const ProductInlineAttributesSection: React.FC<
   return (
     <section className="space-y-3">
       {/* Section header */}
-      <div className="flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
           <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center">
             <ListTree size={14} className="text-indigo-600" />
           </div>
@@ -163,7 +163,7 @@ export const ProductInlineAttributesSection: React.FC<
           </div>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           {availableCategoryAttrs.length > 0 && (
             <Select
               options={[
@@ -175,7 +175,8 @@ export const ProductInlineAttributesSection: React.FC<
               ]}
               value=""
               onChange={(e) => { if (e.target.value) addFromCategory(e.target.value); }}
-              className="text-sm min-w-[170px]"
+              wrapperClassName="w-full sm:w-auto"
+              className="text-sm sm:min-w-[170px]"
             />
           )}
           <Button

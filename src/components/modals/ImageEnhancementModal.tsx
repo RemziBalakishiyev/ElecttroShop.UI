@@ -66,6 +66,14 @@ export const ImageEnhancementModal: React.FC<ImageEnhancementModalProps> = ({
 
   const [compareMode,  setCompareMode]  = useState(false);
 
+  // ── Lock body scroll while open ──────────────────────────────────────────
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = previous; };
+  }, [open]);
+
   // ── Setup: run fast enhance immediately on open ──────────────────────────
   useEffect(() => {
     if (!open || !file) return;
@@ -128,11 +136,11 @@ export const ImageEnhancementModal: React.FC<ImageEnhancementModalProps> = ({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl flex flex-col overflow-hidden">
+    <div className="fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-xl my-4 flex flex-col overflow-hidden max-h-[calc(100dvh-2rem)]">
 
         {/* ── Header ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-neutral-100 shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-violet-100 rounded-lg flex items-center justify-center">
               <Sparkles size={16} className="text-violet-600" />
@@ -150,8 +158,10 @@ export const ImageEnhancementModal: React.FC<ImageEnhancementModalProps> = ({
           </button>
         </div>
 
+        {/* ── Scrollable body ── */}
+        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar">
         {/* ── Before / After ── */}
-        <div className="grid grid-cols-2 border-b border-neutral-100">
+        <div className="grid grid-cols-1 sm:grid-cols-2 border-b border-neutral-100">
           {/* Before */}
           <div className="flex flex-col items-center bg-neutral-50 p-4 gap-2">
             <span className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wide">Əvvəl</span>
@@ -163,7 +173,7 @@ export const ImageEnhancementModal: React.FC<ImageEnhancementModalProps> = ({
           </div>
 
           {/* After */}
-          <div className="flex flex-col items-center bg-white p-4 gap-2 border-l border-neutral-100">
+          <div className="flex flex-col items-center bg-white p-4 gap-2 border-t sm:border-t-0 sm:border-l border-neutral-100">
             <span className="text-[11px] font-semibold text-violet-600 uppercase tracking-wide">Sonra</span>
             <div className="w-full aspect-square rounded-xl overflow-hidden bg-white border border-neutral-100 flex items-center justify-center">
               {enhancing || bgStatus === "loading" ? (
@@ -265,8 +275,10 @@ export const ImageEnhancementModal: React.FC<ImageEnhancementModalProps> = ({
           )}
         </div>
 
+        </div>
+
         {/* ── Footer ── */}
-        <div className="flex items-center justify-between px-6 py-4 bg-neutral-50/60">
+        <div className="flex items-center justify-between flex-wrap gap-3 px-6 py-4 bg-neutral-50/60 shrink-0">
           <div className="flex items-center gap-2">
             {resultUrl && !enhancing && (
               <>

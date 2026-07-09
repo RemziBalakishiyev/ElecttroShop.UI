@@ -1,4 +1,17 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(cd \"c:\\\\Users\\\\Lenovo LEGION\\\\Documents\\\\ElectronicsNumberOne.UI\" && ls -la contracts/ 2>&1 && echo \"---\" && ls -la ai/handoff/ 2>&1 && echo \"---\" && ls -la ai/reports/ 2>&1)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/**)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/contracts/**)",
+      "Bash(cd \"c:\\\\Users\\\\Lenovo LEGION\\\\Documents\\\\ElectronicsNumberOne.UI\" && ls -la 2>&1)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/electronics-store-user/**)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/electronics-store-user/src/**)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/electronics-store-user/src/config/**)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/electronics-store-user/src/utils/**)",
+      "Read(//c/Users/Lenovo LEGION/Documents/ElectronicsNumberOne.UI/electronics-store-user/src/services/**)"
+    ]
+  },
   "hooks": {
     "Stop": [
       {

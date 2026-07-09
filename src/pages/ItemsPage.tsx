@@ -416,12 +416,12 @@ export const ItemsPage = () => {
 
       {/* Action Bar */}
       <div className={cn(
-        "flex items-center justify-between gap-4 p-4 rounded-lg border",
+        "flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 rounded-lg border",
         theme === "light"
           ? "bg-white border-neutral-200"
           : "bg-neutral-800 border-neutral-700"
       )}>
-        <div className="relative flex-1 max-w-md">
+        <div className="relative w-full sm:flex-1 sm:max-w-md">
           <Search size={18} className={cn(
             "absolute top-2.5 left-3",
             theme === "light" ? "text-neutral-400" : "text-neutral-500"
@@ -443,11 +443,12 @@ export const ItemsPage = () => {
           />
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <Button
             variant="outline"
             icon={<TrendingUp size={18} />}
             onClick={() => navigate("/popular-products")}
+            className="flex-1 sm:flex-none"
           >
             {t('products.manage_popular')}
           </Button>
@@ -458,6 +459,7 @@ export const ItemsPage = () => {
               setEditingProduct(null);
               setIsAddItemOpen(true);
             }}
+            className="flex-1 sm:flex-none"
           >
             {t('products.add_product')}
           </Button>
@@ -465,6 +467,7 @@ export const ItemsPage = () => {
             variant="outline"
             icon={<Filter size={18} />}
             onClick={() => setIsFilterOpen(true)}
+            className="flex-1 sm:flex-none"
           >
             {t('products.filter')}
           </Button>
