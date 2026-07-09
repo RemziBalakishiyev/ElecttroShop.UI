@@ -4,6 +4,7 @@ import {
     Search, Plus, Trash2, Edit, X, ReceiptText, SlidersHorizontal,
     ChevronDown, ArrowUp, ArrowDown, ArrowUpDown, MessageSquareText,
     DollarSign, TrendingUp, TrendingDown, Wallet, Hash,
+    FileSpreadsheet, FileText,
     type LucideIcon,
 } from "lucide-react";
 import { Button } from "../components/commons/Button";
@@ -27,6 +28,12 @@ import { useToast } from "../core/providers/ToastContext";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "../core/context/ThemeContext";
 import { cn } from "../utils/cn";
+import {
+    AZ_MONTHS,
+    SAFE_MONTHS,
+    downloadBlob,
+    parseFilenameFromContentDisposition,
+} from "../utils/downloadFile";
 
 type CreateMode = "existing" | "manual";
 
@@ -206,6 +213,11 @@ export const SalesPage = () => {
     const [sortKey, setSortKey] = useState<SortableKey | null>(null);
     const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
 
+    // Monthly export state
+    const [exportMonth, setExportMonth] = useState(() => new Date().getMonth() + 1); // 1-12, current month
+    const [exportYear, setExportYear] = useState(() => new Date().getFullYear());
+    const [exportingType, setExportingType] = useState<null | "excel" | "pdf">(null);
+
     // Modal state
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingSale, setEditingSale] = useState<SaleDetailDto | null>(null);
@@ -357,6 +369,40 @@ export const SalesPage = () => {
             toast.error(t("sales.delete_error"));
         },
     });
+
+    // Monthly export options
+    const monthOptions = useMemo(
+        () => AZ_MONTHS.map((label, i) => ({ label, value: String(i + 1) })),
+        []
+    );
+    const yearOptions = useMemo(() => {
+        const currentYear = new Date().getFullYear();
+        return Array.from({ length: 5 }, (_, i) => {
+            const y = currentYear - i;
+            return { label: String(y), value: String(y) };
+        });
+    }, []);
+
+    const handleExport = async (type: "excel" | "pdf") => {
+        if (exportingType) return;
+        setExportingType(type);
+        try {
+            const res =
+                type === "excel"
+                    ? await salesApi.exportSalesExcel(exportYear, exportMonth)
+                    : await salesApi.exportSalesPdf(exportYear, exportMonth);
+            const ext = type === "excel" ? "xlsx" : "pdf";
+            const fallback = `${SAFE_MONTHS[exportMonth - 1]}_AYI_SATIS_${exportYear}.${ext}`;
+            const fromHeader = parseFilenameFromContentDisposition(
+                res.headers["content-disposition"] as string | undefined
+            );
+            downloadBlob(res.data, fromHeader || fallback);
+        } catch {
+            toast.error(t("sales.export_error"));
+        } finally {
+            setExportingType(null);
+        }
+    };
 
     // Handlers
     const handleAddNew = () => {
@@ -690,6 +736,56 @@ export const SalesPage = () => {
                     <Button variant="primary" icon={<Plus size={18} />} onClick={handleAddNew} className="w-full sm:w-auto shrink-0">
                         {t("sales.add_sale")}
                     </Button>
+                </div>
+
+                {/* Monthly export */}
+                <div
+                    className={cn(
+                        "flex flex-col sm:flex-row sm:items-center gap-3 sm:flex-wrap pt-4 border-t",
+                        isDark ? "border-neutral-700" : "border-neutral-200"
+                    )}
+                >
+                    <span className={cn("text-sm font-medium", isDark ? "text-neutral-300" : "text-neutral-700")}>
+                        {t("sales.monthly_report")}
+                    </span>
+                    <div className="w-full sm:w-40">
+                        <Select
+                            options={monthOptions}
+                            value={String(exportMonth)}
+                            onChange={(e) => setExportMonth(Number(e.target.value))}
+                            placeholder=""
+                        />
+                    </div>
+                    <div className="w-full sm:w-32">
+                        <Select
+                            options={yearOptions}
+                            value={String(exportYear)}
+                            onChange={(e) => setExportYear(Number(e.target.value))}
+                            placeholder=""
+                        />
+                    </div>
+                    <div className="flex gap-2 w-full sm:w-auto sm:ml-auto">
+                        <Button
+                            variant="secondary"
+                            icon={<FileSpreadsheet size={18} />}
+                            loading={exportingType === "excel"}
+                            disabled={exportingType !== null}
+                            onClick={() => handleExport("excel")}
+                            className="flex-1 sm:flex-none"
+                        >
+                            {exportingType === "excel" ? t("sales.exporting") : t("sales.export_excel")}
+                        </Button>
+                        <Button
+                            variant="outline"
+                            icon={<FileText size={18} />}
+                            loading={exportingType === "pdf"}
+                            disabled={exportingType !== null}
+                            onClick={() => handleExport("pdf")}
+                            className="flex-1 sm:flex-none"
+                        >
+                            {exportingType === "pdf" ? t("sales.exporting") : t("sales.export_pdf")}
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Active filter chips */}
