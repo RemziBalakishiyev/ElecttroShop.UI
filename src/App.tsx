@@ -9,6 +9,7 @@ import { BrandsPage } from "./pages/BrandsPage";
 import { DiscountsPage } from "./pages/DiscountsPage";
 import { PopularProductsPage } from "./pages/PopularProductsPage";
 import { SalesPage } from "./pages/SalesPage";
+import { CreditSalesPage } from "./pages/CreditSalesPage";
 import { ReportsPage } from "./pages/ReportsPage";
 import { ProtectedRoute } from "./core/components/ProtectedRoute";
 import { PublicRoute } from "./core/components/PublicRoute";
@@ -144,6 +145,17 @@ export default function App() {
           <ProtectedRoute>
             <MainLayout>
               <SalesPage />
+            </MainLayout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/credit-sales"
+        element={
+          <ProtectedRoute>
+            <MainLayout>
+              <CreditSalesPage />
             </MainLayout>
           </ProtectedRoute>
         }
