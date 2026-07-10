@@ -44,3 +44,39 @@ export function getProfitColor(value: number | null | undefined): string {
     const n = value ?? 0;
     return n >= 0 ? "text-green-600" : "text-red-600";
 }
+
+/**
+ * Telefon nömrəsini oxunaqlı formata salır: `050 123 45 67`.
+ * AZ nömrələri (994 ölkə kodu və ya 0 ilə başlayan 10 rəqəm) tanınır;
+ * uyğun gəlməyən dəyər olduğu kimi qaytarılır.
+ */
+export function formatPhone(value: string | null | undefined): string {
+    if (!value) return "—";
+    const digits = value.replace(/\D/g, "");
+    let local = digits;
+    if (local.startsWith("994")) local = "0" + local.slice(3);
+    if (local.length === 10 && local.startsWith("0")) {
+        return `${local.slice(0, 3)} ${local.slice(3, 6)} ${local.slice(6, 8)} ${local.slice(8, 10)}`;
+    }
+    return value;
+}
+
+export type StatusBadgeVariant = "open" | "overdue" | "sold" | "cancelled" | "neutral";
+
+/** Nisyə statusuna görə badge variant açarı qaytarır. */
+export function getStatusBadgeVariant(
+    status: string | null | undefined
+): StatusBadgeVariant {
+    switch (status) {
+        case "Pending":
+            return "open";
+        case "Overdue":
+            return "overdue";
+        case "Sold":
+            return "sold";
+        case "Cancelled":
+            return "cancelled";
+        default:
+            return "neutral";
+    }
+}

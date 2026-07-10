@@ -9,6 +9,7 @@ import {
   Box,
   TrendingUp,
   Receipt,
+  HandCoins,
   BarChart3,
   X,
 } from "lucide-react";
@@ -36,6 +37,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
     { label: t('sidebar.brands'), icon: <Tag size={18} />, path: "/brands" },
     { label: t('sidebar.discounts'), icon: <Percent size={18} />, path: "/discounts" },
     { label: t('sidebar.sales'), icon: <Receipt size={18} />, path: "/sales" },
+    { label: t('sidebar.credit_sales'), icon: <HandCoins size={18} />, path: "/credit-sales" },
     { label: t('sidebar.reports'), icon: <BarChart3 size={18} />, path: "/reports" },
   ];
 
